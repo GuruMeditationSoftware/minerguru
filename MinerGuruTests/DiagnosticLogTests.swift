@@ -2,7 +2,7 @@ import Foundation
 import Testing
 @testable import MinerGuru
 
-@Suite("Diagnose-Log")
+@Suite("Diagnostic log")
 struct DiagnosticLogTests {
     private func folder() throws -> URL {
         let url = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)

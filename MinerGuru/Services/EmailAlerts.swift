@@ -71,7 +71,7 @@ struct EmailAlertNotifier: AlertNotifier {
         do {
             try await settings.send(subject: subject, body: body)
         } catch {
-            Log.app.error("Warn-Mail nicht versendet: \(error.localizedDescription, privacy: .public)")
+            Log.app.error("Alert mail not sent: \(error.localizedDescription, privacy: .public)")
         }
     }
 }

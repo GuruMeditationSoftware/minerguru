@@ -185,7 +185,7 @@ struct MinerDisplayTextTests {
     }
 }
 
-@Suite("Pool per Zeitplan umstellen")
+@Suite("Switching the primary pool on schedule")
 struct SwitchPrimaryTests {
     @Test func keepsAMinerThatAlreadyMinesThere() throws {
         var form = MinerSettingsForm(miner: Fixtures.device(info: try Fixtures.bitaxeInfo()))

@@ -15,7 +15,7 @@ UPLOAD_DIR="dist/upload/mac"
 
 # A release never ships without the check for personal traces (patterns outside the repository, see make-dmg.sh).
 TRACES_FILE="${MINERGURU_TRACES:-$HOME/.config/minerguru/traces}"
-grep -q -v -e '^#' -e '^[[:space:]]*$' "${TRACES_FILE}" 2>/dev/null || { echo "❌ Keine Spurenmuster in ${TRACES_FILE}, kein Release."; exit 1; }
+grep -q -v -e '^#' -e '^[[:space:]]*$' "${TRACES_FILE}" 2>/dev/null || { echo "❌ No trace patterns in ${TRACES_FILE}, no release."; exit 1; }
 
 # Builds, signs ad-hoc, checks for personal traces and packages the DMG
 scripts/make-dmg.sh
@@ -25,6 +25,6 @@ mkdir -p "${UPLOAD_DIR}"
 cp "${DMG}" "${UPLOAD_DIR}/${APP_NAME}.dmg"
 (cd "${UPLOAD_DIR}" && shasum -a 256 "${APP_NAME}.dmg" > SHA256SUMS.txt)
 
-echo "✅ Upload-Dateien für Release v${VERSION}:"
+echo "✅ Upload files for release v${VERSION}:"
 ls -lh "${UPLOAD_DIR}"
 cat "${UPLOAD_DIR}/SHA256SUMS.txt"

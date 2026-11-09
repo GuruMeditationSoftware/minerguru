@@ -64,7 +64,7 @@ final class HistoryStore: @unchecked Sendable {
             try? FileManager.default.createDirectory(atPath: (path as NSString).deletingLastPathComponent, withIntermediateDirectories: true)
         }
         guard sqlite3_open(path ?? ":memory:", &db) == SQLITE_OK else {
-            Log.app.error("Verlaufsdatenbank nicht geöffnet")
+            Log.app.error("History database not opened")
             db = nil
             return
         }
@@ -96,7 +96,7 @@ final class HistoryStore: @unchecked Sendable {
             try? FileManager.default.moveItem(atPath: path + suffix, toPath: backup + suffix)
         }
         damagedBackup = backup
-        Log.app.error("Verlaufsdatenbank beschädigt, neu angelegt")
+        Log.app.error("History database damaged, created anew")
         buckets = [:]
         open()
         onDamaged?()
@@ -335,7 +335,7 @@ final class HistoryStore: @unchecked Sendable {
         guard let db else { return false }
         let code = sqlite3_exec(db, sql, nil, nil, nil)
         guard code == SQLITE_OK else {
-            Log.app.error("Verlauf: \(String(cString: sqlite3_errmsg(db)), privacy: .public)")
+            Log.app.error("History: \(String(cString: sqlite3_errmsg(db)), privacy: .public)")
             recoverIfDamaged(code)
             return false
         }
@@ -347,7 +347,7 @@ final class HistoryStore: @unchecked Sendable {
         var statement: OpaquePointer?
         let prepared = sqlite3_prepare_v2(db, sql, -1, &statement, nil)
         guard prepared == SQLITE_OK else {
-            Log.app.error("Verlauf: \(String(cString: sqlite3_errmsg(db)), privacy: .public)")
+            Log.app.error("History: \(String(cString: sqlite3_errmsg(db)), privacy: .public)")
             recoverIfDamaged(prepared)
             return
         }

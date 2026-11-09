@@ -2,7 +2,7 @@ import Foundation
 import Testing
 @testable import MinerGuru
 
-@Suite("Payout-Wächter")
+@Suite("Payout watch")
 struct PayoutCheckTests {
     private let mine = "bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq"
     private let other = "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa"
@@ -67,7 +67,7 @@ struct PayoutCheckTests {
     }
 }
 
-@Suite("Änderungsprotokoll", .serialized)
+@Suite("Change log", .serialized)
 struct ChangeLogTests {
     @Test func unchangedCertificateIsNoChange() throws {
         let current = try #require(ChangeLog.flatten(rawJSON: #"{"pools":[{"id":0,"stratumCert":"PEM"}]}"#))

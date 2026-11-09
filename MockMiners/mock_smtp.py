@@ -57,7 +57,7 @@ class Handler(socketserver.StreamRequestHandler):
         message = email.message_from_string("\n".join(lines))
         subject = str(email.header.make_header(email.header.decode_header(message["Subject"])))
         body = base64.b64decode("".join(message.get_payload().split())).decode()
-        print(f"--- Mail an {message['To']}\nBetreff: {subject}\n{body}\n---", flush=True)
+        print(f"--- Mail to {message['To']}\nSubject: {subject}\n{body}\n---", flush=True)
 
 
 class Server(socketserver.ThreadingTCPServer):
@@ -70,5 +70,5 @@ if __name__ == "__main__":
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=2525)
     args = parser.parse_args()
-    print(f"Fake-SMTP auf {args.host}:{args.port}", flush=True)
+    print(f"Fake SMTP on {args.host}:{args.port}", flush=True)
     Server((args.host, args.port), Handler).serve_forever()

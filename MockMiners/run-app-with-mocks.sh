@@ -14,11 +14,11 @@ cd "$(dirname "$0")/.."
 BUNDLE_ID="app.minerguru.MinerGuru.mock"
 BUILD_DIR="build/mock"
 
-echo "🔨 Baue MinerGuru (Mock) …"
+echo "🔨 Building MinerGuru (mock)…"
 xcodebuild -project MinerGuru.xcodeproj -scheme MinerGuru -configuration Debug \
   MINERGURU_BUNDLE_ID="$BUNDLE_ID" MINERGURU_URL_SCHEME=minerguru-mock CONFIGURATION_BUILD_DIR="$PWD/$BUILD_DIR" build -quiet
 
-echo "📋 Trage Mock-Miner in die Miner-Liste der Mock-App ein …"
+echo "📋 Adding the mock miners to the mock app's miner list…"
 osascript -e "tell application id \"$BUNDLE_ID\" to quit" 2>/dev/null || true
 python3 - "$BUNDLE_ID" "$@" <<'EOF'
 import json, subprocess, sys, uuid
@@ -33,7 +33,7 @@ miners = [
 data = json.dumps(miners).encode().hex()
 subprocess.run(["defaults", "write", bundle_id, "MinerGuru.SavedMiners.v1", "-data", data], check=True)
 subprocess.run(["defaults", "write", bundle_id, "MinerGuru.AutoScanOnEmptyLaunch.v1", "-bool", "false"], check=True)
-print(f"   {len(miners)} Miner eingetragen")
+print(f"   {len(miners)} miners added")
 EOF
 
 open "$BUILD_DIR/MinerGuru.app"

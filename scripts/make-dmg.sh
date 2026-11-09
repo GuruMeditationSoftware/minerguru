@@ -21,7 +21,7 @@ OUT_DMG="${OUT_DIR}/${APP_NAME}-${VERSION}.dmg"
 TRACES_FILE="${MINERGURU_TRACES:-$HOME/.config/minerguru/traces}"
 TRACES=""
 [ -f "${TRACES_FILE}" ] && TRACES=$(grep -v -e '^#' -e '^[[:space:]]*$' "${TRACES_FILE}" | paste -sd '|' -)
-[ -n "${TRACES}" ] || echo "⚠️  Keine Spurenmuster in ${TRACES_FILE}, die Spurenprüfung entfällt."
+[ -n "${TRACES}" ] || echo "⚠️  No trace patterns in ${TRACES_FILE}, skipping the trace check."
 
 # Searches the raw bytes of every file, binaries and hidden files included.
 # (`strings` skips the symbol table of a universal binary, where the debug map keeps the build paths.)
@@ -30,7 +30,7 @@ find_traces() {
   LC_ALL=C grep -r -a -l -i -E "${TRACES}" "$@" 2>/dev/null || true
 }
 
-echo "🔨 Release-Build (arm64 + x86_64)…"
+echo "🔨 Release build (arm64 + x86_64)…"
 rm -rf "${BUILD_DIR}"
 xcodebuild \
   -project MinerGuru.xcodeproj -scheme "${APP_NAME}" -configuration Release \
@@ -42,33 +42,33 @@ xcodebuild \
   build 2>&1 | grep -E "error:|warning: unable|BUILD (SUCCEEDED|FAILED)" || true
 [ -d "${APP_PATH}" ] || { echo "❌ Build fehlgeschlagen"; exit 1; }
 
-echo "🔏 Signiere (ad-hoc, hardened runtime ohne Zertifikat nicht möglich)…"
+echo "🔏 Signing (ad hoc; hardened runtime needs a certificate)…"
 # Inside out and without --deep: the widget extension keeps its own sandbox entitlements.
 APPEX="${APP_PATH}/Contents/PlugIns/MinerGuruWidgets.appex"
 [ -d "${APPEX}" ] || { echo "❌ Widget-Erweiterung fehlt im Build"; exit 1; }
 # The entitlements file holds build settings ($(MINERGURU_BUNDLE_ID)); take the expanded ones Xcode signed with.
 APPEX_ENTITLEMENTS="build/MinerGuruWidgets.signed.entitlements"
 codesign -d --entitlements - --xml "${APPEX}" > "${APPEX_ENTITLEMENTS}"
-grep -q "app.minerguru.MinerGuru/Widgets/" "${APPEX_ENTITLEMENTS}" || { echo "❌ Widget-Entitlements ohne Lesepfad"; exit 1; }
+grep -q "app.minerguru.MinerGuru/Widgets/" "${APPEX_ENTITLEMENTS}" || { echo "❌ Widget entitlements lack the read path"; exit 1; }
 codesign --force --sign - --entitlements "${APPEX_ENTITLEMENTS}" "${APPEX}"
 codesign --force --sign - --entitlements MinerGuru/MinerGuru.entitlements "${APP_PATH}"
 codesign --verify --deep --strict "${APP_PATH}"
-codesign -d --entitlements - "${APPEX}" 2>/dev/null | grep -q "app-sandbox" || { echo "❌ Widget-Erweiterung ohne Sandbox signiert"; exit 1; }
+codesign -d --entitlements - "${APPEX}" 2>/dev/null | grep -q "app-sandbox" || { echo "❌ Widget extension signed without sandbox"; exit 1; }
 
-echo "🕵️  Prüfe auf persönliche Spuren…"
+echo "🕵️  Checking for personal traces…"
 LEAKS=$(find_traces "${APP_PATH}")
 if [ -n "${LEAKS}" ]; then
-  echo "❌ Persönliche Daten im Build gefunden:"; echo "${LEAKS}" | head
+  echo "❌ Personal data found in the build:"; echo "${LEAKS}" | head
   exit 1
 fi
 
-echo "🖼  Erzeuge DMG-Hintergrund…"
+echo "🖼  Creating the DMG background…"
 rm -rf "${STAGING}"; mkdir -p "${STAGING}/.background"
 swift scripts/generate-dmg-background.swift "${STAGING}/.background/background.png" >/dev/null
 cp -R "${APP_PATH}" "${STAGING}/"
 ln -s /Applications "${STAGING}/Applications"
 
-echo "💿 Erzeuge DMG…"
+echo "💿 Creating the DMG…"
 mkdir -p "${OUT_DIR}"
 rm -rf "${RW_DIR}" "${OUT_DMG}"
 mkdir -p "${RW_DIR}"
@@ -77,8 +77,8 @@ hdiutil create -srcfolder "${STAGING}" -volname "${VOL_NAME}" -fs HFS+ -format U
 DEVICE=$(hdiutil attach -readwrite -noverify -noautoopen "${RW_DMG}" | grep -E '^/dev/' | head -1 | awk '{print $1}')
 sleep 2
 
-echo "🎨 Gestalte Fenster (Finder)…"
-osascript <<APPLESCRIPT || echo "⚠️  Finder-Layout konnte nicht gesetzt werden (Automation-Berechtigung?)"
+echo "🎨 Arranging the window (Finder)…"
+osascript <<APPLESCRIPT || echo "⚠️  Could not set the Finder layout (automation permission?)"
 tell application "Finder"
   tell disk "${VOL_NAME}"
     open
@@ -113,14 +113,14 @@ hdiutil detach "${DEVICE}" >/dev/null || { sleep 3; hdiutil detach -force "${DEV
 hdiutil convert "${RW_DMG}" -format UDZO -imagekey zlib-level=9 -o "${OUT_DMG}" >/dev/null
 rm -rf "${RW_DIR}"
 
-echo "🕵️  Prüfe das fertige DMG auf persönliche Spuren…"
+echo "🕵️  Checking the finished DMG for personal traces…"
 CHECK_MOUNT=$(hdiutil attach -readonly -nobrowse -noautoopen "${OUT_DMG}" | grep -o '/Volumes/.*' | head -1)
 LEAKS=$(find_traces "${CHECK_MOUNT}")
 hdiutil detach "${CHECK_MOUNT}" >/dev/null || hdiutil detach -force "${CHECK_MOUNT}" >/dev/null
 if [ -n "${LEAKS}" ]; then
   rm -f "${OUT_DMG}"
-  echo "❌ Persönliche Daten im DMG gefunden, DMG gelöscht:"; echo "${LEAKS}" | head
+  echo "❌ Personal data found in the DMG, DMG deleted:"; echo "${LEAKS}" | head
   exit 1
 fi
 
-echo "✅ Fertig: ${OUT_DMG} ($(du -h "${OUT_DMG}" | cut -f1))"
+echo "✅ Done: ${OUT_DMG} ($(du -h "${OUT_DMG}" | cut -f1))"

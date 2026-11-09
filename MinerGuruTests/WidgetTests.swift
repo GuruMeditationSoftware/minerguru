@@ -2,7 +2,7 @@ import Foundation
 import Testing
 @testable import MinerGuru
 
-@Suite("Widgets und Kontrollzentrum")
+@Suite("Widgets and Control Center")
 @MainActor
 struct WidgetTests {
     @Test func commandsSurviveTheirURL() {

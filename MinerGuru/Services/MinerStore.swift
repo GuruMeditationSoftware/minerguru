@@ -249,7 +249,7 @@ final class MinerStore: ObservableObject {
             let configs = try JSONDecoder().decode([PersistedMinerConfig].self, from: data)
             miners = configs.map { MinerDevice(config: $0, connectionState: .checking) }
         } catch {
-            Log.persistence.error("Gespeicherte Miner-Liste nicht lesbar: \(error.localizedDescription, privacy: .public)")
+            Log.persistence.error("Saved miner list not readable: \(error.localizedDescription, privacy: .public)")
             miners = []
         }
     }
@@ -259,7 +259,7 @@ final class MinerStore: ObservableObject {
             let data = try JSONEncoder().encode(miners.map(\.persistedConfig))
             defaults.set(data, forKey: Self.savedMinersKey)
         } catch {
-            Log.persistence.error("Miner-Liste konnte nicht gespeichert werden: \(error.localizedDescription, privacy: .public)")
+            Log.persistence.error("Miner list could not be saved: \(error.localizedDescription, privacy: .public)")
         }
     }
 
@@ -491,7 +491,7 @@ final class MinerStore: ObservableObject {
             let latency = await PoolLatencyService.shared.measureForMiner(info: info)
             return SingleMinerFetchResult(id: id, info: info, rawJSON: rawJSON, latency: latency, errorDescription: nil)
         } catch {
-            Log.miner.debug("\(host, privacy: .public) nicht erreichbar: \(error.localizedDescription, privacy: .public)")
+            Log.miner.debug("\(host, privacy: .public) unreachable: \(error.localizedDescription, privacy: .public)")
             return SingleMinerFetchResult(id: id, info: nil, rawJSON: nil, latency: nil, errorDescription: error.localizedDescription)
         }
     }
@@ -637,7 +637,7 @@ final class MinerStore: ObservableObject {
         do {
             try await MinerAPIClient.shared.restartMiner(host: miner.ipAddress)
         } catch {
-            Log.miner.error("Neustart von \(miner.ipAddress, privacy: .public) fehlgeschlagen: \(error.localizedDescription, privacy: .public)")
+            Log.miner.error("Restart of \(miner.ipAddress, privacy: .public) failed: \(error.localizedDescription, privacy: .public)")
             showBanner(String(localized: "Neustart von \(miner.displayName) fehlgeschlagen: \(error.localizedDescription)"), isError: true)
             return
         }

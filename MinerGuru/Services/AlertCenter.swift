@@ -99,7 +99,7 @@ struct UserNotificationNotifier: AlertNotifier {
         do {
             return try await UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound])
         } catch {
-            Log.app.error("Mitteilungen nicht erlaubt: \(error.localizedDescription, privacy: .public)")
+            Log.app.error("Notifications not allowed: \(error.localizedDescription, privacy: .public)")
             return false
         }
     }
@@ -119,7 +119,7 @@ struct UserNotificationNotifier: AlertNotifier {
         do {
             try await UNUserNotificationCenter.current().add(request)
         } catch {
-            Log.app.error("Mitteilung nicht zugestellt: \(error.localizedDescription, privacy: .public)")
+            Log.app.error("Notification not delivered: \(error.localizedDescription, privacy: .public)")
         }
     }
 }

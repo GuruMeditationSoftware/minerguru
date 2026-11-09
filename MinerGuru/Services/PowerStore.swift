@@ -209,10 +209,10 @@ final class PowerStore: ObservableObject {
                 ? MinerPowerState(action: .normal, since: date)
                 : MinerPowerState(action: action, since: date, saved: saved, isManual: manualNight ? true : nil)
             lastError = nil
-            Log.miner.info("Zeitplan: \(host, privacy: .public) → \(action.rawValue, privacy: .public)")
+            Log.miner.info("Schedule: \(host, privacy: .public) → \(action.rawValue, privacy: .public)")
         } catch {
             lastError = String(localized: "\(miner.displayName): \(error.localizedDescription)")
-            Log.miner.error("Zeitplan für \(host, privacy: .public) fehlgeschlagen: \(error.localizedDescription, privacy: .public)")
+            Log.miner.error("Schedule for \(host, privacy: .public) failed: \(error.localizedDescription, privacy: .public)")
         }
     }
 
@@ -259,7 +259,7 @@ final class PowerStore: ObservableObject {
         do {
             defaults.set(try JSONEncoder().encode(value), forKey: key)
         } catch {
-            Log.persistence.error("Strom-Einstellungen nicht speicherbar: \(error.localizedDescription, privacy: .public)")
+            Log.persistence.error("Power settings not savable: \(error.localizedDescription, privacy: .public)")
         }
     }
 
@@ -268,7 +268,7 @@ final class PowerStore: ObservableObject {
         do {
             return try JSONDecoder().decode(type, from: data)
         } catch {
-            Log.persistence.error("Strom-Einstellungen nicht lesbar: \(error.localizedDescription, privacy: .public)")
+            Log.persistence.error("Power settings not readable: \(error.localizedDescription, privacy: .public)")
             return nil
         }
     }

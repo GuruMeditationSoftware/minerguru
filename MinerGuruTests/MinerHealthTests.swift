@@ -2,7 +2,7 @@ import Foundation
 import Testing
 @testable import MinerGuru
 
-@Suite("Überhitzung und Flatline")
+@Suite("Overheating and flatline")
 struct MinerHealthTests {
     private let start = Date(timeIntervalSince1970: 1_800_000_000)
 
@@ -114,7 +114,7 @@ struct MinerHealthTests {
     }
 }
 
-@Suite("Fallback und unerwartete Neustarts")
+@Suite("Fallback and unexpected restarts")
 struct FallbackWatchTests {
     private let start = Date(timeIntervalSince1970: 1_800_000_000)
 

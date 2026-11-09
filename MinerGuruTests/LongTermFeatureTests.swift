@@ -19,7 +19,7 @@ private func date(_ y: Int, _ m: Int, _ d: Int, _ h: Int = 0, _ min: Int = 0) ->
     berlin.date(from: DateComponents(year: y, month: m, day: d, hour: h, minute: min))!
 }
 
-@Suite("Verlauf: Schema")
+@Suite("History: schema")
 struct HistoryMigrationTests {
     @Test func stepsRunOnceAndAStoreOpensAgain() throws {
         let folder = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
@@ -42,7 +42,7 @@ struct HistoryMigrationTests {
     }
 }
 
-@Suite("Verlauf: beschädigte Datei")
+@Suite("History: damaged file")
 struct HistoryDamageTests {
     private func folder() throws -> URL {
         let url = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
@@ -95,7 +95,7 @@ struct HistoryDamageTests {
     }
 }
 
-@Suite("Langzeit-Verlauf")
+@Suite("Long-term history")
 struct HistoryStoreTests {
     @Test func averagesPollsPerMinuteAndCountsOffline() async {
         let store = HistoryStore(path: nil)
@@ -199,7 +199,7 @@ struct HistoryStoreTests {
     }
 }
 
-@Suite("Pool-Zeitplan")
+@Suite("Pool schedule")
 struct PoolScheduleTests {
     private func rule(_ days: Set<Weekday>, minute: Int) -> PoolScheduleRule {
         PoolScheduleRule(poolID: UUID(), weekdays: days, minute: minute, createdAt: date(2026, 1, 1))
@@ -234,7 +234,7 @@ struct PoolScheduleTests {
     }
 }
 
-@Suite("Wartung")
+@Suite("Maintenance")
 @MainActor
 struct MaintenanceTests {
     private func defaults() -> UserDefaults {
@@ -288,7 +288,7 @@ struct MaintenanceTests {
     }
 }
 
-@Suite("Berichte")
+@Suite("Reports")
 struct MinerReportTests {
     @Test func buildsFiguresFromHourlyRows() {
         let id = UUID()

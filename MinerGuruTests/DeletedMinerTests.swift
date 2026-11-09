@@ -3,7 +3,7 @@ import Testing
 @testable import MinerGuru
 
 /// An empty miner set means all miners, so deleting a rule's only miner must not empty it.
-@Suite("Gelöschter Miner")
+@Suite("Deleted miner")
 @MainActor
 struct DeletedMinerTests {
     private let kept = UUID()

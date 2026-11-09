@@ -104,7 +104,7 @@ enum MinerLogSampler {
                 }
             } catch {
                 if chunks.isEmpty {
-                    Log.logStream.debug("Share-Stichprobe von \(host, privacy: .public) ohne Daten: \(error.localizedDescription, privacy: .public)")
+                    Log.logStream.debug("Share sample from \(host, privacy: .public) without data: \(error.localizedDescription, privacy: .public)")
                 }
                 break
             }

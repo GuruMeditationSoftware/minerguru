@@ -408,7 +408,7 @@ struct MinerLiveLogSectionView: View {
         do {
             try text.write(to: url, atomically: true, encoding: .utf8)
         } catch {
-            Log.logStream.error("Log-Export fehlgeschlagen: \(error.localizedDescription, privacy: .public)")
+            Log.logStream.error("Log export failed: \(error.localizedDescription, privacy: .public)")
             NSAlert(error: error).runModal()
         }
     }

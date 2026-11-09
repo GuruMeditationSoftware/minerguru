@@ -3,7 +3,7 @@ import Testing
 @testable import MinerGuru
 
 @MainActor
-@Suite("Einmalcode-Sitzungen")
+@Suite("One-time code sessions")
 struct OtpSessionsTests {
     private func miner(otp: Bool = true) -> MinerDevice {
         Fixtures.device(ip: "192.0.2.1", name: "Test", info: try! Fixtures.info(["otp": otp]))

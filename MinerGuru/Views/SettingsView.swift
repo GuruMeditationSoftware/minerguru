@@ -362,7 +362,7 @@ private struct ChangeLogSheet: View {
         do {
             try ChangeLog.shared.exportText().write(to: url, atomically: true, encoding: .utf8)
         } catch {
-            Log.persistence.error("Protokoll nicht speicherbar: \(error.localizedDescription, privacy: .public)")
+            Log.persistence.error("Change log not savable: \(error.localizedDescription, privacy: .public)")
         }
     }
 }
@@ -405,7 +405,7 @@ private struct DiagnosticLogSection: View {
         do {
             try DiagnosticLog.shared.exportText().write(to: url, atomically: true, encoding: .utf8)
         } catch {
-            Log.persistence.error("Diagnose-Log nicht speicherbar: \(error.localizedDescription, privacy: .public)")
+            Log.persistence.error("Diagnostic log not savable: \(error.localizedDescription, privacy: .public)")
         }
     }
 }

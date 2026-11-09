@@ -2,7 +2,7 @@
 """Simulated Bitaxe / NerdOS miners for testing MinerGuru without hardware.
 
 Every variant from MockMiners/variants runs on its own port. Add one in MinerGuru with
-"Miner per IP hinzufügen" → `127.0.0.1:<port>`.
+"Add Miner by IP…" → `127.0.0.1:<port>`.
 
     python3 MockMiners/mock_miner.py                      # all variants from port 48001
     python3 MockMiners/mock_miner.py gamma-hex nerdqx     # only variants whose file name contains one of the words

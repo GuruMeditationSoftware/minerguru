@@ -54,7 +54,7 @@ final class WidgetBridge {
         do {
             try snapshot.write()
         } catch {
-            Log.app.error("Widget-Stand nicht geschrieben: \(error.localizedDescription, privacy: .public)")
+            Log.app.error("Widget snapshot not written: \(error.localizedDescription, privacy: .public)")
             return
         }
         let previous = lastWritten

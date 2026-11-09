@@ -2,7 +2,7 @@ import Foundation
 import Testing
 @testable import MinerGuru
 
-@Suite("Schonfrist nach dem Aufwachen")
+@Suite("Grace period after wake")
 @MainActor
 struct WakeGraceTests {
     @Test func noSleepNoGrace() {

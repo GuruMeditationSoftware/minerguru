@@ -12,7 +12,7 @@ SDK_PATH=$(xcrun --sdk macosx --show-sdk-path)
 TOOLCHAIN_PLUGINS="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins"
 PLATFORM_PLUGINS="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/swift/host/plugins"
 
-echo "🔨 Kompiliere ${APP_NAME} für macOS (arm64)…"
+echo "🔨 Compiling ${APP_NAME} for macOS (arm64)…"
 mkdir -p "${MACOS_DIR}" "${RESOURCES_DIR}"
 
 swiftc \
@@ -42,7 +42,7 @@ if [ -f "MinerGuru/AppIcon.icns" ]; then
   cp "MinerGuru/AppIcon.icns" "${RESOURCES_DIR}/AppIcon.icns"
 fi
 
-echo "🔏 Signiere ${APP_BUNDLE} (Ad-hoc mit Entitlements)…"
+echo "🔏 Signing ${APP_BUNDLE} (ad hoc with entitlements)…"
 codesign --force --deep --sign - --entitlements MinerGuru/MinerGuru.entitlements "${APP_BUNDLE}" 2>/dev/null || true
 
-echo "✅ Fertig: ${APP_BUNDLE}"
+echo "✅ Done: ${APP_BUNDLE}"

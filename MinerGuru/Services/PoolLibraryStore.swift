@@ -14,7 +14,7 @@ final class PoolLibraryStore: ObservableObject {
             do {
                 pools = try JSONDecoder().decode([PoolConfig].self, from: data)
             } catch {
-                Log.persistence.error("Pool-Konfigurationen nicht lesbar: \(error.localizedDescription, privacy: .public)")
+                Log.persistence.error("Pool configurations not readable: \(error.localizedDescription, privacy: .public)")
             }
         }
     }
@@ -78,7 +78,7 @@ final class PoolLibraryStore: ObservableObject {
         do {
             defaults.set(try JSONEncoder().encode(pools), forKey: Self.key)
         } catch {
-            Log.persistence.error("Pool-Konfigurationen nicht speicherbar: \(error.localizedDescription, privacy: .public)")
+            Log.persistence.error("Pool configurations not savable: \(error.localizedDescription, privacy: .public)")
         }
     }
 }

@@ -68,13 +68,13 @@ enum AppLanguage: String, CaseIterable, Identifiable {
     static func relaunch() {
         let configuration = NSWorkspace.OpenConfiguration()
         configuration.createsNewApplicationInstance = true
-        Log.app.info("Neustart für Sprachwechsel")
+        Log.app.info("Relaunch for language change")
         NSWorkspace.shared.openApplication(at: Bundle.main.bundleURL, configuration: configuration) { app, error in
             if let error {
-                Log.app.error("Neustart fehlgeschlagen: \(error.localizedDescription, privacy: .public)")
+                Log.app.error("Relaunch failed: \(error.localizedDescription, privacy: .public)")
                 return
             }
-            Log.app.info("Neue Instanz gestartet: \(app?.processIdentifier ?? 0)")
+            Log.app.info("New instance started: \(app?.processIdentifier ?? 0)")
             DispatchQueue.main.async { NSApp.terminate(nil) }
         }
     }
