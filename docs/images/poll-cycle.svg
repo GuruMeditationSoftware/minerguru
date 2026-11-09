@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 648" width="1040" height="648" role="img" aria-labelledby="t d">
+<title id="t">MinerGuru: Eine Abfragerunde</title>
+<desc id="d">Ein Takt startet die Runde. Alle Miner werden gleichzeitig abgefragt, die Ergebnisse übernommen und an fünf Abnehmer weitergereicht: Langzeit-Verlauf, Wächter und Warnungen, Wartung, Widget-Schnappschuss und Zeitpläne. Danach wartet die App das Intervall ab.</desc>
+<style>
+text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,Helvetica,Arial,sans-serif;fill:#1d1d1f}
+.h{font-size:19px;font-weight:650}.b{font-size:14px;font-weight:600}.m{font-size:12.5px;fill:#6e6e73}
+.c{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:12px;fill:#3a3a3c}
+.n{font-size:11.5px;font-weight:700;fill:#fff}
+.bg{fill:#fafafa;stroke:#e4e4e7}.card{fill:#fff;stroke:#d4d4d9}.raised{fill:#f1f1f3;stroke:#d4d4d9}
+.hot{fill:#fdf3e6;stroke:#e0923a}
+.ln{fill:none;stroke:#8e8e93;stroke-width:1.5}.la{fill:none;stroke:#d9780a;stroke-width:1.8}
+.ah{fill:#8e8e93}.aa,.badge{fill:#d9780a}.on{fill:#14a06c}.off{fill:#b0b0b5}
+@media (prefers-color-scheme:dark){
+text{fill:#f2f2f3}.m{fill:#a1a1a6}.c{fill:#d1d1d6}.n{fill:#141415}
+.bg{fill:#141415;stroke:#2c2c2f}.card{fill:#1c1c1e;stroke:#3a3a3e}.raised{fill:#242426;stroke:#3a3a3e}
+.hot{fill:#2d2114;stroke:#b8762c}
+.ln{stroke:#7c7c82}.ah{fill:#7c7c82}.la{stroke:#f0a03c}.aa,.badge{fill:#f0a03c}.on{fill:#3ecf8e}.off{fill:#5a5a5f}}
+</style>
+<defs>
+<marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="ah" d="M0,1 L10,5 L0,9 z"/></marker>
+<marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="aa" d="M0,1 L10,5 L0,9 z"/></marker>
+</defs>
+<rect class="bg" x="0.5" y="0.5" width="1039" height="647" rx="16"/>
+<text class="h" x="32" y="46">Eine Abfragerunde</text>
+<text class="m" x="32" y="70">Gleicher Ablauf in allen drei Apps: alle Miner gleichzeitig fragen, Ergebnis übernehmen, an fünf Abnehmer weiterreichen.</text>
+
+<!-- 1 Takt -->
+<rect class="card" x="32" y="263" width="190" height="130" rx="10"/>
+<circle class="badge" cx="58" cy="286" r="11"/><text class="n" x="58" y="290" text-anchor="middle">1</text>
+<text class="b" x="78" y="291">Takt</text>
+<text class="m" x="48" y="318">Intervall, Standard 5 s,</text>
+<text class="m" x="48" y="338">mindestens 2 s</text>
+<text class="m" x="48" y="362">Android im Hintergrund:</text>
+<text class="m" x="48" y="382">60 s oder etwa 15 min</text>
+<path class="ln" d="M222 328H248" marker-end="url(#ah)"/>
+
+<!-- 2 Fetch -->
+<rect class="card" x="250" y="208" width="232" height="240" rx="10"/>
+<circle class="badge" cx="276" cy="231" r="11"/><text class="n" x="276" y="235" text-anchor="middle">2</text>
+<text class="b" x="296" y="236">Alle Miner gleichzeitig</text>
+<rect class="raised" x="266" y="252" width="200" height="46" rx="8"/>
+<circle class="on" cx="448" cy="275" r="4.5"/>
+<text class="b" x="280" y="271">Miner 1</text><text class="m" x="280" y="289">Systeminfo + Pool-Latenz</text>
+<rect class="raised" x="266" y="306" width="200" height="46" rx="8"/>
+<circle class="on" cx="448" cy="329" r="4.5"/>
+<text class="b" x="280" y="325">Miner 2</text><text class="m" x="280" y="343">Systeminfo + Pool-Latenz</text>
+<rect class="raised" x="266" y="360" width="200" height="46" rx="8"/>
+<circle class="off" cx="448" cy="383" r="4.5"/>
+<text class="b" x="280" y="379">Miner n</text><text class="m" x="280" y="397">keine Antwort: offline</text>
+<text class="m" x="266" y="432">Kein Fehler hält die Runde auf.</text>
+<path class="ln" d="M482 328H508" marker-end="url(#ah)"/>
+
+<!-- 3 Apply -->
+<rect class="card" x="510" y="238" width="200" height="180" rx="10"/>
+<circle class="badge" cx="536" cy="261" r="11"/><text class="n" x="536" y="265" text-anchor="middle">3</text>
+<text class="b" x="556" y="266">Übernehmen</text>
+<text class="m" x="526" y="292">Zustand und Messwerte,</text>
+<text class="m" x="526" y="312">Kurzverlauf (240 Punkte)</text>
+<text class="m" x="526" y="336">Name oder Modell neu:</text>
+<text class="m" x="526" y="356">Miner-Liste speichern</text>
+<text class="m" x="526" y="380">Oberfläche zeichnet</text>
+<text class="m" x="526" y="400">einmal pro Runde neu</text>
+
+<!-- Fan-out -->
+<path class="ln" d="M710 328H728M728 144V512"/>
+<path class="ln" d="M728 144H744" marker-end="url(#ah)"/>
+<path class="ln" d="M728 236H744" marker-end="url(#ah)"/>
+<path class="ln" d="M728 328H744" marker-end="url(#ah)"/>
+<path class="ln" d="M728 420H744" marker-end="url(#ah)"/>
+<path class="la" d="M728 512H744" marker-end="url(#aa)"/>
+
+<!-- 4 Consumers -->
+<rect class="card" x="746" y="104" width="262" height="80" rx="10"/>
+<text class="b" x="764" y="130">Langzeit-Verlauf</text>
+<text class="m" x="764" y="152">SQLite: Minutenwerte für 14 Tage,</text>
+<text class="m" x="764" y="171">Stundenwerte für 3 Jahre</text>
+
+<rect class="card" x="746" y="196" width="262" height="80" rx="10"/>
+<text class="b" x="764" y="222">Wächter und Warnungen</text>
+<text class="m" x="764" y="244">offline, Hitze, Flatline, Fallback,</text>
+<text class="m" x="764" y="263">Neustart, Auszahlungsadresse</text>
+
+<rect class="card" x="746" y="288" width="262" height="80" rx="10"/>
+<text class="b" x="764" y="314">Wartung</text>
+<text class="m" x="764" y="336">fällige Aufgaben als Erinnerung,</text>
+<text class="m" x="764" y="355">höchstens einmal am Tag</text>
+
+<rect class="card" x="746" y="380" width="262" height="80" rx="10"/>
+<text class="b" x="764" y="406">Widget-Schnappschuss</text>
+<text class="m" x="764" y="428">snapshot.json für die Widgets;</text>
+<text class="m" x="764" y="447">Wechsel sofort, Werte jede Minute</text>
+
+<rect class="hot" x="746" y="472" width="262" height="80" rx="10"/>
+<text class="b" x="764" y="498">Zeitpläne, ohne zu warten</text>
+<text class="m" x="764" y="520">Strom: Pause, Nachtmodus, Tarif</text>
+<text class="m" x="764" y="539">Pool-Wechsel über den Schreibweg</text>
+
+<!-- Loop back -->
+<path class="ln" d="M610 418V588H116V395" marker-end="url(#ah)"/>
+<text class="m" x="363" y="580" text-anchor="middle">Intervall abwarten, dann die nächste Runde</text>
+
+<text class="m" x="32" y="626">Im Code: Mac und Android <tspan class="c">MinerStore.refreshAllMiners()</tspan>, Android im Hintergrund <tspan class="c">MinerMonitor.pollOnce()</tspan>, Windows <tspan class="c">MinerStore.RefreshAllAsync()</tspan></text>
+</svg>

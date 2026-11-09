@@ -20,7 +20,7 @@
 </p>
 
 <p align="center">
-  <sub>macOS 14 or later · Apple Silicon · Free · No account</sub>
+  <sub>macOS 14 or later · Apple Silicon · Free · Open source · No account</sub>
 </p>
 
 <p align="center">
@@ -87,6 +87,30 @@ Every release lists its SHA-256 checksum in `SHA256SUMS.txt`. What changed: [Rel
 | [**Android**](https://github.com/GuruMeditationSoftware/minerguru-android) | Android 12 or later | [MinerGuru.apk](https://github.com/GuruMeditationSoftware/minerguru-android/releases/latest/download/MinerGuru.apk) |
 | [**Windows**](https://github.com/GuruMeditationSoftware/minerguru-windows) | Windows 11, x64 or Arm | [x64](https://github.com/GuruMeditationSoftware/minerguru-windows/releases/latest/download/MinerGuru-x64.exe) · [Arm64](https://github.com/GuruMeditationSoftware/minerguru-windows/releases/latest/download/MinerGuru-arm64.exe) |
 
+## Build from source
+
+You need macOS 14 or later and Xcode 26 or later.
+
+```bash
+git clone https://github.com/GuruMeditationSoftware/minerguru.git MinerGuru
+```
+
+```bash
+cd MinerGuru && open MinerGuru.xcodeproj
+```
+
+In Xcode, ⌘R runs the app and ⌘U runs the tests. From the command line:
+
+```bash
+swift test                          # unit tests
+scripts/make-dmg.sh                 # universal release build, signed ad hoc: dist/MinerGuru-<version>.dmg
+MockMiners/run-app-with-mocks.sh    # a separate "MinerGuru (Mock)" with simulated miners of every model
+```
+
+The simulated miners in `MockMiners/` behave like the real firmware, so you can work on MinerGuru without any hardware. They serve the Android and Windows apps too.
+
+Developer documentation, in German: [docs/ENTWICKLUNG.md](docs/ENTWICKLUNG.md) (build, test, project layout), [docs/ARCHITEKTUR.md](docs/ARCHITEKTUR.md) (the Mac app) and [docs/GRUNDLAGEN.md](docs/GRUNDLAGEN.md) (miner API, polling, write path: what all three apps share).
+
 ## Support the project
 
 MinerGuru is free and shows no ads. If it keeps your miners happy, a few sats keep the updates coming.
@@ -110,10 +134,10 @@ bc1qc6xpuwkys8jsjt439tfw2eu3fctkx7ad0hkehe
 bitcoincash:qruvqq2x9vyd9gykre058r4lda4gulpres33nr9aml
 ```
 
-## Feedback
+## Feedback and contributing
 
-Found a bug or have an idea? Open an [issue](https://github.com/GuruMeditationSoftware/minerguru/issues). This is the place for all three apps.
+Found a bug or have an idea? Open an [issue](https://github.com/GuruMeditationSoftware/minerguru/issues) in the Mac repository. It collects feedback for all three apps. Pull requests are welcome, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-Freeware, see [LICENSE.txt](LICENSE.txt). This repository holds the downloads only.
+MinerGuru is open source under the [MIT License](LICENSE.txt).

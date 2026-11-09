@@ -1,0 +1,531 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D00000012B00000100000001 /* MinerGuruWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D20000002B00000100000001 /* MinerGuruWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B71000012B00000100000001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A70000012B00000100000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A50000012B00000100000001;
+			remoteInfo = MinerGuru;
+		};
+		D71000012B00000100000001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A70000012B00000100000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D50000012B00000100000001;
+			remoteInfo = MinerGuruWidgets;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A30000032B00000100000001 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				D00000012B00000100000001 /* MinerGuruWidgets.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		A20000002B00000100000001 /* MinerGuru.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MinerGuru.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B20000022B00000100000001 /* MinerGuruTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MinerGuruTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D20000002B00000100000001 /* MinerGuruWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MinerGuruWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		C10000012B00000100000001 /* Exceptions for "MinerGuru" folder in "MinerGuru" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+				MinerGuru.entitlements,
+			);
+			target = A50000012B00000100000001 /* MinerGuru */;
+		};
+		E10000012B00000100000001 /* Exceptions for "MinerGuruWidgets" folder in "MinerGuruWidgets" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+				MinerGuruWidgets.entitlements,
+			);
+			target = D50000012B00000100000001 /* MinerGuruWidgets */;
+		};
+		E10000022B00000100000001 /* Exceptions for "MinerGuru" folder in "MinerGuruWidgets" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Shared/WidgetSnapshot.swift,
+			);
+			target = D50000012B00000100000001 /* MinerGuruWidgets */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		C20000012B00000100000001 /* MinerGuru */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				C10000012B00000100000001 /* Exceptions for "MinerGuru" folder in "MinerGuru" target */,
+				E10000022B00000100000001 /* Exceptions for "MinerGuru" folder in "MinerGuruWidgets" target */,
+			);
+			path = MinerGuru;
+			sourceTree = "<group>";
+		};
+		C20000022B00000100000001 /* MinerGuruTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = MinerGuruTests;
+			sourceTree = "<group>";
+		};
+		E20000012B00000100000001 /* MinerGuruWidgets */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				E10000012B00000100000001 /* Exceptions for "MinerGuruWidgets" folder in "MinerGuruWidgets" target */,
+			);
+			path = MinerGuruWidgets;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A30000012B00000100000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B30000012B00000100000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D30000012B00000100000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A40000012B00000100000001 = {
+			isa = PBXGroup;
+			children = (
+				C20000012B00000100000001 /* MinerGuru */,
+				C20000022B00000100000001 /* MinerGuruTests */,
+				E20000012B00000100000001 /* MinerGuruWidgets */,
+				A40000072B00000100000001 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A40000072B00000100000001 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A20000002B00000100000001 /* MinerGuru.app */,
+				B20000022B00000100000001 /* MinerGuruTests.xctest */,
+				D20000002B00000100000001 /* MinerGuruWidgets.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A50000012B00000100000001 /* MinerGuru */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A80000022B00000100000001 /* Build configuration list for PBXNativeTarget "MinerGuru" */;
+			buildPhases = (
+				A60000012B00000100000001 /* Sources */,
+				A30000012B00000100000001 /* Frameworks */,
+				A30000022B00000100000001 /* Resources */,
+				A30000032B00000100000001 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D72000012B00000100000001 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				C20000012B00000100000001 /* MinerGuru */,
+			);
+			name = MinerGuru;
+			productName = MinerGuru;
+			productReference = A20000002B00000100000001 /* MinerGuru.app */;
+			productType = "com.apple.product-type.application";
+		};
+		B50000012B00000100000001 /* MinerGuruTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B80000012B00000100000001 /* Build configuration list for PBXNativeTarget "MinerGuruTests" */;
+			buildPhases = (
+				B60000012B00000100000001 /* Sources */,
+				B30000012B00000100000001 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B72000012B00000100000001 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				C20000022B00000100000001 /* MinerGuruTests */,
+			);
+			name = MinerGuruTests;
+			productName = MinerGuruTests;
+			productReference = B20000022B00000100000001 /* MinerGuruTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D50000012B00000100000001 /* MinerGuruWidgets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D80000012B00000100000001 /* Build configuration list for PBXNativeTarget "MinerGuruWidgets" */;
+			buildPhases = (
+				D60000012B00000100000001 /* Sources */,
+				D30000012B00000100000001 /* Frameworks */,
+				D30000022B00000100000001 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				E20000012B00000100000001 /* MinerGuruWidgets */,
+			);
+			name = MinerGuruWidgets;
+			productName = MinerGuruWidgets;
+			productReference = D20000002B00000100000001 /* MinerGuruWidgets.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A70000012B00000100000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2710;
+				LastUpgradeCheck = 2710;
+				TargetAttributes = {
+					A50000012B00000100000001 = {
+						CreatedOnToolsVersion = 15.4;
+					};
+					B50000012B00000100000001 = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = A50000012B00000100000001;
+					};
+					D50000012B00000100000001 = {
+						CreatedOnToolsVersion = 27.1;
+					};
+				};
+			};
+			buildConfigurationList = A80000012B00000100000001 /* Build configuration list for PBXProject "MinerGuru" */;
+			developmentRegion = de;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				de,
+				en,
+				Base,
+			);
+			mainGroup = A40000012B00000100000001;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = A40000072B00000100000001 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A50000012B00000100000001 /* MinerGuru */,
+				B50000012B00000100000001 /* MinerGuruTests */,
+				D50000012B00000100000001 /* MinerGuruWidgets */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A30000022B00000100000001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D30000022B00000100000001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A60000012B00000100000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B60000012B00000100000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D60000012B00000100000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B72000012B00000100000001 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A50000012B00000100000001 /* MinerGuru */;
+			targetProxy = B71000012B00000100000001 /* PBXContainerItemProxy */;
+		};
+		D72000012B00000100000001 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D50000012B00000100000001 /* MinerGuruWidgets */;
+			targetProxy = D71000012B00000100000001 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		B90000012B00000100000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 25;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.10.3;
+				PRODUCT_BUNDLE_IDENTIFIER = app.minerguru.MinerGuruTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 6.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MinerGuru.app/Contents/MacOS/MinerGuru";
+			};
+			name = Debug;
+		};
+		B90000022B00000100000001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 25;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.10.3;
+				PRODUCT_BUNDLE_IDENTIFIER = app.minerguru.MinerGuruTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 6.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MinerGuru.app/Contents/MacOS/MinerGuru";
+			};
+			name = Release;
+		};
+		A90000012B00000100000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				MINERGURU_BUNDLE_ID = app.minerguru.MinerGuru;
+				MINERGURU_URL_SCHEME = minerguru;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		A90000022B00000100000001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				MINERGURU_BUNDLE_ID = app.minerguru.MinerGuru;
+				MINERGURU_URL_SCHEME = minerguru;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		A90000032B00000100000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = MinerGuru/MinerGuru.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 25;
+				ENABLE_HARDENED_RUNTIME = NO;
+				INFOPLIST_FILE = MinerGuru/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.10.3;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(MINERGURU_BUNDLE_ID)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		A90000042B00000100000001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = MinerGuru/MinerGuru.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 25;
+				ENABLE_HARDENED_RUNTIME = NO;
+				INFOPLIST_FILE = MinerGuru/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.10.3;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(MINERGURU_BUNDLE_ID)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		D90000012B00000100000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = MinerGuruWidgets/MinerGuruWidgets.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 25;
+				ENABLE_HARDENED_RUNTIME = NO;
+				INFOPLIST_FILE = MinerGuruWidgets/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.10.3;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(MINERGURU_BUNDLE_ID).Widgets";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		D90000022B00000100000001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = MinerGuruWidgets/MinerGuruWidgets.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 25;
+				ENABLE_HARDENED_RUNTIME = NO;
+				INFOPLIST_FILE = MinerGuruWidgets/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.10.3;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(MINERGURU_BUNDLE_ID).Widgets";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B80000012B00000100000001 /* Build configuration list for PBXNativeTarget "MinerGuruTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B90000012B00000100000001 /* Debug */,
+				B90000022B00000100000001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A80000012B00000100000001 /* Build configuration list for PBXProject "MinerGuru" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A90000012B00000100000001 /* Debug */,
+				A90000022B00000100000001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A80000022B00000100000001 /* Build configuration list for PBXNativeTarget "MinerGuru" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A90000032B00000100000001 /* Debug */,
+				A90000042B00000100000001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D80000012B00000100000001 /* Build configuration list for PBXNativeTarget "MinerGuruWidgets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D90000012B00000100000001 /* Debug */,
+				D90000022B00000100000001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A70000012B00000100000001 /* Project object */;
+}

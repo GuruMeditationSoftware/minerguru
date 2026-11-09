@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MinerGuru – Bitaxe &amp; NerdQAxe app for Mac, Windows and Android</title>
+<meta name="description" content="Free app to monitor and control Bitaxe and NerdQAxe miners on Mac, Windows and Android: live hashrate, widgets, alerts and pool switching. No account.">
+<link rel="canonical" href="https://minerguru.github.io/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#141415" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="img/icon.png">
+<link rel="apple-touch-icon" href="img/icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MinerGuru">
+<meta property="og:title" content="MinerGuru – the most beautiful app for Bitaxe and NerdQAxe">
+<meta property="og:description" content="Monitor and control your Bitaxe and NerdQAxe miners on Mac, Windows and Android. Live hashrate, widgets, alerts and pool switching. Free, no account.">
+<meta property="og:url" content="https://minerguru.github.io/">
+<meta property="og:image" content="https://minerguru.github.io/img/social.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="MinerGuru fleet overview on the Mac with total hashrate, solo odds and five miners">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://minerguru.github.io/#website",
+      "url": "https://minerguru.github.io/",
+      "name": "MinerGuru",
+      "inLanguage": "en"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://minerguru.github.io/#app",
+      "name": "MinerGuru",
+      "url": "https://minerguru.github.io/",
+      "description": "Free app to monitor and control Bitaxe and NerdQAxe Bitcoin miners running AxeOS or NerdOS: network scan, live hashrate, widgets, alerts, pool management, solo mining odds, history, maintenance and reports.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": ["macOS 14", "Windows 11", "Android"],
+      "isAccessibleForFree": true,
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "image": "https://minerguru.github.io/img/icon.png",
+      "screenshot": [
+        "https://minerguru.github.io/img/overview.png",
+        "https://minerguru.github.io/img/windows-overview.png",
+        "https://minerguru.github.io/img/android-overview.png"
+      ],
+      "downloadUrl": [
+        "https://github.com/GuruMeditationSoftware/minerguru/releases/latest/download/MinerGuru.dmg",
+        "https://github.com/GuruMeditationSoftware/minerguru-windows/releases/latest/download/MinerGuru-x64.exe",
+        "https://github.com/GuruMeditationSoftware/minerguru-android/releases/latest/download/MinerGuru.apk"
+      ],
+      "featureList": [
+        "Finds Bitaxe and NerdQAxe miners on the local network",
+        "Live hashrate, temperature, power and efficiency",
+        "Widgets for macOS, Android and Windows",
+        "Alerts by notification and email",
+        "Pool library and scheduled pool switching",
+        "Solo mining odds for BTC and BCH",
+        "Long-term history, maintenance and reports"
+      ],
+      "license": "https://minerguru.github.io/LICENSE.txt",
+      "author": { "@type": "Organization", "name": "GuruMeditation", "url": "https://github.com/GuruMeditationSoftware" }
+    }
+  ]
+}
+</script>
+<style>
+  :root {
+    --bg: #fafafa;
+    --surface: #ffffff;
+    --raised: #ededee;
+    --ink: #17171a;
+    --ink-2: #5f6168;
+    --ink-3: #8a8b91;
+    --line: rgba(23, 23, 26, .08);
+    --accent: #d9780a;
+    --accent-ink: #a85a00;
+    --good: #14a06c;
+    --mono: ui-monospace, "SF Mono", Menlo, monospace;
+    --ease: cubic-bezier(.2, .7, .2, 1);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #141415; --surface: #19191b; --raised: #232325;
+      --ink: #f2f2f3; --ink-2: #a4a5ab; --ink-3: #75767c;
+      --line: rgba(242, 242, 243, .08);
+      --accent: #f0a03c; --accent-ink: #f0a03c; --good: #3ecf8e;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  a { color: var(--accent-ink); text-underline-offset: 3px; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .mono { font-family: var(--mono); }
+
+  /* Navigation */
+  nav { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+  .brand { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; font-size: 17px; font-weight: 500; }
+  .brand svg { width: 20px; height: 20px; }
+  .links { display: flex; gap: 28px; }
+  .links a { color: var(--ink-2); text-decoration: none; font-size: 14px; transition: color .15s var(--ease); }
+  .links a:hover { color: var(--ink); }
+
+  /* Hero */
+  .hero { padding: 72px 0 56px; }
+  .eyebrow { margin: 0 0 16px; font: 12px/1 var(--mono); color: var(--ink-3); }
+  .eyebrow .led { display: inline-block; width: 8px; height: 8px; margin-right: 8px; background: var(--good); vertical-align: -1px; }
+  h1 { margin: 0; max-width: 880px; text-wrap: balance; font-size: clamp(36px, 6vw, 60px); line-height: 1.06; letter-spacing: -0.03em; font-weight: 500; }
+  .tagline { margin: 20px 0 32px; max-width: 560px; color: var(--ink-2); font-size: 18px; }
+
+  /* Download buttons: the primary one inverts with the theme, the second one is a quiet surface */
+  .get { display: flex; flex-wrap: wrap; gap: 12px; }
+  .dl { display: inline-flex; align-items: center; gap: 14px; min-width: 232px; padding: 12px 20px 12px 16px; border-radius: 12px;
+    text-decoration: none; background: var(--ink); color: var(--bg); border: 1px solid transparent;
+    transition: opacity .15s var(--ease), background-color .15s var(--ease), transform .1s var(--ease); }
+  .dl:hover { opacity: .88; }
+  .dl:active { transform: scale(.98); }
+  .dl svg { flex: none; width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .dl b { display: block; font-size: 15px; font-weight: 500; line-height: 1.25; }
+  .dl small { display: block; font: 12px/1.4 var(--mono); opacity: .62; }
+  .dl.alt { background: var(--surface); color: var(--ink); border-color: var(--line); box-shadow: 0 1px 2px rgba(0,0,0,.04); }
+  .dl.alt:hover { opacity: 1; background: var(--raised); }
+  .hint { margin: 16px 0 0; color: var(--ink-3); font-size: 13px; }
+
+  /* Product view */
+  .shot { margin: 0; }
+  .shot img { display: block; width: 100%; height: auto; border-radius: 12px;
+    box-shadow: 0 24px 64px rgba(0,0,0,.14), 0 0 0 1px var(--line); }
+  @media (prefers-color-scheme: dark) { .shot img { box-shadow: 0 24px 64px rgba(0,0,0,.5), 0 0 0 1px var(--line); } }
+
+  /* Sections */
+  section { padding: 120px 0 0; }
+  .head { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 32px; align-items: end; margin-bottom: 48px; }
+  h2 { margin: 0; font-size: clamp(28px, 4vw, 40px); line-height: 1.12; letter-spacing: -0.02em; font-weight: 500; }
+  .lead { margin: 0; color: var(--ink-2); max-width: 520px; }
+
+  /* Features as a ledger: two columns of rows on hairlines */
+  .ledger { display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+  .ledger li { display: grid; grid-template-columns: 20px 1fr; gap: 16px; padding: 24px 0; border-bottom: 1px solid var(--line); }
+  .ledger svg { width: 18px; height: 18px; margin-top: 3px; stroke: var(--ink-3); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .ledger h3 { margin: 0 0 4px; font-size: 16px; font-weight: 500; }
+  .ledger p { margin: 0; color: var(--ink-2); font-size: 15px; }
+
+  .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 64px; }
+  .duo figure { margin: 0; }
+  .duo img { display: block; width: 100%; height: auto; border-radius: 10px; box-shadow: 0 16px 40px rgba(0,0,0,.12), 0 0 0 1px var(--line); }
+  .duo figcaption { margin-top: 12px; color: var(--ink-3); font: 12px/1.4 var(--mono); }
+
+  /* Devices: boards drawn like the app's device cards */
+  .boards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+  .board { margin: 0; }
+  .card {
+    position: relative; aspect-ratio: 1.586; border-radius: 7% / 11%;
+    background: linear-gradient(135deg, #363638 0%, #1c1c1d 55%, #121213 100%);
+    box-shadow: 0 16px 32px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.18), inset 0 0 0 1px rgba(255,255,255,.05);
+    overflow: hidden;
+  }
+  .card.nerd { background: linear-gradient(135deg, #2b2e36 0%, #17191f 55%, #0f1014 100%); }
+  .card .silk { position: absolute; left: 7%; top: 8%; color: rgba(255,255,255,.72); font-size: clamp(11px, 1.3vw, 15px); font-weight: 500; }
+  .card .model { position: absolute; left: 7%; bottom: 8%; color: rgba(255,255,255,.5); font: clamp(9px, .95vw, 11px)/1 var(--mono); white-space: nowrap; }
+  .card .led { position: absolute; right: 7%; top: 10%; width: 4%; aspect-ratio: 1; background: #3ecf8e; }
+  .card .port { position: absolute; left: 0; top: 43%; width: 3.5%; height: 14%; border-radius: 0 2px 2px 0; background: linear-gradient(#b3b3b3, #737373); }
+  .card .oled { position: absolute; left: 9%; top: 42%; width: 19%; height: 13%; background: #000; border-radius: 1px; box-shadow: inset 0 0 0 .5px rgba(255,255,255,.1); }
+  .card .oled::before, .card .oled::after { content: ""; position: absolute; left: 10%; height: 9%; border-radius: 2px; background: rgba(255,255,255,.55); }
+  .card .oled::before { top: 30%; width: 45%; }
+  .card .oled::after { top: 58%; width: 68%; background: rgba(255,255,255,.3); }
+  .card .tft { position: absolute; left: 8%; top: 32%; width: 21%; height: 36%; border-radius: 2px; background: #080a0f; box-shadow: inset 0 0 0 .5px rgba(255,255,255,.12); }
+  .card .tft svg { position: absolute; inset: 18% 10%; width: 80%; height: 64%; }
+  .chips { position: absolute; left: 36%; right: 8%; top: 26%; bottom: 20%; display: grid; gap: 6%; align-content: center; justify-content: center; }
+  .chip {
+    aspect-ratio: 1; border-radius: 10%;
+    background: linear-gradient(135deg, #dbdbdb, #999 50%, #c2c2c2);
+    box-shadow: 0 1px 2px rgba(0,0,0,.5), inset 0 0 0 1.5px rgba(0,0,0,.12);
+  }
+  .board figcaption { margin-top: 16px; font-size: 15px; font-weight: 500; }
+  .board figcaption span { display: block; color: var(--ink-3); font: 12px/1.6 var(--mono); font-weight: 400; }
+
+  .compat { margin: 48px 0 0; padding: 20px 0 0; border-top: 1px solid var(--line); color: var(--ink-2); font: 13px/2 var(--mono); }
+  .compat b { color: var(--ink); font-weight: 500; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; margin-right: 12px; }
+
+  /* Donate */
+  .coins { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  .coin { display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 24px; align-items: center;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+  .coin img { width: 140px; height: 140px; image-rendering: pixelated; border-radius: 8px; padding: 6px; background: #fff; box-shadow: 0 0 0 1px var(--line); }
+  .coin h3 { margin: 0 0 4px; font-size: 16px; font-weight: 500; display: flex; align-items: center; gap: 8px; }
+  .coin h3 i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .coin p { margin: 0 0 16px; color: var(--ink-3); font: 12px/1.4 var(--mono); }
+  .addr { display: flex; gap: 8px; align-items: center; min-width: 0; }
+  .addr code { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    font: 12px var(--mono); color: var(--ink-2); background: var(--raised); border-radius: 8px; padding: 8px 12px; }
+  .addr button { flex: none; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 8px; padding: 8px 12px; cursor: pointer;
+    font: 500 12px/1 inherit; transition: background-color .15s var(--ease); }
+  .addr button:hover { background: var(--raised); }
+
+  footer { margin-top: 120px; padding: 32px 0 48px; border-top: 1px solid var(--line); color: var(--ink-3); font-size: 13px; }
+  footer .wrap { display: flex; justify-content: space-between; gap: 24px; }
+  footer .love { margin: 0 0 24px; padding: 0 20px; text-align: center; color: var(--ink-2); font-size: 15px; }
+  footer .love span { color: #E0245E; }
+
+  /* Android: three phones in a row */
+  .phones { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; max-width: 920px; margin: 0 auto 64px; }
+  .phone { margin: 0; }
+  .phone .frame { padding: 7px; border-radius: 34px; background: #0e0e0f;
+    box-shadow: 0 24px 56px rgba(0,0,0,.2), inset 0 0 0 1px rgba(255,255,255,.09); }
+  @media (prefers-color-scheme: dark) { .phone .frame { box-shadow: 0 24px 56px rgba(0,0,0,.55), inset 0 0 0 1px rgba(255,255,255,.12); } }
+  .phone img { display: block; width: 100%; height: auto; border-radius: 27px; }
+  .phone figcaption { margin-top: 14px; text-align: center; color: var(--ink-3); font: 12px/1.4 var(--mono); }
+
+  /* Install */
+  .platforms { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  .platform { display: flex; flex-direction: column; gap: 20px; padding: 28px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); }
+  .platform h3 { margin: 0; font-size: 20px; font-weight: 500; letter-spacing: -0.01em; }
+  .platform .req { margin: 4px 0 0; color: var(--ink-3); font: 12px/1.4 var(--mono); }
+  .platform ol { margin: 0; padding: 0; list-style: none; counter-reset: step; flex: 1; }
+  .platform li { position: relative; padding: 0 0 14px 36px; color: var(--ink-2); font-size: 15px; counter-increment: step; }
+  .platform li::before { content: counter(step); position: absolute; left: 0; top: 1px; width: 22px; height: 22px; border-radius: 6px;
+    background: var(--raised); color: var(--ink); font: 500 12px/22px var(--mono); text-align: center; }
+  .platform li b { color: var(--ink); font-weight: 500; }
+  .platform .note { margin: 0; padding-top: 16px; border-top: 1px solid var(--line); color: var(--ink-3); font-size: 13px; }
+  .platform .notes { display: flex; flex-direction: column; gap: 16px; }
+  /* Side by side, both cards share their rows, so the download buttons line up although only Android has a note below */
+  @supports (grid-template-rows: subgrid) {
+    @media (min-width: 861px) {
+      .platforms { grid-template-rows: auto 1fr auto auto; }
+      .platform { display: grid; grid-row: span 4; grid-template-rows: subgrid; }
+    }
+  }
+  .fine { margin: 24px 0 0; color: var(--ink-3); font-size: 13px; }
+
+  /* Widgets: one column per platform, each widget a row on a hairline */
+  .wgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  .wcard { display: flex; flex-direction: column; gap: 20px; padding: 28px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); }
+  .wcard header { display: flex; gap: 12px; align-items: flex-start; }
+  .wcard header svg { flex: none; width: 22px; height: 22px; margin-top: 3px; fill: none; stroke: var(--ink-3); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .wcard h3 { margin: 0; font-size: 20px; font-weight: 500; letter-spacing: -0.01em; }
+  .wcard .req { margin: 4px 0 0; color: var(--ink-3); font: 12px/1.4 var(--mono); }
+  .wcard ul { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); flex: 1; }
+  .wcard li { padding: 12px 0; border-bottom: 1px solid var(--line); color: var(--ink-2); font-size: 15px; }
+  .wcard li b { display: block; color: var(--ink); font-weight: 500; }
+  .wcard .note { margin: 0; color: var(--ink-3); font-size: 13px; }
+  .wcard .note b { color: var(--ink); font-weight: 500; }
+  .wcard .dev { padding: 14px 16px; border-radius: 10px; background: var(--raised); color: var(--ink-2); }
+
+  .rise { animation: rise .5s var(--ease) both; }
+  .rise.d1 { animation-delay: .06s; } .rise.d2 { animation-delay: .12s; }
+  @keyframes rise { from { opacity: 0; transform: translateY(8px); } }
+  @media (prefers-reduced-motion: reduce) { .rise { animation: none; } html { scroll-behavior: auto; } }
+
+  @media (max-width: 860px) {
+    .head { grid-template-columns: 1fr; gap: 12px; }
+    .ledger { grid-template-columns: 1fr; }
+    .boards { grid-template-columns: 1fr 1fr; }
+    .coins { grid-template-columns: minmax(0, 1fr); }
+    .platforms { grid-template-columns: 1fr; }
+    .wgrid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .wrap { padding: 0 16px; }
+    .links { display: none; }
+    .hero { padding: 40px 0 40px; }
+    h1 { font-size: 36px; }
+    .tagline { font-size: 16px; }
+    .dl { flex: 1 1 100%; }
+    .phones { gap: 10px; margin-bottom: 48px; }
+    .phone .frame { padding: 4px; border-radius: 18px; }
+    .phone img { border-radius: 14px; }
+    .phone figcaption { font-size: 11px; }
+    .platform, .wcard { padding: 20px; }
+    section { padding-top: 80px; }
+    .duo { grid-template-columns: 1fr; }
+    .coin { grid-template-columns: minmax(0, 1fr); justify-items: start; }
+    .coin > div { width: 100%; }
+    footer .wrap { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <nav>
+    <a class="brand" href="#" aria-label="MinerGuru">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M3.8 20.2V3.8h16.4V15M12 3.8V14" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="butt" stroke-linejoin="miter"/>
+        <g fill="var(--accent)"><rect x="17.8" y="16.4" width="4.8" height="4.8" rx=".5"/><path d="M16.6 17.45h1.2v.7h-1.2zM16.6 19.45h1.2v.7h-1.2zM22.6 17.45h1.2v.7h-1.2zM22.6 19.45h1.2v.7h-1.2zM18.85 21.2h.7v1.2h-.7zM20.85 21.2h.7v1.2h-.7z"/></g>
+      </svg>
+      MinerGuru
+    </a>
+    <div class="links">
+      <a href="#features">Features</a>
+      <a href="#windows">Windows</a>
+      <a href="#android">Android</a>
+      <a href="#widgets">Widgets</a>
+      <a href="#devices">Devices</a>
+      <a href="#download">Download</a>
+      <a href="#donate">Support</a>
+    </div>
+  </nav>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow rise"><span class="led"></span>Free for Mac, Windows and Android · No account</p>
+    <h1 class="rise d1">The most beautiful app for your Bitaxe and NerdQAxe miners</h1>
+    <p class="tagline rise d1">Find every miner on your network, watch hashrate and temperatures live, tune clocks and switch pools. A native Mac app that lives in your menu bar, with siblings on Windows and on your Android phone.</p>
+
+    <div class="get rise d2">
+      <a class="dl" href="https://github.com/GuruMeditationSoftware/minerguru/releases/latest/download/MinerGuru.dmg"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4.5" width="16" height="11" rx="1.5"/><path d="M2 19h20"/></svg><span><b>Download for Mac</b><small>macOS 14+ · Apple Silicon</small></span></a>
+      <a class="dl alt" href="https://github.com/GuruMeditationSoftware/minerguru-windows/releases/latest/download/MinerGuru-x64.exe"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5 11 4v7.5H3zM13 3.7l8-1.2v9h-8zM3 13h8v7.5l-8-1.5zM13 13h8v8.8l-8-1.2z"/></svg><span><b>Download for Windows</b><small>Windows 11</small></span></a>
+      <a class="dl alt" href="https://github.com/GuruMeditationSoftware/minerguru-android/releases/latest/download/MinerGuru.apk"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg><span><b>Download for Android</b><small>APK</small></span></a>
+    </div>
+    <p class="hint">Not from an app store, so installing takes a few extra steps. <a href="#download">How to install</a></p>
+  </div>
+</header>
+
+<main class="wrap">
+  <figure class="shot rise d2">
+    <picture>
+      <source srcset="img/overview-dark.png" media="(prefers-color-scheme: dark)">
+      <img src="img/overview.png" alt="MinerGuru fleet overview with solo mining odds, total hashrate of five miners, their device cards and a hashrate chart" width="2000" height="1290" fetchpriority="high">
+    </picture>
+  </figure>
+
+  <section id="features">
+    <div class="head">
+      <h2>Everything your miners report, in one window</h2>
+      <p class="lead">Find them, watch them, tune them. MinerGuru talks to AxeOS and NerdOS directly over your local network.</p>
+    </div>
+    <ul class="ledger">
+      <li><svg viewBox="0 0 24 24"><path d="M4.9 19.1a10 10 0 0 1 0-14.2M7.8 16.2a6 6 0 0 1 0-8.4M16.2 7.8a6 6 0 0 1 0 8.4M19.1 4.9a10 10 0 0 1 0 14.2"/><circle cx="12" cy="12" r="2"/></svg>
+        <div><h3>Finds your miners</h3><p>Scans your local network in seconds, or add a miner by IP address or hostname.</p></div></li>
+      <li><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg>
+        <div><h3>Live fleet dashboard</h3><p>Total hashrate with its history, power, efficiency in J/TH, shares, best difficulty and pool latency.</p></div></li>
+      <li><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 8h18M8 21h8"/></svg>
+        <div><h3>In the menu bar</h3><p>Your fleet hashrate always in sight, with quick access to every miner.</p></div></li>
+      <li><svg viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>
+        <div><h3>Tune and control</h3><p>Frequency, core voltage and fan for Eco, Standard and Boost. Restart or rename in a click. Overclocking is always at your own risk.</p></div></li>
+      <li><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="7" rx="2"/><rect x="3" y="14" width="18" height="7" rx="2"/><path d="M7 6.5h.01M7 17.5h.01"/></svg>
+        <div><h3>Pool management</h3><p>A pool library, assignment to every slot of every miner and a latency test before you switch.</p></div></li>
+      <li><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h.01M15 15h.01M15 9h.01M9 15h.01"/></svg>
+        <div><h3>Solo mining odds</h3><p>Your chance of finding a block per day, month or year, for BTC and BCH.</p></div></li>
+      <li><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <div><h3>Private by design</h3><p>No account, no cloud, no tracking. MinerGuru talks to your miners on your own network, and to a pool or mail server only for features you use. Once a day it asks GitHub for the latest version, which you can turn off. Hide addresses for screenshots with one shortcut.</p></div></li>
+      <li><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        <div><h3>Alerts</h3><p>A notification when a miner goes offline, overheats, stops finding shares or falls back to its backup pool, and when a payout address changes. Also by email through your own mail server.</p></div></li>
+      <li><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5.5" rx="8" ry="3"/><path d="M4 5.5v13c0 1.7 3.6 3 8 3s8-1.3 8-3v-13M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>
+        <div><h3>Long-term history</h3><p>Hashrate, temperatures, efficiency, power and error rate stored locally in SQLite: every minute for two weeks, hourly for three years. Export it as CSV.</p></div></li>
+      <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+        <div><h3>Scheduled pool switching</h3><p>Move miners to a saved pool at a set time on set weekdays, for example to a solo pool on nights and weekends, and back again.</p></div></li>
+      <li><svg viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.3 5.3L3 18l3 3 6.4-6.4a4 4 0 0 0 5.3-5.3l-2.6 2.6-2.5-.6-.6-2.5z"/></svg>
+        <div><h3>Maintenance</h3><p>Plan firmware checks, fan cleaning, dusting, thermal paste and more, get a reminder when they are due, and keep a record of what was done.</p></div></li>
+      <li><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>
+        <div><h3>Reports</h3><p>Uptime, output, energy and cost per miner for a day, a week or a month, with the maintenance done in that time. Save them as PDF or CSV.</p></div></li>
+      <li><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7L21 8M21 3v5h-5"/></svg>
+        <div><h3>Automatic restart</h3><p>Optional: restart a miner that stops finding shares, or one stuck on its backup pool after the primary is back. At most once an hour.</p></div></li>
+      <li><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        <div><h3>Read-only mode and change log</h3><p>Lock the app so it cannot change anything on a miner, and look up every change in a local log. Protected NerdOS miners work with their one-time codes.</p></div></li>
+    </ul>
+
+    <div class="duo">
+      <figure><picture>
+        <source srcset="img/miner-dark.png" media="(prefers-color-scheme: dark)">
+        <img src="img/miner.png" alt="Detail view of a Bitaxe Gamma with its device card, key figures and pool connection" loading="lazy" width="2000" height="1290"></picture><figcaption>One miner in detail</figcaption></figure>
+      <figure><picture>
+        <source srcset="img/pools-dark.png" media="(prefers-color-scheme: dark)">
+        <img src="img/pools.png" alt="Pool library and slot assignment for all miners" loading="lazy" width="2000" height="1290"></picture><figcaption>Pools and slots for the whole fleet</figcaption></figure>
+    </div>
+  </section>
+
+  <section id="windows">
+    <div class="head">
+      <h2>The same app on your Windows PC</h2>
+      <p class="lead">MinerGuru for Windows looks and works like the Mac app: the same dashboard, pools and power tools, built natively with WinUI. It sits in the notification area and keeps watching while the window is closed.</p>
+    </div>
+
+    <figure class="shot">
+      <picture>
+        <source srcset="img/windows-overview-dark.png" media="(prefers-color-scheme: dark)">
+        <img src="img/windows-overview.png" alt="MinerGuru for Windows: fleet overview with solo mining odds, total hashrate and five miners in the sidebar" loading="lazy" width="2000" height="1239">
+      </picture>
+    </figure>
+
+    <div class="duo">
+      <figure><picture>
+        <source srcset="img/windows-maintenance-dark.png" media="(prefers-color-scheme: dark)">
+        <img src="img/windows-maintenance.png" alt="Maintenance page with overdue and planned tasks and a record of finished work" loading="lazy" width="2000" height="1239"></picture><figcaption>Maintenance tasks with reminders</figcaption></figure>
+      <figure><picture>
+        <source srcset="img/windows-reports-dark.png" media="(prefers-color-scheme: dark)">
+        <img src="img/windows-reports.png" alt="Reports page with uptime, energy, cost and a table of all miners" loading="lazy" width="2000" height="1239"></picture><figcaption>Reports as PDF or CSV</figcaption></figure>
+    </div>
+  </section>
+
+  <section id="android">
+    <div class="head">
+      <h2>Your fleet in your pocket</h2>
+      <p class="lead">The Android app has the same dashboard, miner details, pool tools, maintenance and reports, built natively in Material You. It even keeps an eye on your miners while it is closed.</p>
+    </div>
+
+    <div class="phones">
+      <figure class="phone"><div class="frame"><picture>
+        <source srcset="img/android-overview-dark.png" media="(prefers-color-scheme: dark)">
+        <img src="img/android-overview.png" alt="MinerGuru for Android: fleet overview with total hashrate, power and solo mining odds" loading="lazy" width="720" height="1600">
+      </picture></div><figcaption>Fleet overview</figcaption></figure>
+      <figure class="phone"><div class="frame"><picture>
+        <source srcset="img/android-miners-dark.png" media="(prefers-color-scheme: dark)">
+        <img src="img/android-miners.png" alt="MinerGuru for Android: miner cards with live hashrate, sparkline, temperatures and pool" loading="lazy" width="720" height="1600">
+      </picture></div><figcaption>Every miner at a glance</figcaption></figure>
+      <figure class="phone"><div class="frame"><picture>
+        <source srcset="img/android-detail-dark.png" media="(prefers-color-scheme: dark)">
+        <img src="img/android-detail.png" alt="MinerGuru for Android: detail view of one miner with key figures and pool slots" loading="lazy" width="720" height="1600">
+      </picture></div><figcaption>One miner in detail</figcaption></figure>
+    </div>
+
+    <ul class="ledger">
+      <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor" stroke="none" opacity=".35"/></svg>
+        <div><h3>Material You</h3><p>Takes its colors from your wallpaper, follows dark mode and runs edge to edge.</p></div></li>
+      <li><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        <div><h3>Alerts in the background</h3><p>Battery-friendly checks every 15 minutes, or every minute when you need to know right away.</p></div></li>
+      <li><svg viewBox="0 0 24 24"><path d="M4 6h16M4 10h10M4 14h16M4 18h7"/></svg>
+        <div><h3>Live log</h3><p>The miner's own log streamed live, with filter, search and sharing.</p></div></li>
+      <li><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="7" rx="2"/><rect x="3" y="14" width="18" height="7" rx="2"/><path d="M7 6.5h.01M7 17.5h.01"/></svg>
+        <div><h3>Pools and tuning</h3><p>The same pool library, slot assignment and Eco, Standard and Boost profiles as on the Mac.</p></div></li>
+    </ul>
+  </section>
+
+  <section id="widgets">
+    <div class="head">
+      <h2>Widgets for every screen</h2>
+      <p class="lead">Hashrate, health and your solo odds without opening the app: on the Mac desktop, on your Android home screen and on the Windows widget board.</p>
+    </div>
+    <div class="wgrid">
+      <article class="wcard">
+        <header><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4.5" width="16" height="11" rx="1.5"/><path d="M2 19h20"/></svg>
+          <div><h3>Mac</h3><p class="req">Desktop and Notification Center</p></div></header>
+        <ul>
+          <li><b>Fleet</b>Total hashrate, status and power of all miners, in three sizes.</li>
+          <li><b>Miner</b>One miner with hashrate and temperature. You pick which.</li>
+          <li><b>Solo odds</b>How likely your fleet is to find a block, for each coin.</li>
+          <li><b>Power</b>Power, energy and cost of the fleet today.</li>
+        </ul>
+        <p class="note">They keep updating while MinerGuru is closed. On macOS 26, <b>Control Center</b> gets controls for the fleet, for night mode (every miner at Eco with a quiet fan) and for muting alerts until morning.</p>
+      </article>
+      <article class="wcard">
+        <header><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg>
+          <div><h3>Android</h3><p class="req">Home screen · Material You</p></div></header>
+        <ul>
+          <li><b>Fleet</b>Four sizes. Tall enough, it lists every miner.</li>
+          <li><b>Miner</b>One miner, chosen when you place the widget.</li>
+          <li><b>Solo odds</b>Your chance of finding a block, for each coin.</li>
+        </ul>
+        <p class="note">Colored by your wallpaper and kept fresh by the background checks, even while the app is closed.</p>
+      </article>
+      <article class="wcard">
+        <header><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5 11 4v7.5H3zM13 3.7l8-1.2v9h-8zM3 13h8v7.5l-8-1.5zM13 13h8v8.8l-8-1.2z"/></svg>
+          <div><h3>Windows</h3><p class="req">Widget board · Windows 11</p></div></header>
+        <ul>
+          <li><b>Fleet</b>Total hashrate, status and power of all miners, in three sizes.</li>
+          <li><b>Solo odds</b>Your chance of finding a block, small or medium.</li>
+        </ul>
+        <p class="note dev"><b>Needs Developer Mode.</b> MinerGuru is not signed, and Windows only accepts widgets from unsigned apps in Developer Mode. Turn it on under <b>Settings › System › For developers</b>, then switch the widgets on in MinerGuru's settings. Without it, MinerGuru works as usual from the notification area.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="devices">
+    <div class="head">
+      <h2>Made for open-source miners</h2>
+      <p class="lead">Any miner running AxeOS or NerdOS is detected automatically, including its board, chip count and ASIC.</p>
+    </div>
+
+    <div class="boards">
+      <figure class="board">
+        <div class="card"><span class="silk">bitaxe</span><span class="led"></span><span class="port"></span><span class="oled"></span>
+          <div class="chips" style="grid-template-columns: 34%"><i class="chip"></i></div>
+          <span class="model">Gamma 601 · BM1370</span></div>
+        <figcaption>Bitaxe Gamma<span>1 × BM1370</span></figcaption>
+      </figure>
+      <figure class="board">
+        <div class="card"><span class="silk">bitaxe</span><span class="led"></span><span class="port"></span><span class="oled"></span>
+          <div class="chips" style="grid-template-columns: repeat(3, 24%)"><i class="chip"></i><i class="chip"></i><i class="chip"></i><i class="chip"></i><i class="chip"></i><i class="chip"></i></div>
+          <span class="model">Hex 1300 · BM1370</span></div>
+        <figcaption>Bitaxe Hex<span>6 × BM1370</span></figcaption>
+      </figure>
+      <figure class="board">
+        <div class="card nerd"><span class="silk">nerdqaxe++</span><span class="led"></span><span class="port"></span>
+          <span class="tft"><svg viewBox="0 0 100 60" preserveAspectRatio="none"><polyline points="0,42 20,33 38,37 55,23 74,27 100,17" fill="none" stroke="#f0a03c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" style="stroke-width:1.5px"/></svg></span>
+          <div class="chips" style="grid-template-columns: repeat(2, 30%)"><i class="chip"></i><i class="chip"></i><i class="chip"></i><i class="chip"></i></div>
+          <span class="model">4× BM1370</span></div>
+        <figcaption>NerdQAxe++<span>4 × BM1370</span></figcaption>
+      </figure>
+      <figure class="board">
+        <div class="card nerd"><span class="silk">nerdoctaxe-γ</span><span class="led"></span><span class="port"></span>
+          <span class="tft"><svg viewBox="0 0 100 60" preserveAspectRatio="none"><polyline points="0,40 18,36 36,40 54,26 72,30 100,14" fill="none" stroke="#f0a03c" vector-effect="non-scaling-stroke" style="stroke-width:1.5px" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <div class="chips" style="grid-template-columns: repeat(4, 19%)"><i class="chip"></i><i class="chip"></i><i class="chip"></i><i class="chip"></i><i class="chip"></i><i class="chip"></i><i class="chip"></i><i class="chip"></i></div>
+          <span class="model">8× BM1370</span></div>
+        <figcaption>NerdOCTAXE<span>8 × BM1370</span></figcaption>
+      </figure>
+    </div>
+
+    <p class="compat"><b>Also detected</b>Bitaxe Max · Ultra · Supra · GT · Duo · Supra Hex · Naja Duo · NerdAxe · NerdQAxe+ · NerdHAXE · NerdEKO</p>
+  </section>
+
+  <section id="download">
+    <div class="head">
+      <h2>Download</h2>
+      <p class="lead">Straight from the developer, without an app store or an account. All apps are free.</p>
+    </div>
+    <div class="platforms">
+      <div class="platform">
+        <div><h3>Mac</h3><p class="req">macOS 14 or later · Apple Silicon</p></div>
+        <ol>
+          <li>Download <b>MinerGuru.dmg</b> and open it.</li>
+          <li>Drag MinerGuru into <b>Applications</b> and open it from there.</li>
+          <li>MinerGuru is not notarized by Apple, so macOS asks you to confirm the first start. Click <b>Done</b>, open <b>System Settings → Privacy &amp; Security</b>, scroll down and click <b>Open Anyway</b>.</li>
+        </ol>
+        <a class="dl" href="https://github.com/GuruMeditationSoftware/minerguru/releases/latest/download/MinerGuru.dmg"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4.5" width="16" height="11" rx="1.5"/><path d="M2 19h20"/></svg><span><b>Download for Mac</b><small>MinerGuru.dmg</small></span></a>
+      </div>
+      <div class="platform">
+        <div><h3>Windows</h3><p class="req">Windows 11 · x64 and Arm</p></div>
+        <ol>
+          <li>Download <b>MinerGuru-x64.exe</b>, or <b><a href="https://github.com/GuruMeditationSoftware/minerguru-windows/releases/latest/download/MinerGuru-arm64.exe">MinerGuru-arm64.exe</a></b> for an Arm PC.</li>
+          <li>The installer is not signed, so SmartScreen asks you to confirm. Click <b>More info</b>, then <b>Run anyway</b>.</li>
+          <li>Open MinerGuru from the Start menu and let it scan your network for miners.</li>
+        </ol>
+        <a class="dl" href="https://github.com/GuruMeditationSoftware/minerguru-windows/releases/latest/download/MinerGuru-x64.exe"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5 11 4v7.5H3zM13 3.7l8-1.2v9h-8zM3 13h8v7.5l-8-1.5zM13 13h8v8.8l-8-1.2z"/></svg><span><b>Download for Windows</b><small>Windows 11</small></span></a>
+        <p class="note">Smart App Control blocks unsigned apps and has no exception for a single app. If it is on, turn it off under <b>Windows Security → App &amp; browser control</b> to use MinerGuru.</p>
+      </div>
+      <div class="platform">
+        <div><h3>Android</h3></div>
+        <ol>
+          <li>Download <b>MinerGuru.apk</b> on your phone and open it.</li>
+          <li>When Android asks, allow your browser to <b>install unknown apps</b>.</li>
+          <li>Open MinerGuru and allow access to <b>devices on your local network</b>, so it can find your miners.</li>
+        </ol>
+        <a class="dl" href="https://github.com/GuruMeditationSoftware/minerguru-android/releases/latest/download/MinerGuru.apk"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg><span><b>Download for Android</b><small>MinerGuru.apk</small></span></a>
+        <div class="notes">
+          <p class="note">MinerGuru is published anonymously, so Google has not verified its developer. Where Google enforces this, Android refuses the install until you allow it once: in <b>Developer options</b> turn on <b>Apps from unverified developers</b>, restart and wait 24 hours. That applies in Brazil, Indonesia, Singapore and Thailand since September 2026, and Google plans to extend it worldwide. Installing with <span class="mono">adb</span> works without this step.</p>
+          <p class="note">Want updates automatically? Add <span class="mono">github.com/GuruMeditationSoftware/minerguru-android</span> in <a href="https://github.com/ImranR98/Obtainium">Obtainium</a>.</p>
+        </div>
+      </div>
+    </div>
+    <p class="fine">Release notes and SHA-256 checksums: <a href="https://github.com/GuruMeditationSoftware/minerguru/releases">Mac</a> · <a href="https://github.com/GuruMeditationSoftware/minerguru-windows/releases">Windows</a> · <a href="https://github.com/GuruMeditationSoftware/minerguru-android/releases">Android</a></p>
+  </section>
+
+  <section id="donate">
+    <div class="head">
+      <h2>Support development</h2>
+      <p class="lead">MinerGuru is free. If it keeps your miners happy, a few sats keep the updates coming.</p>
+    </div>
+    <div class="coins">
+      <div class="coin">
+        <img src="img/qr-btc.png" alt="QR code for the Bitcoin donation address" loading="lazy">
+        <div>
+          <h3><i style="background:#f0a03c"></i>Bitcoin</h3>
+          <p>BTC</p>
+          <div class="addr"><code id="addr-btc">bc1qc6xpuwkys8jsjt439tfw2eu3fctkx7ad0hkehe</code><button type="button" data-copy="addr-btc">Copy</button></div>
+        </div>
+      </div>
+      <div class="coin">
+        <img src="img/qr-bch.png" alt="QR code for the Bitcoin Cash donation address" loading="lazy">
+        <div>
+          <h3><i style="background:#3ecf8e"></i>Bitcoin Cash</h3>
+          <p>BCH</p>
+          <div class="addr"><code id="addr-bch">bitcoincash:qruvqq2x9vyd9gykre058r4lda4gulpres33nr9aml</code><button type="button" data-copy="addr-bch">Copy</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p class="love">Made with <span aria-label="love" role="img">♥</span> in Cryptospace</p>
+  <div class="wrap">
+    <span>Made by GuruMeditation · Free to use, see the <a href="LICENSE.txt">license</a> · <a href="https://github.com/GuruMeditationSoftware/minerguru/issues">Feedback on GitHub</a></span>
+    <span>MinerGuru is an independent project and not affiliated with Bitaxe, NerdMiner, Apple, Microsoft or Google.</span>
+    <span>Mac is a trademark of Apple Inc. Windows is a trademark of Microsoft Corporation. Android is a trademark of Google LLC.</span>
+  </div>
+</footer>
+
+<script>
+  function flash(btn, text) {
+    const old = btn.textContent;
+    btn.textContent = text;
+    setTimeout(() => (btn.textContent = old), 1400);
+  }
+  async function copy(text, btn) {
+    try { await navigator.clipboard.writeText(text); flash(btn, "Copied"); }
+    catch { flash(btn, "Press ⌘C"); }
+  }
+  // On an Android phone or a Windows PC that download comes first and gets the primary style
+  const [mac, windows, android] = document.querySelectorAll(".get .dl");
+  const own = /Android/i.test(navigator.userAgent) ? android : /Windows/i.test(navigator.userAgent) ? windows : null;
+  if (own) {
+    mac.classList.add("alt"); own.classList.remove("alt");
+    mac.before(own);
+  }
+  document.querySelectorAll("[data-copy]").forEach(btn =>
+    btn.addEventListener("click", () => copy(document.getElementById(btn.dataset.copy).textContent, btn)));
+</script>
+</body>
+</html>
