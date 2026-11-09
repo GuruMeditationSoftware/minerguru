@@ -40,8 +40,8 @@ let dark = NSColor(calibratedWhite: 0.12, alpha: 1)
 let muted = NSColor(calibratedWhite: 0.38, alpha: 1)
 
 // Title + hint (AppKit origin is bottom-left)
-draw("MinerGuru installieren", size: 26, weight: .semibold, color: dark, centerX: points.width / 2, y: 328)
-draw("Ziehe MinerGuru in den Ordner „Programme“", size: 15, weight: .regular, color: muted, centerX: points.width / 2, y: 298)
+draw("Install MinerGuru", size: 26, weight: .semibold, color: dark, centerX: points.width / 2, y: 328)
+draw("Drag MinerGuru to the Applications folder", size: 15, weight: .regular, color: muted, centerX: points.width / 2, y: 298)
 
 // Arrow between the two icon slots (icons sit at x=165 and x=495, y=190 from the top → 210 from the bottom)
 let arrowY: CGFloat = 200
@@ -63,7 +63,7 @@ head.line(to: NSPoint(x: 414, y: arrowY))
 head.line(to: NSPoint(x: 392, y: arrowY - 20))
 head.stroke()
 
-draw("Danach kannst du das Fenster schließen und das Image auswerfen.", size: 12, weight: .regular, color: muted, centerX: points.width / 2, y: 40)
+draw("Then you can close this window and eject the disk image.", size: 12, weight: .regular, color: muted, centerX: points.width / 2, y: 40)
 
 NSGraphicsContext.restoreGraphicsState()
 
