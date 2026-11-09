@@ -1,41 +1,45 @@
-# Release erstellen
+# Making a release
 
-Diese Anleitung beschreibt, wie ein Release von MinerGuru als DMG entsteht – zuerst der normale Weg mit
-Skript, danach Schritt für Schritt, was das Skript intern tut.
+This guide describes how a MinerGuru release becomes a DMG: first the normal way with the script,
+then step by step what the script does inside.
 
-## Der normale Weg (mit Skript)
+## The normal way (with the script)
 
-### 1. Version anheben
+### 1. Raise the version
 
-Die Version steht an zwei Stellen, die zusammenpassen müssen:
+The version lives in two places that must match:
 
 - `MinerGuru/Info.plist`
-  - `CFBundleShortVersionString` – sichtbare Version, z. B. `1.2.0`
-  - `CFBundleVersion` – Build-Nummer, bei jedem Release um 1 erhöhen
-- Xcode: Target *MinerGuru* → *General* → *Version* und *Build*
-  (schreibt `MARKETING_VERSION` und `CURRENT_PROJECT_VERSION` in die Projektdatei)
+  - `CFBundleShortVersionString`: the visible version, e.g. `1.2.0`
+  - `CFBundleVersion`: the build number, raise it by 1 for every release
+- Xcode: target *MinerGuru* → *General* → *Version* and *Build*
+  (writes `MARKETING_VERSION` and `CURRENT_PROJECT_VERSION` into the project file)
 
-Neue Funktionen erhöhen die mittlere Stelle (`1.1.0` → `1.2.0`), reine Fehlerbehebungen die letzte
+New features raise the middle number (`1.1.0` → `1.2.0`), pure bug fixes the last one
 (`1.2.0` → `1.2.1`).
 
-### 2. Tests laufen lassen
+### 2. Run the tests
 
-In Xcode mit `⌘U` oder im Terminal:
+In Xcode with `⌘U`, or in the terminal:
 
 ```bash
 swift test
 ```
 
-### 3. DMG bauen
+### 3. Build the release
 
 ```bash
-scripts/make-dmg.sh
+scripts/release.sh
 ```
 
-Ergebnis: `dist/MinerGuru-<Version>.dmg`. Die Versionsnummer im Dateinamen kommt aus `Info.plist`.
-Der Ordner `dist/` ist in `.gitignore`, das DMG landet also nicht im Repository.
+The script calls `scripts/make-dmg.sh`, checks the result for personal traces and leaves two files in
+`dist/upload/mac/`: `MinerGuru.dmg` and `SHA256SUMS.txt`. The upload name carries no version, so the website's
+`releases/latest/download` link keeps working. `dist/MinerGuru-<version>.dmg` stays next to it. The `dist/`
+folder is in `.gitignore`, so no DMG ends up in the repository.
 
-### 4. Commit, Tag und Push
+To build a DMG for yourself, `scripts/make-dmg.sh` is enough.
+
+### 4. Commit and tag
 
 ```bash
 git commit -am "Release 1.2.0"
@@ -45,88 +49,91 @@ git commit -am "Release 1.2.0"
 git tag -a v1.2.0 -m "MinerGuru 1.2.0"
 ```
 
-```bash
-git push && git push origin v1.2.0
-```
+The maintainer creates the GitHub release `v1.2.0` and uploads both files from `dist/upload/mac/`.
 
-## Was das Skript macht (der komplett manuelle Weg)
+## What the script does (the fully manual way)
 
-### 1. Release-Build erzeugen
+### 1. Create the release build
 
-**In Xcode:** *Product → Archive*, anschließend im Organizer *Distribute App → Custom → Copy App*.
-Das liefert eine fertige `MinerGuru.app`.
+**In Xcode:** *Product → Archive*, then in the Organizer *Distribute App → Custom → Copy App*.
+That gives you a finished `MinerGuru.app`.
 
-**Im Terminal** – optimierter Universal-Build für Apple Silicon und Intel:
+**In the terminal**, an optimized universal build for Apple silicon and Intel:
 
 ```bash
 xcodebuild -project MinerGuru.xcodeproj -scheme MinerGuru -configuration Release ARCHS="arm64 x86_64" ONLY_ACTIVE_ARCH=NO CONFIGURATION_BUILD_DIR="$PWD/build/release" build
 ```
 
-Wichtig ist `-configuration Release`: Debug-Builds sind unoptimiert und nur für die eigene Architektur
-gebaut.
+`-configuration Release` matters: debug builds are unoptimized and built only for your own architecture.
 
-### 2. Signieren
+### 2. Sign
 
-Ohne Apple-Developer-Account ist nur eine Ad-hoc-Signatur möglich. Entscheidend sind die Entitlements
-(App-Sandbox und Netzwerkzugriff):
+Without an Apple Developer account only an ad hoc signature is possible. What matters are the entitlements
+(App Sandbox and network access). Sign from the inside out and without `--deep`, so the widget extension keeps
+its own sandbox entitlements:
 
 ```bash
-codesign --force --deep --sign - --entitlements MinerGuru/MinerGuru.entitlements build/release/MinerGuru.app
+codesign --force --sign - --entitlements <extension-entitlements.plist> build/release/MinerGuru.app/Contents/PlugIns/MinerGuruWidgets.appex
 ```
 
-Prüfen:
+```bash
+codesign --force --sign - --entitlements MinerGuru/MinerGuru.entitlements build/release/MinerGuru.app
+```
+
+Check:
 
 ```bash
 codesign --verify --deep --strict build/release/MinerGuru.app
 ```
 
-### 3. DMG-Inhalt vorbereiten
+`make-dmg.sh` reads the extension's entitlements from its build output before signing it again.
 
-Ein Ordner mit drei Dingen:
+### 3. Prepare the DMG contents
 
-- `MinerGuru.app` – die App selbst
-- ein Symlink `Applications` → `/Applications` (das Ziel zum Hineinziehen)
-- `.background/background.png` – das Hintergrundbild mit Pfeil, erzeugt von
-  `scripts/generate-dmg-background.swift` (660 × 400 pt, Retina-Auflösung)
+A folder with three things:
 
-### 4. DMG erstellen
+- `MinerGuru.app`, the app itself
+- a symlink `Applications` → `/Applications` (the target to drag onto)
+- `.background/background.png`, the background image with the arrow, generated by
+  `scripts/generate-dmg-background.swift` (660 × 400 pt, Retina resolution)
 
-1. Aus dem Ordner ein beschreibbares Image erzeugen (`hdiutil create … -format UDRW`) und einhängen
+### 4. Create the DMG
+
+1. Create a writable image from the folder (`hdiutil create … -format UDRW`) and mount it
    (`hdiutil attach`).
-2. **Fensterlayout setzen** – der einzige wirklich knifflige Teil: Fenstergröße, Icon-Größe,
-   Hintergrundbild und Icon-Positionen. Finder speichert das in einer versteckten `.DS_Store` im Image.
-   Das Skript erledigt das per AppleScript. Von Hand: eingehängtes Volume öffnen, mit `⌘J`
-   (Darstellungsoptionen) Hintergrundbild und Icon-Größe einstellen und die Icons an ihren Platz schieben.
-3. Optional das Volume-Icon: `.VolumeIcon.icns` ins Volume kopieren und `SetFile -a C` auf das Volume
-   anwenden.
-4. Aushängen und in ein komprimiertes, schreibgeschütztes Image umwandeln:
+2. **Set the window layout**, the only really tricky part: window size, icon size,
+   background image and icon positions. Finder stores this in a hidden `.DS_Store` inside the image.
+   The script does it with AppleScript. By hand: open the mounted volume, set the background image and icon size
+   with `⌘J` (View Options) and drag the icons into place.
+3. Optionally the volume icon: copy `.VolumeIcon.icns` into the volume and apply `SetFile -a C` to the volume.
+4. Unmount it and convert it into a compressed, read-only image:
 
 ```bash
 hdiutil convert build/MinerGuru-rw.dmg -format UDZO -imagekey zlib-level=9 -o dist/MinerGuru-1.2.0.dmg
 ```
 
-### 5. Prüfen
+### 5. Check
 
 ```bash
 hdiutil verify dist/MinerGuru-1.2.0.dmg
 ```
 
-Danach das DMG öffnen und kontrollieren, ob Fenster und Pfeil passen. Zum Schluss die App aus dem DMG nach
-*Programme* ziehen und einmal starten.
+Then open the DMG and check that the window and the arrow look right. Finally drag the app from the DMG into
+*Applications* and start it once.
 
-## Hinweis zu Gatekeeper
+## About Gatekeeper
 
-Ad-hoc-signierte Apps sind nicht notarisiert. Auf dem eigenen Mac starten sie normal; auf anderen Macs
-blockiert Gatekeeper den ersten Start mit dem Hinweis „nicht verifizierter Entwickler“. Abhilfe: Rechtsklick
-auf die App → *Öffnen*, oder in den Systemeinstellungen unter *Datenschutz & Sicherheit* → *Trotzdem öffnen*.
+Ad hoc signed apps are not notarized. On your own Mac they start normally; on other Macs Gatekeeper blocks the
+first start. On current macOS: click *Done*, open *System Settings → Privacy & Security*, scroll down and click
+*Open Anyway*.
 
-## Optional: Signieren und Notarisieren ohne Gatekeeper-Warnung
+## Optional: signing and notarizing without the Gatekeeper warning
 
-Dafür ist ein Apple Developer Account nötig (99 $ pro Jahr). Dann ändern sich drei Schritte:
+This needs an Apple Developer account (99 $ a year). Three steps change:
 
-1. Mit dem Zertifikat *Developer ID Application* statt Ad-hoc signieren und die Hardened Runtime
-   aktivieren (`--options runtime`).
-2. Das DMG zur Notarisierung an Apple schicken: `xcrun notarytool submit … --wait`.
-3. Das Notarisierungs-Ticket ins DMG heften: `xcrun stapler staple dist/MinerGuru-1.2.0.dmg`.
+1. Sign with the *Developer ID Application* certificate instead of ad hoc and enable the hardened runtime
+   (`--options runtime`).
+2. Send the DMG to Apple for notarization: `xcrun notarytool submit … --wait`.
+3. Staple the notarization ticket to the DMG: `xcrun stapler staple dist/MinerGuru-1.2.0.dmg`.
 
-Dafür müsste `scripts/make-dmg.sh` um die Zertifikats-ID und ein App-spezifisches Passwort erweitert werden.
+`scripts/make-dmg.sh` would then need the certificate ID and an app-specific password.

@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 724" width="1040" height="724" role="img" aria-labelledby="t d">
-<title id="t">MinerGuru macOS: Aufbau</title>
-<desc id="d">Fünf Schichten: App-Einstieg mit Fenster, Menüleiste und Einstellungen; Ansichten; Zustand mit MinerStore und Teil-Stores; Dienste für Netz und Querschnitt; Speicher. Rechts die Widget-Erweiterung, die einen Schnappschuss liest und per minerguru-Link zurück in die App springt, und die Modelle.</desc>
+<title id="t">MinerGuru macOS: structure</title>
+<desc id="d">Five layers: app entry with window, menu bar and settings; views; state with MinerStore and sub-stores; services for the network and cross-cutting concerns; storage. On the right the widget extension, which reads a snapshot and jumps back into the app through a minerguru link, and the models.</desc>
 <style>
 text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,Helvetica,Arial,sans-serif;fill:#1d1d1f}
 .h{font-size:19px;font-weight:650}.b{font-size:14px;font-weight:600}.t{font-size:13px;font-weight:600}.m{font-size:12.5px;fill:#6e6e73}
@@ -21,37 +21,37 @@ text{fill:#f2f2f3}.m{fill:#a1a1a6}.c,.c text{fill:#d1d1d6}.z{fill:#8e8e93}
 <marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="aa" d="M0,1 L10,5 L0,9 z"/></marker>
 </defs>
 <rect class="bg" x="0.5" y="0.5" width="1039" height="723" rx="16"/>
-<text class="h" x="32" y="46">macOS-App: Aufbau</text>
-<text class="m" x="32" y="70">Grob gilt: Jede Schicht nutzt die darunter. Die Widget-Erweiterung spricht nur über eine Datei und über Links mit der App.</text>
+<text class="h" x="32" y="46">macOS app: structure</text>
+<text class="m" x="32" y="70">Roughly: each layer uses the one below. The widget extension talks to the app only through a file and through links.</text>
 
 <!-- Row 1: entry -->
 <rect class="card" x="24" y="100" width="776" height="88" rx="12"/>
-<text class="z" x="40" y="121">App-Einstieg · MinerGuruApp.swift</text>
-<rect class="raised" x="40" y="132" width="177" height="44" rx="8"/><text class="t" x="52" y="151">Hauptfenster</text><text class="c" x="52" y="168">MainWindowView</text>
-<rect class="raised" x="229" y="132" width="177" height="44" rx="8"/><text class="t" x="241" y="151">Menüleiste</text><text class="c" x="241" y="168">MenuBarExtra</text>
-<rect class="raised" x="418" y="132" width="177" height="44" rx="8"/><text class="t" x="430" y="151">Einstellungen</text><text class="c" x="430" y="168">SettingsView</text>
-<rect class="raised" x="607" y="132" width="177" height="44" rx="8"/><text class="t" x="619" y="151">Dock und Links</text><text class="c" x="619" y="168">AppDelegate</text>
+<text class="z" x="40" y="121">App entry · MinerGuruApp.swift</text>
+<rect class="raised" x="40" y="132" width="177" height="44" rx="8"/><text class="t" x="52" y="151">Main window</text><text class="c" x="52" y="168">MainWindowView</text>
+<rect class="raised" x="229" y="132" width="177" height="44" rx="8"/><text class="t" x="241" y="151">Menu bar</text><text class="c" x="241" y="168">MenuBarExtra</text>
+<rect class="raised" x="418" y="132" width="177" height="44" rx="8"/><text class="t" x="430" y="151">Settings</text><text class="c" x="430" y="168">SettingsView</text>
+<rect class="raised" x="607" y="132" width="177" height="44" rx="8"/><text class="t" x="619" y="151">Dock and links</text><text class="c" x="619" y="168">AppDelegate</text>
 <path class="ln" d="M412 188V204" marker-end="url(#ah)"/>
 
 <!-- Row 2: views -->
 <rect class="card" x="24" y="206" width="776" height="88" rx="12"/>
-<text class="z" x="40" y="227">Ansichten · Views/ (gemeinsame Bausteine in Components/)</text>
-<rect class="raised" x="40" y="238" width="114" height="44" rx="8"/><text class="t" x="97" y="257" text-anchor="middle">Flotte</text><text class="c" x="97" y="274" text-anchor="middle">Fleet</text>
+<text class="z" x="40" y="227">Views · Views/ (shared building blocks in Components/)</text>
+<rect class="raised" x="40" y="238" width="114" height="44" rx="8"/><text class="t" x="97" y="257" text-anchor="middle">Fleet</text><text class="c" x="97" y="274" text-anchor="middle">Fleet</text>
 <rect class="raised" x="166" y="238" width="114" height="44" rx="8"/><text class="t" x="223" y="257" text-anchor="middle">Miner</text><text class="c" x="223" y="274" text-anchor="middle">Miner</text>
 <rect class="raised" x="292" y="238" width="114" height="44" rx="8"/><text class="t" x="349" y="257" text-anchor="middle">Pools</text><text class="c" x="349" y="274" text-anchor="middle">Pools</text>
-<rect class="raised" x="418" y="238" width="114" height="44" rx="8"/><text class="t" x="475" y="257" text-anchor="middle">Strom</text><text class="c" x="475" y="274" text-anchor="middle">Power</text>
-<rect class="raised" x="544" y="238" width="114" height="44" rx="8"/><text class="t" x="601" y="257" text-anchor="middle">Wartung</text><text class="c" x="601" y="274" text-anchor="middle">Maintenance</text>
-<rect class="raised" x="670" y="238" width="114" height="44" rx="8"/><text class="t" x="727" y="257" text-anchor="middle">Berichte</text><text class="c" x="727" y="274" text-anchor="middle">Reports</text>
+<rect class="raised" x="418" y="238" width="114" height="44" rx="8"/><text class="t" x="475" y="257" text-anchor="middle">Power</text><text class="c" x="475" y="274" text-anchor="middle">Power</text>
+<rect class="raised" x="544" y="238" width="114" height="44" rx="8"/><text class="t" x="601" y="257" text-anchor="middle">Maintenance</text><text class="c" x="601" y="274" text-anchor="middle">Maintenance</text>
+<rect class="raised" x="670" y="238" width="114" height="44" rx="8"/><text class="t" x="727" y="257" text-anchor="middle">Reports</text><text class="c" x="727" y="274" text-anchor="middle">Reports</text>
 <path class="ln" d="M412 294V310" marker-end="url(#ah)"/>
 
 <!-- Row 3: state -->
 <rect class="card" x="24" y="312" width="776" height="160" rx="12"/>
-<text class="z" x="40" y="333">Zustand · Services/, @MainActor und ObservableObject</text>
+<text class="z" x="40" y="333">State · Services/, @MainActor and ObservableObject</text>
 <rect class="hot" x="40" y="344" width="220" height="112" rx="10"/>
 <text class="b" x="56" y="370">MinerStore</text>
-<text class="m" x="56" y="392">Miner-Liste, Einstellungen,</text>
-<text class="m" x="56" y="412">Abfragerunde, Schreibweg;</text>
-<text class="m" x="56" y="432">besitzt alle Teil-Stores</text>
+<text class="m" x="56" y="392">Miner list, settings,</text>
+<text class="m" x="56" y="412">poll cycle, write path;</text>
+<text class="m" x="56" y="432">owns all sub-stores</text>
 <g class="c" text-anchor="middle">
 <rect class="raised" x="276" y="344" width="162" height="24" rx="6"/><text x="357" y="360.5">PoolLibraryStore</text>
 <rect class="raised" x="449" y="344" width="162" height="24" rx="6"/><text x="530" y="360.5">AlertCenter</text>
@@ -69,7 +69,7 @@ text{fill:#f2f2f3}.m{fill:#a1a1a6}.c,.c text{fill:#d1d1d6}.z{fill:#8e8e93}
 
 <!-- Row 4: services -->
 <rect class="card" x="24" y="490" width="776" height="100" rx="12"/>
-<text class="z" x="40" y="511">Dienste · Netz und Querschnitt (orange: actors)</text>
+<text class="z" x="40" y="511">Services · network and cross-cutting (orange: actors)</text>
 <g class="c" text-anchor="middle">
 <rect class="hot" x="40" y="522" width="140" height="26" rx="6"/><text x="110" y="539.5">MinerAPIClient</text>
 <rect class="hot" x="191" y="522" width="140" height="26" rx="6"/><text x="261" y="539.5">PoolLatencyService</text>
@@ -85,24 +85,24 @@ text{fill:#f2f2f3}.m{fill:#a1a1a6}.c,.c text{fill:#d1d1d6}.z{fill:#8e8e93}
 
 <!-- Row 5: storage -->
 <rect class="card" x="24" y="608" width="776" height="96" rx="12"/>
-<text class="z" x="40" y="629">Speicher · UserDefaults, Schlüsselbund, ~/Library/Application Support/app.minerguru.MinerGuru/</text>
-<rect class="raised" x="40" y="640" width="140" height="48" rx="8"/><text class="c" x="52" y="660">UserDefaults</text><text class="m" x="52" y="678">Listen, Einstellungen</text>
-<rect class="raised" x="191" y="640" width="140" height="48" rx="8"/><text class="t" x="203" y="660">Schlüsselbund</text><text class="m" x="203" y="678">SMTP-Passwort, OTP</text>
-<rect class="raised" x="342" y="640" width="140" height="48" rx="8"/><text class="c" x="354" y="660">history.sqlite</text><text class="m" x="354" y="678">Langzeit-Verlauf</text>
-<rect class="raised" x="493" y="640" width="140" height="48" rx="8"/><text class="c" x="505" y="660">changes.json</text><text class="m" x="505" y="678">und minerguru.log</text>
+<text class="z" x="40" y="629">Storage · UserDefaults, Keychain, ~/Library/Application Support/app.minerguru.MinerGuru/</text>
+<rect class="raised" x="40" y="640" width="140" height="48" rx="8"/><text class="c" x="52" y="660">UserDefaults</text><text class="m" x="52" y="678">Lists, settings</text>
+<rect class="raised" x="191" y="640" width="140" height="48" rx="8"/><text class="t" x="203" y="660">Keychain</text><text class="m" x="203" y="678">SMTP password, OTP</text>
+<rect class="raised" x="342" y="640" width="140" height="48" rx="8"/><text class="c" x="354" y="660">history.sqlite</text><text class="m" x="354" y="678">Long-term history</text>
+<rect class="raised" x="493" y="640" width="140" height="48" rx="8"/><text class="c" x="505" y="660">changes.json</text><text class="m" x="505" y="678">and minerguru.log</text>
 <rect class="hot" x="644" y="640" width="140" height="48" rx="8"/><text class="c" x="656" y="660">snapshot.json</text><text class="m" x="656" y="678">Widgets/</text>
 
 <!-- Widget extension -->
 <rect class="hot" x="824" y="100" width="192" height="300" rx="12"/>
-<text class="b" x="840" y="126">Widget-Erweiterung</text>
+<text class="b" x="840" y="126">Widget extension</text>
 <text class="c" x="840" y="146">MinerGuruWidgets/</text>
-<text class="m" x="840" y="166">eigener Prozess, Sandbox</text>
-<rect class="card" x="840" y="180" width="160" height="28" rx="7"/><text class="t" x="852" y="199">Flotte</text>
-<rect class="card" x="840" y="214" width="160" height="28" rx="7"/><text class="t" x="852" y="233">Miner (wählbar)</text>
-<rect class="card" x="840" y="248" width="160" height="28" rx="7"/><text class="t" x="852" y="267">Solo-Chance</text>
-<rect class="card" x="840" y="282" width="160" height="28" rx="7"/><text class="t" x="852" y="301">Strom</text>
-<text class="m" x="840" y="334">Kontrollzentrum: Flotte,</text>
-<text class="m" x="840" y="352">Nachtmodus, Stumm</text>
+<text class="m" x="840" y="166">own process, sandbox</text>
+<rect class="card" x="840" y="180" width="160" height="28" rx="7"/><text class="t" x="852" y="199">Fleet</text>
+<rect class="card" x="840" y="214" width="160" height="28" rx="7"/><text class="t" x="852" y="233">Miner (selectable)</text>
+<rect class="card" x="840" y="248" width="160" height="28" rx="7"/><text class="t" x="852" y="267">Solo odds</text>
+<rect class="card" x="840" y="282" width="160" height="28" rx="7"/><text class="t" x="852" y="301">Power</text>
+<text class="m" x="840" y="334">Control Center: fleet,</text>
+<text class="m" x="840" y="352">night mode, mute</text>
 <text class="c" x="840" y="382">minerguru://…</text>
 
 <path class="la" d="M824 154H788" marker-end="url(#aa)"/>
@@ -111,9 +111,9 @@ text{fill:#f2f2f3}.m{fill:#a1a1a6}.c,.c text{fill:#d1d1d6}.z{fill:#8e8e93}
 
 <!-- Models -->
 <rect class="card" x="824" y="420" width="192" height="284" rx="12"/>
-<text class="b" x="840" y="446">Modelle</text>
+<text class="b" x="840" y="446">Models</text>
 <text class="c" x="840" y="466">Models/</text>
-<text class="m" x="840" y="486">reine Werttypen, gut testbar</text>
+<text class="m" x="840" y="486">pure value types, easy to test</text>
 <g class="c">
 <text x="840" y="514">MinerSystemInfo</text>
 <text x="840" y="536">MinerHardware</text>

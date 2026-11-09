@@ -109,7 +109,7 @@ MockMiners/run-app-with-mocks.sh    # a separate "MinerGuru (Mock)" with simulat
 
 The simulated miners in `MockMiners/` behave like the real firmware, so you can work on MinerGuru without any hardware. They serve the Android and Windows apps too.
 
-Developer documentation, in German: [docs/ENTWICKLUNG.md](docs/ENTWICKLUNG.md) (build, test, project layout), [docs/ARCHITEKTUR.md](docs/ARCHITEKTUR.md) (the Mac app) and [docs/GRUNDLAGEN.md](docs/GRUNDLAGEN.md) (miner API, polling, write path: what all three apps share).
+Developer documentation: [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) (build, test, project layout), [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) (the Mac app), [docs/FUNDAMENTALS.md](docs/FUNDAMENTALS.md) (miner API, polling, write path: what all three apps share) and [docs/RELEASE.md](docs/RELEASE.md).
 
 ## Support the project
 

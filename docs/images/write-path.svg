@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 520" width="1040" height="520" role="img" aria-labelledby="t d">
-<title id="t">MinerGuru: Der Schreibweg</title>
-<desc id="d">Änderungen von Hand laufen über Bestätigung, Einmalcode und API-Client zum Miner. Zeitpläne überspringen die Bestätigung und nutzen nur gespeicherte Einmalcode-Sitzungen. Der Wächter startet Miner direkt über den API-Client neu. AxeOS übernimmt Werte nach dem Neustart, NerdOS sofort.</desc>
+<title id="t">MinerGuru: the write path</title>
+<desc id="d">Changes by hand go through confirmation, one-time code and the API client to the miner. Schedules skip the confirmation and only use stored one-time code sessions. The watchdog restarts miners directly through the API client. AxeOS applies values after the restart, NerdOS at once.</desc>
 <style>
 text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,Helvetica,Arial,sans-serif;fill:#1d1d1f}
 .h{font-size:19px;font-weight:650}.b{font-size:14px;font-weight:600}.m{font-size:12.5px;fill:#6e6e73}
@@ -21,50 +21,50 @@ text{fill:#f2f2f3}.m{fill:#a1a1a6}.c{fill:#d1d1d6}.n{fill:#141415}
 <marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="aa" d="M0,1 L10,5 L0,9 z"/></marker>
 </defs>
 <rect class="bg" x="0.5" y="0.5" width="1039" height="519" rx="16"/>
-<text class="h" x="32" y="46">Der Schreibweg</text>
-<text class="m" x="32" y="70">Nur der API-Client schreibt auf Miner. Darum landet jede Änderung im Änderungsprotokoll, auch die automatischen.</text>
+<text class="h" x="32" y="46">The write path</text>
+<text class="m" x="32" y="70">Only the API client writes to miners. That is why every change ends up in the change log, the automatic ones too.</text>
 
 <!-- Sources -->
 <rect class="raised" x="28" y="110" width="160" height="120" rx="10"/>
-<text class="b" x="44" y="136">Von Hand</text>
-<text class="m" x="44" y="160">Takt, Spannung, Lüfter,</text>
-<text class="m" x="44" y="180">Pools, Hostname,</text>
-<text class="m" x="44" y="200">Auszahlungsadresse,</text>
-<text class="m" x="44" y="220">Neustart</text>
+<text class="b" x="44" y="136">By hand</text>
+<text class="m" x="44" y="160">Clock, voltage, fan,</text>
+<text class="m" x="44" y="180">pools, hostname,</text>
+<text class="m" x="44" y="200">payout address,</text>
+<text class="m" x="44" y="220">restart</text>
 
 <rect class="raised" x="28" y="250" width="160" height="72" rx="10"/>
-<text class="b" x="44" y="276">Zeitplan</text>
-<text class="m" x="44" y="298">Strom und Pools</text>
+<text class="b" x="44" y="276">Schedule</text>
+<text class="m" x="44" y="298">Power and pools</text>
 
 <rect class="raised" x="28" y="342" width="160" height="72" rx="10"/>
-<text class="b" x="44" y="368">Wächter</text>
-<text class="m" x="44" y="390">Neustart (Opt-in)</text>
+<text class="b" x="44" y="368">Watchdog</text>
+<text class="m" x="44" y="390">Restart (opt-in)</text>
 
 <!-- Stations -->
 <path class="ln" d="M188 170H220" marker-end="url(#ah)"/>
 <rect class="card" x="222" y="110" width="170" height="120" rx="10"/>
 <circle class="badge" cx="246" cy="134" r="11"/><text class="n" x="246" y="138" text-anchor="middle">1</text>
-<text class="b" x="264" y="139">Bestätigen</text>
-<text class="m" x="238" y="164">Dialog mit alten und</text>
-<text class="m" x="238" y="184">neuen Werten. Ohne</text>
-<text class="m" x="238" y="204">OK geht nichts raus.</text>
+<text class="b" x="264" y="139">Confirm</text>
+<text class="m" x="238" y="164">Dialog with old and</text>
+<text class="m" x="238" y="184">new values. Without</text>
+<text class="m" x="238" y="204">OK nothing goes out.</text>
 
 <path class="ln" d="M392 170H424" marker-end="url(#ah)"/>
 <rect class="card" x="426" y="110" width="170" height="120" rx="10"/>
 <circle class="badge" cx="450" cy="134" r="11"/><text class="n" x="450" y="138" text-anchor="middle">2</text>
-<text class="b" x="468" y="139">Einmalcode</text>
-<text class="m" x="442" y="164">nur NerdOS mit OTP:</text>
-<text class="m" x="442" y="184">Sitzung nutzen oder</text>
-<text class="m" x="442" y="204">Code abfragen</text>
+<text class="b" x="468" y="139">One-time code</text>
+<text class="m" x="442" y="164">NerdOS with OTP only:</text>
+<text class="m" x="442" y="184">use a session or</text>
+<text class="m" x="442" y="204">ask for the code</text>
 <text class="c" x="442" y="222">X-OTP-Session</text>
 
 <path class="ln" d="M596 170H628" marker-end="url(#ah)"/>
 <rect class="card" x="630" y="110" width="190" height="120" rx="10"/>
 <circle class="badge" cx="654" cy="134" r="11"/><text class="n" x="654" y="138" text-anchor="middle">3</text>
-<text class="b" x="672" y="139">API-Client</text>
-<text class="m" x="646" y="164">Nur-Lesen-Modus sperrt,</text>
-<text class="m" x="646" y="184">Erfolg oder Fehler kommt</text>
-<text class="m" x="646" y="204">ins Änderungsprotokoll</text>
+<text class="b" x="672" y="139">API client</text>
+<text class="m" x="646" y="164">Read-only mode blocks,</text>
+<text class="m" x="646" y="184">success or failure goes</text>
+<text class="m" x="646" y="204">into the change log</text>
 <text class="c" x="646" y="222">changes.json</text>
 
 <path class="la" d="M820 170H852" marker-end="url(#aa)"/>
@@ -77,22 +77,22 @@ text{fill:#f2f2f3}.m{fill:#a1a1a6}.c{fill:#d1d1d6}.n{fill:#141415}
 
 <!-- Bypasses -->
 <path class="ln dash" d="M188 286H511V232" marker-end="url(#ah)"/>
-<text class="m" x="208" y="278">ohne Rückfrage, nur gespeicherte Sitzung</text>
+<text class="m" x="208" y="278">without asking, stored session only</text>
 <path class="ln dash" d="M188 378H725V232" marker-end="url(#ah)"/>
-<text class="m" x="208" y="370">ohne Rückfrage und ohne Einmalcode</text>
+<text class="m" x="208" y="370">without asking and without a one-time code</text>
 
 <!-- Outcomes -->
 <path class="la" d="M935 230V260" marker-end="url(#aa)"/>
 <rect class="card" x="854" y="262" width="162" height="152" rx="10"/>
-<text class="b" x="870" y="288">Wirkung</text>
+<text class="b" x="870" y="288">Effect</text>
 <text class="b" x="870" y="314" style="font-size:12.5px">AxeOS</text>
-<text class="m" x="870" y="333">speichert und nutzt</text>
-<text class="m" x="870" y="351">die Werte nach dem</text>
-<text class="m" x="870" y="369">Neustart</text>
-<text class="b" x="870" y="396" style="font-size:12.5px">NerdOS<tspan class="m" style="font-weight:400"> sofort</tspan></text>
+<text class="m" x="870" y="333">saves the values and</text>
+<text class="m" x="870" y="351">uses them after the</text>
+<text class="m" x="870" y="369">restart</text>
+<text class="b" x="870" y="396" style="font-size:12.5px">NerdOS<tspan class="m" style="font-weight:400"> at once</tspan></text>
 
 <!-- Notes -->
 <path class="ln" d="M32 446H1008" stroke-opacity=".35"/>
-<text class="m" x="32" y="474">Pool-Änderungen startet die App selbst neu und wartet, bis der Miner wieder antwortet. Abbrechen im Dialog sendet nichts.</text>
-<text class="m" x="32" y="496">Braucht ein Zeitplan einen Einmalcode und ist keine Sitzung gespeichert, lässt er diesen Miner aus und fragt nie nach.</text>
+<text class="m" x="32" y="474">After pool changes the app restarts the miner itself and waits until it answers again. Cancel in the dialog sends nothing.</text>
+<text class="m" x="32" y="496">If a schedule needs a one-time code and no session is stored, it skips that miner and never asks.</text>
 </svg>

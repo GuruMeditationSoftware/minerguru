@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 660" width="1040" height="660" role="img" aria-labelledby="t d">
-<title id="t">MinerGuru: Wer mit wem spricht</title>
-<desc id="d">Die drei Apps sprechen im lokalen Netz per HTTP und WebSocket mit den Minern. Ins Internet gehen nur Pool-Latenz und Stratum-Abfrage, der Update-Hinweis über GitHub und optional E-Mails über SMTP.</desc>
+<title id="t">MinerGuru: who talks to whom</title>
+<desc id="d">The three apps talk to the miners on the local network over HTTP and WebSocket. Only pool latency and the Stratum probe, the update notice through GitHub and optional emails over SMTP go to the internet.</desc>
 <style>
 text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,Helvetica,Arial,sans-serif;fill:#1d1d1f}
 .h{font-size:19px;font-weight:650}.b{font-size:14px;font-weight:600}.m{font-size:12.5px;fill:#6e6e73}
@@ -21,32 +21,32 @@ text{fill:#f2f2f3}.m{fill:#a1a1a6}.c{fill:#d1d1d6}.z{fill:#8e8e93}.ac{fill:#f0a0
 <marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="aa" d="M0,1 L10,5 L0,9 z"/></marker>
 </defs>
 <rect class="bg" x="0.5" y="0.5" width="1039" height="659" rx="16"/>
-<text class="h" x="32" y="46">Wer mit wem spricht</text>
-<text class="m" x="32" y="70">Drei Apps, kein eigener Server und kein Konto. Alles, was die Apps wissen, bleibt auf dem Gerät.</text>
+<text class="h" x="32" y="46">Who talks to whom</text>
+<text class="m" x="32" y="70">Three apps, no server of their own and no account. Everything the apps know stays on the device.</text>
 
 <rect class="zone" x="20" y="96" width="640" height="500" rx="14"/>
-<text class="z" x="38" y="120">Lokales Netz (LAN)</text>
+<text class="z" x="38" y="120">Local network (LAN)</text>
 <rect class="zone" x="684" y="96" width="336" height="500" rx="14"/>
 <text class="z" x="702" y="120">Internet</text>
 
 <!-- Apps -->
 <rect class="card" x="40" y="136" width="240" height="104" rx="10"/>
-<text class="b" x="58" y="164">macOS-App</text>
-<text class="m" x="58" y="186">SwiftUI, Swift 6, ab macOS 14</text>
-<text class="m" x="58" y="206">Fenster, Menüleiste, Widgets</text>
-<text class="m" x="58" y="226">Schalter im Kontrollzentrum</text>
+<text class="b" x="58" y="164">macOS app</text>
+<text class="m" x="58" y="186">SwiftUI, Swift 6, macOS 14+</text>
+<text class="m" x="58" y="206">Window, menu bar, widgets</text>
+<text class="m" x="58" y="226">Control Center controls</text>
 
 <rect class="card" x="40" y="268" width="240" height="104" rx="10"/>
-<text class="b" x="58" y="296">Android-App</text>
-<text class="m" x="58" y="318">Kotlin, Compose, ab Android 12</text>
-<text class="m" x="58" y="338">Überwachung im Hintergrund</text>
-<text class="m" x="58" y="358">Homescreen-Widgets</text>
+<text class="b" x="58" y="296">Android app</text>
+<text class="m" x="58" y="318">Kotlin, Compose, Android 12+</text>
+<text class="m" x="58" y="338">Background monitoring</text>
+<text class="m" x="58" y="358">Home screen widgets</text>
 
 <rect class="card" x="40" y="400" width="240" height="104" rx="10"/>
-<text class="b" x="58" y="428">Windows-App</text>
+<text class="b" x="58" y="428">Windows app</text>
 <text class="m" x="58" y="450">C#, WinUI 3, .NET 10</text>
-<text class="m" x="58" y="470">Infobereich, Widget-Board</text>
-<text class="m" x="58" y="490">x64 und ARM64</text>
+<text class="m" x="58" y="470">Notification area, widget board</text>
+<text class="m" x="58" y="490">x64 and ARM64</text>
 
 <!-- App bus to miners -->
 <path class="ln" d="M280 188H312M280 320H312M280 452H312M312 188V572H690V232"/>
@@ -55,24 +55,24 @@ text{fill:#f2f2f3}.m{fill:#a1a1a6}.c{fill:#d1d1d6}.z{fill:#8e8e93}.ac{fill:#f0a0
 
 <!-- Miners -->
 <rect class="hot" x="368" y="136" width="256" height="104" rx="10"/>
-<text class="b" x="386" y="164">Bitaxe-Boards</text>
+<text class="b" x="386" y="164">Bitaxe boards</text>
 <text class="m" x="386" y="186">Firmware AxeOS (ESP-Miner)</text>
 <text class="m" x="386" y="206">Gamma, Supra, Ultra, Hex, GT …</text>
-<text class="m" x="386" y="226">Neue Werte erst nach Neustart</text>
+<text class="m" x="386" y="226">New values only after a restart</text>
 
 <rect class="hot" x="368" y="268" width="256" height="104" rx="10"/>
-<text class="b" x="386" y="296">NerdQAxe und Verwandte</text>
+<text class="b" x="386" y="296">NerdQAxe and relatives</text>
 <text class="m" x="386" y="318">Firmware NerdOS</text>
 <text class="m" x="386" y="338">NerdQAxe++, NerdOCTAXE, …</text>
-<text class="m" x="386" y="358">Neue Werte gelten sofort</text>
+<text class="m" x="386" y="358">New values apply at once</text>
 
 <rect class="raised" x="368" y="400" width="256" height="148" rx="10"/>
-<text class="b" x="386" y="428">Miner-API, HTTP ohne TLS</text>
+<text class="b" x="386" y="428">Miner API, HTTP without TLS</text>
 <text class="c" x="386" y="454">GET<tspan x="446">/api/system/info</tspan></text>
 <text class="c" x="386" y="474">PATCH<tspan x="446">/api/system</tspan></text>
 <text class="c" x="386" y="494">POST<tspan x="446">/api/system/restart</tspan></text>
 <text class="c" x="386" y="514">DELETE<tspan x="446">/api/system/pools/N</tspan></text>
-<text class="c" x="386" y="534">WS<tspan x="446">/api/ws (Live-Log)</tspan></text>
+<text class="c" x="386" y="534">WS<tspan x="446">/api/ws (live log)</tspan></text>
 
 <!-- Miners to pools -->
 <path class="la" d="M624 188H646M624 320H646M646 188V320"/>
@@ -81,29 +81,29 @@ text{fill:#f2f2f3}.m{fill:#a1a1a6}.c{fill:#d1d1d6}.z{fill:#8e8e93}.ac{fill:#f0a0
 
 <!-- Internet -->
 <rect class="ext" x="706" y="136" width="294" height="128" rx="10"/>
-<text class="b" x="724" y="164">Mining-Pools</text>
-<text class="m" x="724" y="186">Die Miner liefern hier ihre Shares ab.</text>
-<text class="m" x="724" y="206">Die Apps messen die Latenz (TCP) und</text>
-<text class="m" x="724" y="226">lesen auf Wunsch die Blockvorlage:</text>
-<text class="m" x="724" y="246">Wer bekommt die Belohnung?</text>
+<text class="b" x="724" y="164">Mining pools</text>
+<text class="m" x="724" y="186">The miners deliver their shares here.</text>
+<text class="m" x="724" y="206">The apps measure the latency (TCP) and</text>
+<text class="m" x="724" y="226">optionally read the block template:</text>
+<text class="m" x="724" y="246">Who gets the reward?</text>
 
 <rect class="ext" x="706" y="296" width="294" height="96" rx="10"/>
 <text class="b" x="724" y="324">GitHub Releases API</text>
-<text class="m" x="724" y="346">Update-Hinweis, höchstens einmal am Tag.</text>
-<text class="m" x="724" y="366">Lädt und installiert nichts.</text>
+<text class="m" x="724" y="346">Update notice, at most once a day.</text>
+<text class="m" x="724" y="366">Downloads and installs nothing.</text>
 
 <rect class="ext" x="706" y="424" width="294" height="96" rx="10"/>
-<text class="b" x="724" y="452">SMTP-Server (optional)</text>
-<text class="m" x="724" y="474">E-Mail-Warnungen über ein eigenes Konto</text>
-<text class="m" x="724" y="494">STARTTLS, TLS oder ohne (nur im LAN)</text>
+<text class="b" x="724" y="452">SMTP server (optional)</text>
+<text class="m" x="724" y="474">Email alerts through your own account</text>
+<text class="m" x="724" y="494">STARTTLS, TLS or none (LAN only)</text>
 
 <path class="ln" d="M690 232H704" marker-end="url(#ah)"/>
 <path class="ln" d="M690 344H704" marker-end="url(#ah)"/>
 <path class="ln" d="M690 472H704" marker-end="url(#ah)"/>
-<text class="m" x="500" y="565" text-anchor="middle">Latenz, Stratum-Abfrage, Update, E-Mail</text>
+<text class="m" x="500" y="565" text-anchor="middle">Latency, Stratum probe, update, email</text>
 
 <!-- Legend -->
-<path class="ln" d="M32 626H62"/><text class="m" x="72" y="630">Verbindungen der Apps</text>
-<path class="la" d="M240 626H270"/><text class="m" x="280" y="630">Verbindung der Miner</text>
-<text class="m" x="1008" y="630" text-anchor="end">Keine Telemetrie: Das Diagnose-Log verlässt das Gerät nur per Export.</text>
+<path class="ln" d="M32 626H62"/><text class="m" x="72" y="630">Connections of the apps</text>
+<path class="la" d="M240 626H270"/><text class="m" x="280" y="630">Connection of the miners</text>
+<text class="m" x="1008" y="630" text-anchor="end">No telemetry: the diagnostic log leaves the device only by export.</text>
 </svg>

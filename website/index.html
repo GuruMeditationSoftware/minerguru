@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MinerGuru – Bitaxe &amp; NerdQAxe app for Mac, Windows and Android</title>
-<meta name="description" content="Free app to monitor and control Bitaxe and NerdQAxe miners on Mac, Windows and Android: live hashrate, widgets, alerts and pool switching. No account.">
+<meta name="description" content="Free, open-source app to monitor and control Bitaxe and NerdQAxe miners on Mac, Windows and Android: live hashrate, widgets, alerts and pool switching.">
 <link rel="canonical" href="https://minerguru.github.io/">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
@@ -14,7 +14,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="MinerGuru">
 <meta property="og:title" content="MinerGuru – the most beautiful app for Bitaxe and NerdQAxe">
-<meta property="og:description" content="Monitor and control your Bitaxe and NerdQAxe miners on Mac, Windows and Android. Live hashrate, widgets, alerts and pool switching. Free, no account.">
+<meta property="og:description" content="Monitor and control your Bitaxe and NerdQAxe miners on Mac, Windows and Android. Live hashrate, widgets, alerts and pool switching. Free and open source, no account.">
 <meta property="og:url" content="https://minerguru.github.io/">
 <meta property="og:image" content="https://minerguru.github.io/img/social.png">
 <meta property="og:image:width" content="1200">
@@ -38,7 +38,7 @@
       "@id": "https://minerguru.github.io/#app",
       "name": "MinerGuru",
       "url": "https://minerguru.github.io/",
-      "description": "Free app to monitor and control Bitaxe and NerdQAxe Bitcoin miners running AxeOS or NerdOS: network scan, live hashrate, widgets, alerts, pool management, solo mining odds, history, maintenance and reports.",
+      "description": "Free, open-source app to monitor and control Bitaxe and NerdQAxe Bitcoin miners running AxeOS or NerdOS: network scan, live hashrate, widgets, alerts, pool management, solo mining odds, history, maintenance and reports.",
       "applicationCategory": "UtilitiesApplication",
       "operatingSystem": ["macOS 14", "Windows 11", "Android"],
       "isAccessibleForFree": true,
@@ -230,6 +230,7 @@
   .platform li b { color: var(--ink); font-weight: 500; }
   .platform .note { margin: 0; padding-top: 16px; border-top: 1px solid var(--line); color: var(--ink-3); font-size: 13px; }
   .platform .notes { display: flex; flex-direction: column; gap: 16px; }
+  .platform .note .mono { overflow-wrap: anywhere; }
   /* Side by side, both cards share their rows, so the download buttons line up although only Android has a note below */
   @supports (grid-template-rows: subgrid) {
     @media (min-width: 861px) {
@@ -238,6 +239,7 @@
     }
   }
   .fine { margin: 24px 0 0; color: var(--ink-3); font-size: 13px; }
+  .fine + .fine { margin-top: 6px; }
 
   /* Widgets: one column per platform, each widget a row on a hairline */
   .wgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
@@ -311,7 +313,7 @@
 
 <header class="hero">
   <div class="wrap">
-    <p class="eyebrow rise"><span class="led"></span>Free for Mac, Windows and Android · No account</p>
+    <p class="eyebrow rise"><span class="led"></span>Free and open source · No account</p>
     <h1 class="rise d1">The most beautiful app for your Bitaxe and NerdQAxe miners</h1>
     <p class="tagline rise d1">Find every miner on your network, watch hashrate and temperatures live, tune clocks and switch pools. A native Mac app that lives in your menu bar, with siblings on Windows and on your Android phone.</p>
 
@@ -514,7 +516,7 @@
   <section id="download">
     <div class="head">
       <h2>Download</h2>
-      <p class="lead">Straight from the developer, without an app store or an account. All apps are free.</p>
+      <p class="lead">Straight from the developer, without an app store or an account. All apps are free and open source under the MIT license.</p>
     </div>
     <div class="platforms">
       <div class="platform">
@@ -546,11 +548,12 @@
         <a class="dl" href="https://github.com/GuruMeditationSoftware/minerguru-android/releases/latest/download/MinerGuru.apk"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg><span><b>Download for Android</b><small>MinerGuru.apk</small></span></a>
         <div class="notes">
           <p class="note">MinerGuru is published anonymously, so Google has not verified its developer. Where Google enforces this, Android refuses the install until you allow it once: in <b>Developer options</b> turn on <b>Apps from unverified developers</b>, restart and wait 24 hours. That applies in Brazil, Indonesia, Singapore and Thailand since September 2026, and Google plans to extend it worldwide. Installing with <span class="mono">adb</span> works without this step.</p>
-          <p class="note">Want updates automatically? Add <span class="mono">github.com/GuruMeditationSoftware/minerguru-android</span> in <a href="https://github.com/ImranR98/Obtainium">Obtainium</a>.</p>
+          <p class="note">Want updates automatically? Add <span class="mono">github.com/<wbr>GuruMeditationSoftware/<wbr>minerguru-android</span> in <a href="https://github.com/ImranR98/Obtainium">Obtainium</a>.</p>
         </div>
       </div>
     </div>
     <p class="fine">Release notes and SHA-256 checksums: <a href="https://github.com/GuruMeditationSoftware/minerguru/releases">Mac</a> · <a href="https://github.com/GuruMeditationSoftware/minerguru-windows/releases">Windows</a> · <a href="https://github.com/GuruMeditationSoftware/minerguru-android/releases">Android</a></p>
+    <p class="fine">Source code with build instructions: <a href="https://github.com/GuruMeditationSoftware/minerguru">Mac</a> · <a href="https://github.com/GuruMeditationSoftware/minerguru-windows">Windows</a> · <a href="https://github.com/GuruMeditationSoftware/minerguru-android">Android</a></p>
   </section>
 
   <section id="donate">
@@ -582,7 +585,7 @@
 <footer>
   <p class="love">Made with <span aria-label="love" role="img">♥</span> in Cryptospace</p>
   <div class="wrap">
-    <span>Made by GuruMeditation · Free to use, see the <a href="LICENSE.txt">license</a> · <a href="https://github.com/GuruMeditationSoftware/minerguru/issues">Feedback on GitHub</a></span>
+    <span>Made by GuruMeditation · Open source under the <a href="LICENSE.txt">MIT license</a> · <a href="https://github.com/GuruMeditationSoftware/minerguru/issues">Feedback on GitHub</a></span>
     <span>MinerGuru is an independent project and not affiliated with Bitaxe, NerdMiner, Apple, Microsoft or Google.</span>
     <span>Mac is a trademark of Apple Inc. Windows is a trademark of Microsoft Corporation. Android is a trademark of Google LLC.</span>
   </div>

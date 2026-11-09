@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 648" width="1040" height="648" role="img" aria-labelledby="t d">
-<title id="t">MinerGuru: Eine Abfragerunde</title>
-<desc id="d">Ein Takt startet die Runde. Alle Miner werden gleichzeitig abgefragt, die Ergebnisse übernommen und an fünf Abnehmer weitergereicht: Langzeit-Verlauf, Wächter und Warnungen, Wartung, Widget-Schnappschuss und Zeitpläne. Danach wartet die App das Intervall ab.</desc>
+<title id="t">MinerGuru: a poll cycle</title>
+<desc id="d">A tick starts the cycle. All miners are polled at the same time, the results are applied and handed to five consumers: long-term history, watchdog and alerts, maintenance, widget snapshot and schedules. Then the app waits for the interval.</desc>
 <style>
 text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,Helvetica,Arial,sans-serif;fill:#1d1d1f}
 .h{font-size:19px;font-weight:650}.b{font-size:14px;font-weight:600}.m{font-size:12.5px;fill:#6e6e73}
@@ -21,45 +21,45 @@ text{fill:#f2f2f3}.m{fill:#a1a1a6}.c{fill:#d1d1d6}.n{fill:#141415}
 <marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="aa" d="M0,1 L10,5 L0,9 z"/></marker>
 </defs>
 <rect class="bg" x="0.5" y="0.5" width="1039" height="647" rx="16"/>
-<text class="h" x="32" y="46">Eine Abfragerunde</text>
-<text class="m" x="32" y="70">Gleicher Ablauf in allen drei Apps: alle Miner gleichzeitig fragen, Ergebnis übernehmen, an fünf Abnehmer weiterreichen.</text>
+<text class="h" x="32" y="46">A poll cycle</text>
+<text class="m" x="32" y="70">The same flow in all three apps: poll all miners at once, apply the result, hand it to five consumers.</text>
 
 <!-- 1 Takt -->
 <rect class="card" x="32" y="263" width="190" height="130" rx="10"/>
 <circle class="badge" cx="58" cy="286" r="11"/><text class="n" x="58" y="290" text-anchor="middle">1</text>
-<text class="b" x="78" y="291">Takt</text>
-<text class="m" x="48" y="318">Intervall, Standard 5 s,</text>
-<text class="m" x="48" y="338">mindestens 2 s</text>
-<text class="m" x="48" y="362">Android im Hintergrund:</text>
-<text class="m" x="48" y="382">60 s oder etwa 15 min</text>
+<text class="b" x="78" y="291">Tick</text>
+<text class="m" x="48" y="318">Interval, default 5 s,</text>
+<text class="m" x="48" y="338">at least 2 s</text>
+<text class="m" x="48" y="362">Android in the background:</text>
+<text class="m" x="48" y="382">60 s or about 15 min</text>
 <path class="ln" d="M222 328H248" marker-end="url(#ah)"/>
 
 <!-- 2 Fetch -->
 <rect class="card" x="250" y="208" width="232" height="240" rx="10"/>
 <circle class="badge" cx="276" cy="231" r="11"/><text class="n" x="276" y="235" text-anchor="middle">2</text>
-<text class="b" x="296" y="236">Alle Miner gleichzeitig</text>
+<text class="b" x="296" y="236">All miners at once</text>
 <rect class="raised" x="266" y="252" width="200" height="46" rx="8"/>
 <circle class="on" cx="448" cy="275" r="4.5"/>
-<text class="b" x="280" y="271">Miner 1</text><text class="m" x="280" y="289">Systeminfo + Pool-Latenz</text>
+<text class="b" x="280" y="271">Miner 1</text><text class="m" x="280" y="289">System info + pool latency</text>
 <rect class="raised" x="266" y="306" width="200" height="46" rx="8"/>
 <circle class="on" cx="448" cy="329" r="4.5"/>
-<text class="b" x="280" y="325">Miner 2</text><text class="m" x="280" y="343">Systeminfo + Pool-Latenz</text>
+<text class="b" x="280" y="325">Miner 2</text><text class="m" x="280" y="343">System info + pool latency</text>
 <rect class="raised" x="266" y="360" width="200" height="46" rx="8"/>
 <circle class="off" cx="448" cy="383" r="4.5"/>
-<text class="b" x="280" y="379">Miner n</text><text class="m" x="280" y="397">keine Antwort: offline</text>
-<text class="m" x="266" y="432">Kein Fehler hält die Runde auf.</text>
+<text class="b" x="280" y="379">Miner n</text><text class="m" x="280" y="397">no answer: offline</text>
+<text class="m" x="266" y="432">No error holds up the cycle.</text>
 <path class="ln" d="M482 328H508" marker-end="url(#ah)"/>
 
 <!-- 3 Apply -->
 <rect class="card" x="510" y="238" width="200" height="180" rx="10"/>
 <circle class="badge" cx="536" cy="261" r="11"/><text class="n" x="536" y="265" text-anchor="middle">3</text>
-<text class="b" x="556" y="266">Übernehmen</text>
-<text class="m" x="526" y="292">Zustand und Messwerte,</text>
-<text class="m" x="526" y="312">Kurzverlauf (240 Punkte)</text>
-<text class="m" x="526" y="336">Name oder Modell neu:</text>
-<text class="m" x="526" y="356">Miner-Liste speichern</text>
-<text class="m" x="526" y="380">Oberfläche zeichnet</text>
-<text class="m" x="526" y="400">einmal pro Runde neu</text>
+<text class="b" x="556" y="266">Apply</text>
+<text class="m" x="526" y="292">State and readings,</text>
+<text class="m" x="526" y="312">short history (240 points)</text>
+<text class="m" x="526" y="336">New name or model:</text>
+<text class="m" x="526" y="356">save the miner list</text>
+<text class="m" x="526" y="380">The UI redraws</text>
+<text class="m" x="526" y="400">once per cycle</text>
 
 <!-- Fan-out -->
 <path class="ln" d="M710 328H728M728 144V512"/>
@@ -71,33 +71,33 @@ text{fill:#f2f2f3}.m{fill:#a1a1a6}.c{fill:#d1d1d6}.n{fill:#141415}
 
 <!-- 4 Consumers -->
 <rect class="card" x="746" y="104" width="262" height="80" rx="10"/>
-<text class="b" x="764" y="130">Langzeit-Verlauf</text>
-<text class="m" x="764" y="152">SQLite: Minutenwerte für 14 Tage,</text>
-<text class="m" x="764" y="171">Stundenwerte für 3 Jahre</text>
+<text class="b" x="764" y="130">Long-term history</text>
+<text class="m" x="764" y="152">SQLite: minute values for 14 days,</text>
+<text class="m" x="764" y="171">hourly values for 3 years</text>
 
 <rect class="card" x="746" y="196" width="262" height="80" rx="10"/>
-<text class="b" x="764" y="222">Wächter und Warnungen</text>
-<text class="m" x="764" y="244">offline, Hitze, Flatline, Fallback,</text>
-<text class="m" x="764" y="263">Neustart, Auszahlungsadresse</text>
+<text class="b" x="764" y="222">Watchdog and alerts</text>
+<text class="m" x="764" y="244">offline, heat, flatline, fallback,</text>
+<text class="m" x="764" y="263">restart, payout address</text>
 
 <rect class="card" x="746" y="288" width="262" height="80" rx="10"/>
-<text class="b" x="764" y="314">Wartung</text>
-<text class="m" x="764" y="336">fällige Aufgaben als Erinnerung,</text>
-<text class="m" x="764" y="355">höchstens einmal am Tag</text>
+<text class="b" x="764" y="314">Maintenance</text>
+<text class="m" x="764" y="336">reminders for due tasks,</text>
+<text class="m" x="764" y="355">at most once a day</text>
 
 <rect class="card" x="746" y="380" width="262" height="80" rx="10"/>
-<text class="b" x="764" y="406">Widget-Schnappschuss</text>
-<text class="m" x="764" y="428">snapshot.json für die Widgets;</text>
-<text class="m" x="764" y="447">Wechsel sofort, Werte jede Minute</text>
+<text class="b" x="764" y="406">Widget snapshot</text>
+<text class="m" x="764" y="428">snapshot.json for the widgets;</text>
+<text class="m" x="764" y="447">changes at once, values every minute</text>
 
 <rect class="hot" x="746" y="472" width="262" height="80" rx="10"/>
-<text class="b" x="764" y="498">Zeitpläne, ohne zu warten</text>
-<text class="m" x="764" y="520">Strom: Pause, Nachtmodus, Tarif</text>
-<text class="m" x="764" y="539">Pool-Wechsel über den Schreibweg</text>
+<text class="b" x="764" y="498">Schedules, without waiting</text>
+<text class="m" x="764" y="520">Power: pause, night mode, tariff</text>
+<text class="m" x="764" y="539">Pool switches through the write path</text>
 
 <!-- Loop back -->
 <path class="ln" d="M610 418V588H116V395" marker-end="url(#ah)"/>
-<text class="m" x="363" y="580" text-anchor="middle">Intervall abwarten, dann die nächste Runde</text>
+<text class="m" x="363" y="580" text-anchor="middle">Wait for the interval, then the next cycle</text>
 
-<text class="m" x="32" y="626">Im Code: Mac und Android <tspan class="c">MinerStore.refreshAllMiners()</tspan>, Android im Hintergrund <tspan class="c">MinerMonitor.pollOnce()</tspan>, Windows <tspan class="c">MinerStore.RefreshAllAsync()</tspan></text>
+<text class="m" x="32" y="626">In code: Mac and Android <tspan class="c">MinerStore.refreshAllMiners()</tspan>, Android in the background <tspan class="c">MinerMonitor.pollOnce()</tspan>, Windows <tspan class="c">MinerStore.RefreshAllAsync()</tspan></text>
 </svg>

@@ -20,4 +20,4 @@ Welcome, above all for miner models and firmware versions MinerGuru does not kno
 
 ## Developer documentation
 
-In German: [docs/ENTWICKLUNG.md](docs/ENTWICKLUNG.md), [docs/ARCHITEKTUR.md](docs/ARCHITEKTUR.md) and [docs/GRUNDLAGEN.md](docs/GRUNDLAGEN.md).
+[docs/DEVELOPMENT.md](docs/DEVELOPMENT.md), [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), [docs/FUNDAMENTALS.md](docs/FUNDAMENTALS.md) and [docs/RELEASE.md](docs/RELEASE.md).
