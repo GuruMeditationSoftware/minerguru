@@ -9,9 +9,9 @@ struct UpdateBanner: View {
             HStack(spacing: 10) {
                 Image(systemName: "arrow.down.circle")
                     .foregroundStyle(Accent.color)
-                Text("MinerGuru \(version) ist verfügbar")
+                Text("MinerGuru \(version) is available")
                 Spacer()
-                Link("Zum Download", destination: AppInfo.releasesURL)
+                Link("Go to download", destination: AppInfo.releasesURL)
                 Button {
                     updates.dismissBanner()
                 } label: {
@@ -19,8 +19,8 @@ struct UpdateBanner: View {
                         .font(.caption)
                 }
                 .buttonStyle(.borderless)
-                .help("Ausblenden")
-                .accessibilityLabel("Ausblenden")
+                .help("Dismiss")
+                .accessibilityLabel("Dismiss")
             }
             .font(.callout)
             .panel(padding: 12)

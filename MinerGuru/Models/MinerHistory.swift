@@ -52,11 +52,11 @@ enum HistoryRange: String, CaseIterable, Identifiable, Sendable {
 
     var title: String {
         switch self {
-        case .day: String(localized: "24 Std.")
-        case .week: String(localized: "7 Tage")
-        case .month: String(localized: "30 Tage")
-        case .quarter: String(localized: "90 Tage")
-        case .year: String(localized: "1 Jahr")
+        case .day: String(localized: "24 hrs")
+        case .week: String(localized: "7 days")
+        case .month: String(localized: "30 days")
+        case .quarter: String(localized: "90 days")
+        case .year: String(localized: "1 year")
         }
     }
 }
@@ -69,10 +69,10 @@ enum HistoryMetric: String, CaseIterable, Identifiable, Sendable {
     var title: String {
         switch self {
         case .hashrate: String(localized: "Hashrate")
-        case .temperature: String(localized: "Temperatur")
-        case .efficiency: String(localized: "Effizienz")
-        case .power: String(localized: "Leistung")
-        case .errors: String(localized: "Fehlerquote")
+        case .temperature: String(localized: "Temperature")
+        case .efficiency: String(localized: "Efficiency")
+        case .power: String(localized: "Power")
+        case .errors: String(localized: "Error rate")
         }
     }
 

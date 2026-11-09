@@ -21,7 +21,7 @@ struct MinerKPIGrid: View {
                 tint: miner.isNerdOS ? .purple : .orange
             )
             MetricCardView(
-                title: "ASIC Temperatur",
+                title: "ASIC Temperature",
                 value: String(format: "%.1f", info.temp),
                 unit: "°C",
                 subtitle: info.coolingText(warningThresholdC: tempWarningThresholdC),
@@ -30,7 +30,7 @@ struct MinerKPIGrid: View {
                 warning: isHighTemp || info.overheatMode
             )
             MetricCardView(
-                title: "Verbrauch",
+                title: "Power Draw",
                 value: String(format: "%.1f", info.power),
                 unit: "W",
                 subtitle: info.powerDetailText,
@@ -38,7 +38,7 @@ struct MinerKPIGrid: View {
                 tint: .yellow
             )
             MetricCardView(
-                title: "Effizienz",
+                title: "Efficiency",
                 value: info.efficiencyJPerTH > 0 ? String(format: "%.1f", info.efficiencyJPerTH) : "—",
                 unit: "J/TH",
                 subtitle: info.dailyEnergyText,
@@ -46,7 +46,7 @@ struct MinerKPIGrid: View {
                 tint: .green
             )
             MetricCardView(
-                title: "Kühlung & Lüfter",
+                title: "Cooling & Fan",
                 value: info.fanPercentText,
                 unit: "%",
                 subtitle: info.fanRPMText,
@@ -54,7 +54,7 @@ struct MinerKPIGrid: View {
                 tint: .blue
             )
             MetricCardView(
-                title: "ASIC Takt & VCore",
+                title: "ASIC Clock & VCore",
                 value: "\(info.frequencyMHz)",
                 unit: "MHz",
                 subtitle: info.coreVoltageText,
@@ -62,7 +62,7 @@ struct MinerKPIGrid: View {
                 tint: .teal
             )
             MetricCardView(
-                title: info.isDualPoolMining ? "Pool-Latenz (Dual RTT)" : "Pool-Latenz (RTT)",
+                title: info.isDualPoolMining ? "Pool Latency (Dual RTT)" : "Pool Latency (RTT)",
                 value: latencyMs.map { String(format: "%.0f", $0) } ?? "—",
                 unit: latencyMs != nil ? "ms" : nil,
                 subtitle: miner.poolLatencyDetailText,
@@ -70,9 +70,9 @@ struct MinerKPIGrid: View {
                 tint: LatencyQuality.evaluate(latencyMs).color
             )
             MetricCardView(
-                title: "Best Diff (seit Neustart)",
+                title: "Best Diff (since restart)",
                 value: info.sessionBestDiffText,
-                subtitle: String(localized: "Allzeit-Best: \(info.bestDiffFormatted)"),
+                subtitle: String(localized: "All-time best: \(info.bestDiffFormatted)"),
                 systemImage: "trophy.fill",
                 tint: .indigo
             )

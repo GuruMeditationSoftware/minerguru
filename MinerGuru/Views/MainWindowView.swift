@@ -69,7 +69,7 @@ struct MainWindowView: View {
 
                 sidebarGroup(nil) {
                     SidebarNavRow(
-                        title: "Flotte",
+                        title: "Fleet",
                         systemImage: "square.grid.2x2",
                         trailing: store.onlineMiners.isEmpty ? nil : MinerFormatting.formatHashrate(store.totalHashrateGHs),
                         isSelected: store.selection == .overview || store.selection == nil
@@ -89,7 +89,7 @@ struct MainWindowView: View {
                     .keyboardShortcut("2", modifiers: .command)
 
                     SidebarNavRow(
-                        title: "Strom",
+                        title: "Power (section)",
                         systemImage: "bolt",
                         trailing: store.onlineMiners.isEmpty ? nil : String(format: "%.0f W", store.totalPowerWatts),
                         isSelected: store.selection == .power
@@ -99,7 +99,7 @@ struct MainWindowView: View {
                     .keyboardShortcut("3", modifiers: .command)
 
                     SidebarNavRow(
-                        title: "Wartung",
+                        title: "Maintenance",
                         systemImage: "wrench.and.screwdriver",
                         trailing: maintenanceDueCount > 0 ? String(maintenanceDueCount) : nil,
                         isSelected: store.selection == .maintenance
@@ -109,7 +109,7 @@ struct MainWindowView: View {
                     .keyboardShortcut("4", modifiers: .command)
 
                     SidebarNavRow(
-                        title: "Berichte",
+                        title: "Reports",
                         systemImage: "doc.text",
                         trailing: nil,
                         isSelected: store.selection == .reports
@@ -120,7 +120,7 @@ struct MainWindowView: View {
                 }
 
                 if !store.miners.isEmpty {
-                    sidebarGroup("Miner", count: store.miners.count) {
+                    sidebarGroup("Miners", count: store.miners.count) {
                         ForEach(store.miners) { miner in
                             SidebarMinerRow(
                                 miner: miner,
@@ -135,13 +135,13 @@ struct MainWindowView: View {
                                         NSWorkspace.shared.open(url)
                                     }
                                 } label: {
-                                    Label("Im Browser öffnen", systemImage: "safari")
+                                    Label("Open in Browser", systemImage: "safari")
                                 }
 
                                 Button {
                                     Task { await store.refreshMiner(id: miner.id) }
                                 } label: {
-                                    Label("Jetzt aktualisieren", systemImage: "arrow.clockwise")
+                                    Label("Refresh Now", systemImage: "arrow.clockwise")
                                 }
 
                                 Divider()
@@ -149,7 +149,7 @@ struct MainWindowView: View {
                                 Button(role: .destructive) {
                                     store.removeMiner(id: miner.id)
                                 } label: {
-                                    Label("Miner entfernen", systemImage: "trash")
+                                    Label("Remove Miner", systemImage: "trash")
                                 }
                             }
                         }
@@ -168,25 +168,25 @@ struct MainWindowView: View {
                         Image(systemName: "gearshape")
                             .frame(width: 28, height: 28)
                     }
-                    .help("Einstellungen öffnen")
+                    .help("Open Settings")
 
                     Button {
                         store.showAddIPSheet = true
                     } label: {
-                        Label("Per IP", systemImage: "plus")
+                        Label("By IP", systemImage: "plus")
                             .padding(.horizontal, 8)
                             .frame(height: 28)
                     }
-                    .help("Miner per IP-Adresse hinzufügen")
+                    .help("Add miner by IP address")
 
                     Button {
                         store.showScannerSheet = true
                     } label: {
-                        Label("Scannen", systemImage: "dot.radiowaves.left.and.right")
+                        Label("Scan", systemImage: "dot.radiowaves.left.and.right")
                             .padding(.horizontal, 8)
                             .frame(height: 28)
                     }
-                    .help("Lokales Netzwerk automatisch nach Minern durchsuchen")
+                    .help("Search the local network for miners automatically")
 
                     Spacer()
 
@@ -197,7 +197,7 @@ struct MainWindowView: View {
                             .frame(width: 28, height: 28)
                     }
                     .disabled(store.isRefreshingAll)
-                    .help("Alle Miner jetzt aktualisieren")
+                    .help("Refresh All Miners Now")
                 }
                 .buttonStyle(.borderless)
                 .font(.system(size: 12))

@@ -148,8 +148,8 @@ struct DeviceCardView: View {
 
     private static func accessibilityText(_ led: LED) -> Text {
         switch led.state {
-        case .online: return led.isHighTemp ? Text("Online, Temperatur hoch") : Text("Online")
-        case .checking, .unknown: return Text("Verbindung wird geprüft")
+        case .online: return led.isHighTemp ? Text("Online, temperature high") : Text("Online")
+        case .checking, .unknown: return Text("Checking connection")
         case .offline: return Text("Offline")
         }
     }

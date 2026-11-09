@@ -145,7 +145,7 @@ struct PoolLibraryTests {
         #expect(library.config(id: pool.id)?.user == "bc1q.rig2")
 
         let copy = try? #require(library.duplicate(id: pool.id))
-        #expect(copy?.name == "OCEAN Kopie")
+        #expect(copy?.name == "OCEAN Copy")
         #expect(library.pools.count == 2)
 
         library.remove(id: pool.id)

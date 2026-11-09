@@ -14,12 +14,12 @@ enum SoloChanceTimeframe: String, CaseIterable, Identifiable, Codable, Sendable 
 
     var title: String {
         switch self {
-        case .perBlock: return String(localized: "Pro Block")
-        case .perHour:  return String(localized: "Pro Stunde")
-        case .perDay:   return String(localized: "Pro Tag")
-        case .perWeek:  return String(localized: "Pro Woche")
-        case .perMonth: return String(localized: "Pro Monat")
-        case .perYear:  return String(localized: "Pro Jahr")
+        case .perBlock: return String(localized: "Per Block")
+        case .perHour:  return String(localized: "Per Hour")
+        case .perDay:   return String(localized: "Per Day")
+        case .perWeek:  return String(localized: "Per Week")
+        case .perMonth: return String(localized: "Per Month")
+        case .perYear:  return String(localized: "Per Year")
         }
     }
 
@@ -165,9 +165,9 @@ struct FleetCoinMiningSummary: Identifiable, Sendable, Equatable {
         let oneIn = max(1.0, (1.0 / p).rounded())
 
         if oneIn >= 1_000_000_000 {
-            return String(localized: "1 : \(DisplayFormat.decimal(oneIn / 1_000_000_000.0, fractionDigits: 2)) Mrd.")
+            return String(localized: "1 : \(DisplayFormat.decimal(oneIn / 1_000_000_000.0, fractionDigits: 2)) B")
         } else if oneIn >= 10_000_000 {
-            return String(localized: "1 : \(DisplayFormat.decimal(oneIn / 1_000_000.0, fractionDigits: 1)) Mio.")
+            return String(localized: "1 : \(DisplayFormat.decimal(oneIn / 1_000_000.0, fractionDigits: 1)) M")
         }
         return "1 : \(DisplayFormat.decimal(oneIn, fractionDigits: 0))"
     }
@@ -178,15 +178,15 @@ struct FleetCoinMiningSummary: Identifiable, Sendable, Equatable {
         guard lambdaPerDay > 0 else { return "—" }
         let days = 1.0 / lambdaPerDay
         if days < 1.0 {
-            return String(localized: "~\(DisplayFormat.decimal(days * 24.0, fractionDigits: 1)) Std.")
+            return String(localized: "~\(DisplayFormat.decimal(days * 24.0, fractionDigits: 1)) h")
         } else if days < 60.0 {
-            return String(localized: "~\(DisplayFormat.decimal(days, fractionDigits: 1)) Tage")
+            return String(localized: "~\(DisplayFormat.decimal(days, fractionDigits: 1)) days")
         }
         let years = days / 365.25
         if years >= 1_000 {
-            return String(localized: "~\(DisplayFormat.decimal(years.rounded(), fractionDigits: 0)) J.")
+            return String(localized: "~\(DisplayFormat.decimal(years.rounded(), fractionDigits: 0)) yrs")
         }
-        return String(localized: "~\(DisplayFormat.decimal(years, fractionDigits: 1)) Jahre")
+        return String(localized: "~\(DisplayFormat.decimal(years, fractionDigits: 1)) years")
     }
 
 }

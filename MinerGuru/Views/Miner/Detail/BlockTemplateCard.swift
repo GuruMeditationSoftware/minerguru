@@ -30,19 +30,19 @@ struct BlockTemplateCard: View {
 
             Grid(alignment: .leading, horizontalSpacing: 28, verticalSpacing: 10) {
                 GridRow {
-                    pair("Blockhöhe", block.height.formatted())
-                    pair("Pool-Kennung", block.poolTag ?? "—")
-                    pair("Belohnung", block.totalSats.map { BlockTemplateSummary.formatCoins($0, coin: block.coin) } ?? "—")
-                    pair("davon Gebühren", block.feesSats.map { BlockTemplateSummary.formatCoins($0, coin: block.coin) } ?? "—")
-                    pair("An deine Adresse", userShareText)
+                    pair("Block height", block.height.formatted())
+                    pair("Pool tag", block.poolTag ?? "—")
+                    pair("Reward", block.totalSats.map { BlockTemplateSummary.formatCoins($0, coin: block.coin) } ?? "—")
+                    pair("of which fees", block.feesSats.map { BlockTemplateSummary.formatCoins($0, coin: block.coin) } ?? "—")
+                    pair("To your address", userShareText)
                 }
             }
 
             if let range = block.transactionRange {
-                Text("Transaktionen im Block: \(Self.rangeText(range))")
+                Text("Transactions in the block: \(Self.rangeText(range))")
                     .font(.caption)
                     .foregroundStyle(.secondary)
-                    .help("Aus der Tiefe des Merkle-Baums: Der Pool nennt nicht die genaue Zahl, nur die Größenordnung.")
+                    .help("From the depth of the merkle tree: the pool does not give the exact number, only the order of magnitude.")
             }
 
             if !block.signals.isEmpty {
@@ -63,8 +63,8 @@ struct BlockTemplateCard: View {
 
     private var caption: LocalizedStringKey {
         block.probedAt == nil
-            ? "Die Vorlage des Pools, an der dein Miner gerade rechnet. Findet er den Block, zahlt die Coinbase so aus wie hier gezeigt. Die übrigen Transaktionen kennt nur der Pool."
-            : "Die Vorlage, die der Pool gerade für deine Adresse baut. Der Miner meldet sie nicht, deshalb hat MinerGuru sie selbst beim Pool abgefragt, ohne mitzurechnen. Findet dein Miner den Block, zahlt die Coinbase so aus wie hier gezeigt."
+            ? "The pool's template your miner is working on right now. If it finds the block, the coinbase pays out as shown here. Only the pool knows the other transactions."
+            : "The template the pool is building for your address right now. The miner does not report it, so MinerGuru fetched it from the pool itself, without mining. If your miner finds the block, the coinbase pays out as shown here."
     }
 
     private func probeFooter(_ probedAt: Date) -> some View {
@@ -72,7 +72,7 @@ struct BlockTemplateCard: View {
             Image(systemName: "antenna.radiowaves.left.and.right")
                 .font(.system(size: 10))
                 .foregroundStyle(.tertiary)
-            Text("Vom Mac beim Pool abgefragt, \(probedAt.formatted(date: .omitted, time: .shortened)) Uhr")
+            Text("Fetched from the pool by this Mac at \(probedAt.formatted(date: .omitted, time: .shortened))")
                 .font(.caption2)
                 .foregroundStyle(.tertiary)
             Spacer(minLength: 8)
@@ -80,7 +80,7 @@ struct BlockTemplateCard: View {
                 ProgressView()
                     .controlSize(.mini)
             } else if let onRefresh {
-                Button("Neu abfragen", action: onRefresh)
+                Button("Fetch again", action: onRefresh)
                     .controlSize(.small)
             }
         }
@@ -101,7 +101,7 @@ struct BlockTemplateCard: View {
 
     private var signalsRow: some View {
         HStack(spacing: 8) {
-            Text("Signalisiert:")
+            Text("Signals:")
                 .font(.caption)
                 .foregroundStyle(.secondary)
             ForEach(block.signals, id: \.self) { signal in
@@ -118,13 +118,13 @@ struct BlockTemplateCard: View {
     @ViewBuilder
     private var outputsSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Empfänger der Belohnung")
+            Text("Reward recipients")
                 .sectionLabelStyle()
 
             if block.payoutState == .decodingOff {
                 decodingOffHint
             } else if block.outputs.isEmpty {
-                Text("Der Miner hat noch keine Empfänger gemeldet.")
+                Text("The miner has not reported any recipients yet.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             } else {
@@ -154,15 +154,15 @@ struct BlockTemplateCard: View {
                     .truncationMode(.middle)
                     .textSelection(.enabled)
                 if output.isUserOutput {
-                    Text("Deine Adresse")
+                    Text("Your address")
                         .font(.caption2)
                         .foregroundStyle(Signal.good)
                 } else if output.isWitnessCommitment {
-                    Text("SegWit-Prüfsumme, keine Auszahlung")
+                    Text("SegWit commitment, no payout")
                         .font(.caption2)
                         .foregroundStyle(.tertiary)
                 } else if output.isDataOutput {
-                    Text("Daten, keine Auszahlung")
+                    Text("Data, no payout")
                         .font(.caption2)
                         .foregroundStyle(.tertiary)
                 }
@@ -185,7 +185,7 @@ struct BlockTemplateCard: View {
                 .font(.system(size: 11))
                 .foregroundStyle(.secondary)
                 .frame(width: 16)
-            Text("\(block.othersCount) weitere Empfänger")
+            Text("\(block.othersCount) more recipients")
                 .font(.caption)
                 .foregroundStyle(.secondary)
             Spacer(minLength: 12)
@@ -222,14 +222,14 @@ struct BlockTemplateCard: View {
             Image(systemName: "info.circle")
                 .foregroundStyle(.secondary)
             VStack(alignment: .leading, spacing: 6) {
-                Text("Coinbase-Dekodierung ist für den aktiven Pool aus.")
+                Text("Coinbase decoding is off for the active pool.")
                     .font(.subheadline.weight(.medium))
-                Text("Ohne sie meldet der Miner nicht, wer die Belohnung bekommt, und prüft deine Adresse nicht. Du kannst sie in der Weboberfläche des Miners bei den Pool-Einstellungen einschalten.")
+                Text("Without it the miner does not report who gets the reward and does not check your address. You can turn it on in the miner's web interface under the pool settings.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
                 if let onOpenWebInterface {
-                    Button("Weboberfläche öffnen", action: onOpenWebInterface)
+                    Button("Open web interface", action: onOpenWebInterface)
                         .controlSize(.small)
                 }
             }
@@ -254,9 +254,9 @@ struct BlockTemplateCard: View {
 
     static func signalHelp(_ signal: String) -> String {
         switch signal {
-        case "BIP-54": return String(localized: "BIP-54 (Consensus Cleanup): Der Pool zeigt Unterstützung für diese Soft-Fork.")
-        case "BIP-110": return String(localized: "BIP-110 (Reduced Data): Der Pool zeigt Unterstützung für diese Soft-Fork.")
-        default: return String(localized: "Der Pool zeigt in diesem Block Unterstützung für eine Protokolländerung.")
+        case "BIP-54": return String(localized: "BIP-54 (Consensus Cleanup): the pool signals support for this soft fork.")
+        case "BIP-110": return String(localized: "BIP-110 (Reduced Data): the pool signals support for this soft fork.")
+        default: return String(localized: "The pool signals support for a protocol change in this block.")
         }
     }
 }
@@ -267,7 +267,7 @@ struct BlockCardTitle: View {
 
     var body: some View {
         HStack(spacing: 6) {
-            Label("Aktueller Block", systemImage: "cube")
+            Label("Current block", systemImage: "cube")
             if let poolLabel {
                 Text(verbatim: "· \(poolLabel)")
                     .foregroundStyle(.secondary)
@@ -307,26 +307,26 @@ private struct PayoutStateBadge: View {
 
     private var title: LocalizedStringKey {
         switch state {
-        case .verified: return "Deine Adresse ist im Block"
-        case .notFound: return "Deine Adresse fehlt"
-        case .notApplicable: return "Konto-Pool"
-        case .decodingOff: return "Nicht geprüft"
-        case .unknown: return "Noch keine Daten"
+        case .verified: return "Your address is in the block"
+        case .notFound: return "Your address is missing"
+        case .notApplicable: return "Account pool"
+        case .decodingOff: return "Not checked"
+        case .unknown: return "No data yet"
         }
     }
 
     private var help: String {
         switch state {
         case .verified:
-            return String(localized: "Die Coinbase zahlt an die Adresse aus deinem Pool-User.")
+            return String(localized: "The coinbase pays the address from your pool user.")
         case .notFound:
-            return String(localized: "Im Pool-User steht eine Adresse, aber kein Empfänger im Block passt dazu. Findet dein Miner diesen Block, geht die Belohnung an andere.")
+            return String(localized: "Your pool user contains an address, but no recipient in the block matches it. If your miner finds this block, the reward goes to someone else.")
         case .notApplicable:
-            return String(localized: "Im Pool-User steht keine Adresse, sondern ein Kontoname. Der Pool zahlt dann selbst aus, im Block steht nur seine Adresse.")
+            return String(localized: "Your pool user is an account name, not an address. The pool pays out itself, so only its own address is in the block.")
         case .decodingOff:
-            return String(localized: "Coinbase-Dekodierung ist aus, der Miner prüft die Auszahlung nicht.")
+            return String(localized: "Coinbase decoding is off, so the miner does not check the payout.")
         case .unknown:
-            return String(localized: "Der Miner hat noch keinen Auftrag dekodiert.")
+            return String(localized: "The miner has not decoded a job yet.")
         }
     }
 }

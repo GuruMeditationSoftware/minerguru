@@ -38,7 +38,7 @@ struct MenuBarView: View {
             .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { topHeight = $0 }
 
             if store.miners.isEmpty {
-                Text("Noch keine Miner eingerichtet.")
+                Text("No miners set up yet.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             } else {
@@ -66,7 +66,7 @@ struct MenuBarView: View {
             Spacer()
             HStack(spacing: 6) {
                 StatusBlock(state: store.onlineMiners.isEmpty ? .offline(reason: "") : .online, size: 7)
-                Text("\(store.onlineMiners.count)/\(store.miners.count) Online")
+                Text("\(store.onlineMiners.count)/\(store.miners.count) online")
                     .foregroundStyle(.secondary)
             }
             .font(.caption.weight(.medium))
@@ -84,7 +84,7 @@ struct MenuBarView: View {
             }
             Divider().frame(height: 24)
             VStack(alignment: .leading, spacing: 2) {
-                Text("Leistung")
+                Text("Power")
                     .font(.caption2)
                     .foregroundStyle(.secondary)
                 Text(String(format: "%.1f W", store.totalPowerWatts))
@@ -110,7 +110,7 @@ struct MenuBarView: View {
         // Four figures share 280 points; a large fleet's hashrate shrinks a little rather than end in "…".
         .lineLimit(1)
         .minimumScaleFactor(0.8)
-        .help("Best Diff: höchste Difficulty seit dem letzten Neustart der Miner")
+        .help("Best Diff: highest difficulty since the miners' last restart")
         .padding(12)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(.quinary, in: RoundedRectangle(cornerRadius: 8))
@@ -148,7 +148,7 @@ struct MenuBarView: View {
                 openWindow(id: "main")
                 NSApp.activate(ignoringOtherApps: true)
             } label: {
-                Label("Dashboard öffnen", systemImage: "macwindow")
+                Label("Open Dashboard", systemImage: "macwindow")
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.borderedProminent)
@@ -161,7 +161,7 @@ struct MenuBarView: View {
             }
             .buttonStyle(.bordered)
             .controlSize(.small)
-            .help("Jetzt aktualisieren")
+            .help("Refresh Now")
 
             Button {
                 NSApplication.shared.terminate(nil)
@@ -170,7 +170,7 @@ struct MenuBarView: View {
             }
             .buttonStyle(.bordered)
             .controlSize(.small)
-            .help("MinerGuru beenden")
+            .help("Quit MinerGuru")
         }
     }
 }

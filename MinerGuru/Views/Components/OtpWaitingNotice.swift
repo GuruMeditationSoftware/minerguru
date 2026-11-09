@@ -15,14 +15,14 @@ struct OtpWaitingNotice: View {
         let waiting = store.minersAwaitingOtp
         if !waiting.isEmpty {
             VStack(alignment: .leading, spacing: 6) {
-                Text("Zeitpläne laufen auf diesen Minern nur mit gültiger Sitzung (bis zu 24 Stunden).")
+                Text("Schedules only run on these miners with a valid session (up to 24 hours).")
                     .font(.caption)
                     .foregroundStyle(.secondary)
                 ForEach(waiting) { miner in
                     HStack {
                         Label(miner.displayName, systemImage: "lock")
                         Spacer()
-                        Button("Code eingeben") { enterCode(for: miner) }
+                        Button("Enter code") { enterCode(for: miner) }
                     }
                 }
                 if let problem {

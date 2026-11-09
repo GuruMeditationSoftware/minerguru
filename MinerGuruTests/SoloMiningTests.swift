@@ -58,16 +58,16 @@ struct SoloMiningTests {
 
     @Test func oddsUseMillionsAndBillions() {
         let millions = summary(hashrateGHs: 1_000, difficulty: difficulty(forLambdaPerDay: 1.0 / 156_200_000, hashrateGHs: 1_000))
-        #expect(millions.formattedOddsRatio(for: .perDay) == "1 : 156,2 Mio.")
+        #expect(millions.formattedOddsRatio(for: .perDay) == "1 : 156,2 M")
         let billions = summary(hashrateGHs: 1_000, difficulty: difficulty(forLambdaPerDay: 1.0 / 2_500_000_000, hashrateGHs: 1_000))
-        #expect(billions.formattedOddsRatio(for: .perDay) == "1 : 2,50 Mrd.")
+        #expect(billions.formattedOddsRatio(for: .perDay) == "1 : 2,50 B")
     }
 
     @Test(arguments: [
-        (2.0, "~12,0 Std."),
-        (0.1, "~10,0 Tage"),
-        (1.0 / 730.5, "~2,0 Jahre"),
-        (1.0 / (365.25 * 19_598), "~19.598 J."),
+        (2.0, "~12,0 h"),
+        (0.1, "~10,0 days"),
+        (1.0 / 730.5, "~2,0 years"),
+        (1.0 / (365.25 * 19_598), "~19.598 yrs"),
     ])
     func expectedTimePerBlock(lambdaPerDay: Double, expected: String) {
         let s = summary(hashrateGHs: 1_000, difficulty: difficulty(forLambdaPerDay: lambdaPerDay, hashrateGHs: 1_000))

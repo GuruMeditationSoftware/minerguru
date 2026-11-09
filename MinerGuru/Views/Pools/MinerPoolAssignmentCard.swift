@@ -60,8 +60,8 @@ struct MinerPoolAssignmentCard: View {
 
     private var firmwareDescription: String {
         switch form.poolAPI {
-        case .slots: return "\(redactor.ip(miner.ipAddress)) • " + String(localized: "\(AxeOSPool.slotCount) Pool-Slots")
-        case .legacy: return "\(redactor.ip(miner.ipAddress)) • " + (miner.supportsDualPool ? String(localized: "Failover oder Dual-Pool") : String(localized: "Primär + Fallback"))
+        case .slots: return "\(redactor.ip(miner.ipAddress)) • " + String(localized: "\(AxeOSPool.slotCount) pool slots")
+        case .legacy: return "\(redactor.ip(miner.ipAddress)) • " + (miner.supportsDualPool ? String(localized: "Failover or dual pool") : String(localized: "Primary + fallback"))
         }
     }
 
@@ -69,7 +69,7 @@ struct MinerPoolAssignmentCard: View {
         VStack(alignment: .leading, spacing: 6) {
             Picker("", selection: $form.poolMode) {
                 Text("Failover").tag(MinerSettingsForm.PoolMode.failover)
-                Text("Dual-Pool").tag(MinerSettingsForm.PoolMode.dual)
+                Text("Dual Pool").tag(MinerSettingsForm.PoolMode.dual)
             }
             .pickerStyle(.segmented)
             .labelsHidden()
@@ -122,7 +122,7 @@ struct MinerPoolAssignmentCard: View {
                     Image(systemName: "tray.and.arrow.down")
                 }
                 .buttonStyle(.borderless)
-                .help("Diesen Pool in die Bibliothek übernehmen")
+                .help("Add this pool to the library")
             }
         }
     }
@@ -146,7 +146,7 @@ struct MinerPoolAssignmentCard: View {
     private func slotLabel(_ index: Int) -> String {
         switch form.poolAPI {
         case .slots: return form.slotTitle(index)
-        case .legacy: return index == 0 ? (isDual ? "Pool 1" : String(localized: "Primär")) : (isDual ? "Pool 2" : "Fallback")
+        case .legacy: return index == 0 ? (isDual ? "Pool 1" : String(localized: "Primary")) : (isDual ? "Pool 2" : "Fallback")
         }
     }
 
@@ -154,7 +154,7 @@ struct MinerPoolAssignmentCard: View {
     private func roleBadge(_ index: Int) -> some View {
         if form.poolAPI == .slots {
             if index == form.primarySlot {
-                RoleBadge(text: String(localized: "Primär"), color: Signal.good)
+                RoleBadge(text: String(localized: "Primary"), color: Signal.good)
             } else if index == form.secondarySlot {
                 RoleBadge(text: "Fallback", color: Signal.warning)
             } else if form.slots[index].hasContent {
@@ -171,7 +171,7 @@ struct MinerPoolAssignmentCard: View {
 
     private var roleSection: some View {
         HStack(spacing: 12) {
-            Picker("Primär", selection: $form.primarySlot) {
+            Picker("Primary", selection: $form.primarySlot) {
                 ForEach(roleChoices(including: form.primarySlot), id: \.self) { index in
                     Text(slotChoiceTitle(index)).tag(index)
                 }
@@ -191,7 +191,7 @@ struct MinerPoolAssignmentCard: View {
 
     private func slotChoiceTitle(_ index: Int) -> String {
         let slot = form.slots[index]
-        guard slot.hasContent else { return String(localized: "\(form.slotTitle(index)) (leer)") }
+        guard slot.hasContent else { return String(localized: "\(form.slotTitle(index)) (empty)") }
         let name = library.config(matching: slot)?.name ?? StratumHost.clean(slot.host)
         return "\(form.slotTitle(index)): \(name)"
     }
@@ -215,21 +215,21 @@ struct MinerPoolAssignmentCard: View {
             }
             HStack {
                 if !form.slotsToClear.isEmpty {
-                    Text(String(localized: "Wird geleert: ") + form.slotsToClear.map { form.slotTitle($0) }.joined(separator: ", "))
+                    Text(String(localized: "Will be cleared: ") + form.slotsToClear.map { form.slotTitle($0) }.joined(separator: ", "))
                         .font(.caption2)
                         .foregroundStyle(.secondary)
                 }
                 Spacer()
-                Button("Zurücksetzen", action: onReset)
+                Button("Reset", action: onReset)
                     .disabled(!isDirty || isApplying)
                 Button(action: onApply) {
                     HStack(spacing: 6) {
                         if isApplying { ProgressView().controlSize(.small) }
-                        Text("Übernehmen & neu starten")
+                        Text("Apply & Restart")
                     }
                 }
                 .buttonStyle(.borderedProminent)
-                .help("Pools an den Miner senden; der Miner startet danach neu, damit sie aktiv werden")
+                .help("Send the pools to the miner; it restarts afterwards so they take effect")
                 .disabled(!isDirty || isApplying || form.poolValidationMessage != nil || !miner.connectionState.isOnline)
             }
             .controlSize(.small)

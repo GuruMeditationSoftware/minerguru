@@ -19,7 +19,7 @@ struct MinerDeviceTests {
 
     @Test func hardwareTitleAndFirmwareDetection() throws {
         var device = Fixtures.device()
-        #expect(device.hardwareTitle == "Unbekannter Miner")
+        #expect(device.hardwareTitle == "Unknown Miner")
         device.cachedHardwareModel = "Bitaxe Gamma 601"
         #expect(device.hardwareTitle == "Bitaxe Gamma 601")
         #expect(!device.isNerdOS)

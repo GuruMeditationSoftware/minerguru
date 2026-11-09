@@ -14,7 +14,7 @@ enum SmtpSecurity: String, Codable, CaseIterable, Identifiable, Sendable {
         switch self {
         case .startTLS: "STARTTLS"
         case .tls: "SSL/TLS"
-        case .none: String(localized: "Keine")
+        case .none: String(localized: "None")
         }
     }
 
@@ -110,7 +110,7 @@ struct SmtpDialogue: Sendable {
             try expect(code, 250, text)
             if useStartTLS {
                 guard text.uppercased().contains("STARTTLS") else {
-                    throw SmtpError(message: String(localized: "Der Mailserver bietet kein STARTTLS an."))
+                    throw SmtpError(message: String(localized: "The mail server does not offer STARTTLS."))
                 }
                 step = .startTLS
                 return .send("STARTTLS")
@@ -173,7 +173,7 @@ struct SmtpDialogue: Sendable {
     }
 
     private func expect(_ code: Int, _ wanted: Int, _ text: String) throws {
-        guard code == wanted else { throw SmtpError(message: String(localized: "Mailserver: \(text)")) }
+        guard code == wanted else { throw SmtpError(message: String(localized: "Mail server: \(text)")) }
     }
 
     /// Lines that start with a dot get a second one, so they do not end the message.
@@ -209,7 +209,7 @@ enum SmtpClient {
         var input: InputStream?
         var output: OutputStream?
         Stream.getStreamsToHost(withName: server.host, port: server.port, inputStream: &input, outputStream: &output)
-        guard let input, let output else { throw SmtpError(message: String(localized: "Mailserver nicht erreichbar.")) }
+        guard let input, let output else { throw SmtpError(message: String(localized: "Mail server not reachable.")) }
         if server.security == .tls { enableTLS(input, output) }
         input.open()
         output.open()
@@ -250,7 +250,7 @@ enum SmtpClient {
             text += line + "\n"
             let characters = Array(line)
             guard characters.count >= 3, let code = Int(String(characters[0..<3])) else {
-                throw SmtpError(message: String(localized: "Unerwartete Antwort vom Mailserver."))
+                throw SmtpError(message: String(localized: "Unexpected reply from the mail server."))
             }
             if characters.count == 3 || characters[3] != "-" {
                 return (code, text.trimmingCharacters(in: .whitespacesAndNewlines))
@@ -266,12 +266,12 @@ enum SmtpClient {
                 buffer.removeSubrange(buffer.startIndex..<end.upperBound)
                 return line
             }
-            guard Date() < deadline else { throw SmtpError(message: String(localized: "Zeitüberschreitung beim Mailserver.")) }
-            if input.streamStatus == .error { throw SmtpError(message: input.streamError?.localizedDescription ?? String(localized: "Mailserver nicht erreichbar.")) }
+            guard Date() < deadline else { throw SmtpError(message: String(localized: "The mail server timed out.")) }
+            if input.streamStatus == .error { throw SmtpError(message: input.streamError?.localizedDescription ?? String(localized: "Mail server not reachable.")) }
             if input.hasBytesAvailable {
                 let count = input.read(&chunk, maxLength: chunk.count)
-                if count < 0 { throw SmtpError(message: input.streamError?.localizedDescription ?? String(localized: "Mailserver nicht erreichbar.")) }
-                if count == 0 { throw SmtpError(message: String(localized: "Der Mailserver hat die Verbindung getrennt.")) }
+                if count < 0 { throw SmtpError(message: input.streamError?.localizedDescription ?? String(localized: "Mail server not reachable.")) }
+                if count == 0 { throw SmtpError(message: String(localized: "The mail server closed the connection.")) }
                 buffer.append(contentsOf: chunk[0..<count])
             } else {
                 Thread.sleep(forTimeInterval: 0.02)
@@ -282,11 +282,11 @@ enum SmtpClient {
     private static func write(_ text: String, to output: OutputStream, deadline: Date) throws {
         var bytes = Array(text.utf8)[...]
         while !bytes.isEmpty {
-            guard Date() < deadline else { throw SmtpError(message: String(localized: "Zeitüberschreitung beim Mailserver.")) }
-            if output.streamStatus == .error { throw SmtpError(message: output.streamError?.localizedDescription ?? String(localized: "Mailserver nicht erreichbar.")) }
+            guard Date() < deadline else { throw SmtpError(message: String(localized: "The mail server timed out.")) }
+            if output.streamStatus == .error { throw SmtpError(message: output.streamError?.localizedDescription ?? String(localized: "Mail server not reachable.")) }
             if output.hasSpaceAvailable {
                 let written = bytes.withUnsafeBufferPointer { output.write($0.baseAddress!, maxLength: $0.count) }
-                if written < 0 { throw SmtpError(message: output.streamError?.localizedDescription ?? String(localized: "Mailserver nicht erreichbar.")) }
+                if written < 0 { throw SmtpError(message: output.streamError?.localizedDescription ?? String(localized: "Mail server not reachable.")) }
                 bytes = bytes.dropFirst(written)
             } else {
                 Thread.sleep(forTimeInterval: 0.02)

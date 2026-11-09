@@ -35,7 +35,7 @@ sed \
 
 printf "APPL????" > "${CONTENTS_DIR}/PkgInfo"
 
-# Translations (German source, English): writes de.lproj / en.lproj into Resources
+# Translations (English source, German): writes de.lproj / en.lproj into Resources
 xcrun xcstringstool compile MinerGuru/Localizable.xcstrings --output-directory "${RESOURCES_DIR}"
 
 if [ -f "MinerGuru/AppIcon.icns" ]; then

@@ -25,11 +25,11 @@ struct FleetOverviewView: View {
                 }
             }
         }
-        .navigationTitle("Flotte")
+        .navigationTitle("Fleet")
         .navigationSubtitle(
             store.miners.isEmpty
-                ? "Lokales Netzwerk \(redactor.ip(store.scanner.subnetPrefix)).0/24"
-                : "\(store.onlineMiners.count) von \(store.miners.count) Minern online"
+                ? "Local network \(redactor.ip(store.scanner.subnetPrefix)).0/24"
+                : "\(store.onlineMiners.count) of \(store.miners.count) miners online"
         )
     }
 
@@ -39,9 +39,9 @@ struct FleetOverviewView: View {
         VStack(alignment: .leading, spacing: 16) {
             HStack(alignment: .firstTextBaseline, spacing: 12) {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Solo-Chancen")
+                    Text("Solo odds")
                         .font(.system(size: 20, weight: .medium))
-                    Text("Wahrscheinlichkeit, mit der aktuellen Flotten-Hashrate einen Block zu finden")
+                    Text("Probability of finding a block with the current fleet hashrate")
                         .font(.system(size: 12))
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
@@ -49,7 +49,7 @@ struct FleetOverviewView: View {
 
                 Spacer(minLength: 12)
 
-                Picker("Zeitraum", selection: $store.soloChanceTimeframe) {
+                Picker("Timeframe", selection: $store.soloChanceTimeframe) {
                     ForEach(SoloChanceTimeframe.allCases) { tf in
                         Text(tf.title).tag(tf)
                     }
@@ -74,7 +74,7 @@ struct FleetOverviewView: View {
         VStack(alignment: .leading, spacing: 16) {
             HStack(alignment: .firstTextBaseline, spacing: 12) {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Flotte")
+                    Text("Fleet")
                         .font(.system(size: 20, weight: .medium))
                     Text(fleetMetaLine)
                         .font(.mono(11))
@@ -87,12 +87,12 @@ struct FleetOverviewView: View {
                     Button {
                         store.showScannerSheet = true
                     } label: {
-                        Label("Netzwerk scannen", systemImage: "dot.radiowaves.left.and.right")
+                        Label("Scan Network", systemImage: "dot.radiowaves.left.and.right")
                     }
                     Button {
                         store.showAddIPSheet = true
                     } label: {
-                        Label("IP hinzufügen", systemImage: "plus")
+                        Label("Add IP", systemImage: "plus")
                     }
                 }
                 .buttonStyle(.bordered)
@@ -124,13 +124,13 @@ struct FleetOverviewView: View {
     }
 
     private var fleetMetaLine: String {
-        var parts = [String(localized: "\(store.onlineMiners.count) von \(store.miners.count) online")]
+        var parts = [String(localized: "\(store.onlineMiners.count) of \(store.miners.count) online")]
         let offline = store.miners.count - store.onlineMiners.count
         if offline > 0 {
             parts.append(String(localized: "\(offline) offline"))
         }
         if let last = store.lastGlobalRefresh {
-            parts.append(String(localized: "aktualisiert \(last.formatted(date: .omitted, time: .standard))"))
+            parts.append(String(localized: "updated \(last.formatted(date: .omitted, time: .standard))"))
         }
         return parts.joined(separator: " · ")
     }
@@ -138,7 +138,7 @@ struct FleetOverviewView: View {
     private var hashrateFigure: some View {
         let split = MinerFormatting.splitHashrate(store.totalHashrateGHs)
         return VStack(alignment: .leading, spacing: 4) {
-            Text("Gesamt-Hashrate")
+            Text("Total hashrate")
                 .font(.system(size: 12))
                 .foregroundStyle(.secondary)
             HStack(alignment: .firstTextBaseline, spacing: 8) {
@@ -148,7 +148,7 @@ struct FleetOverviewView: View {
                     .font(.system(size: 17))
                     .foregroundStyle(.secondary)
             }
-            Text(String(format: String(localized: "%.0f GH/s · %lld Miner aktiv"), store.totalHashrateGHs, store.onlineMiners.count))
+            Text(String(format: String(localized: "%.0f GH/s · %lld miners active"), store.totalHashrateGHs, store.onlineMiners.count))
                 .font(.mono(11))
                 .foregroundStyle(.tertiary)
         }
@@ -172,35 +172,35 @@ struct FleetOverviewView: View {
 
         return HStack(alignment: .top, spacing: 0) {
             FleetFigure(
-                title: "Leistung",
+                title: "Power",
                 value: DisplayFormat.decimal(store.totalPowerWatts, fractionDigits: 1),
                 unit: "W",
-                detail: String(localized: "\(DisplayFormat.decimal(store.totalPowerWatts * 24 / 1000, fractionDigits: 2)) kWh pro Tag")
+                detail: String(localized: "\(DisplayFormat.decimal(store.totalPowerWatts * 24 / 1000, fractionDigits: 2)) kWh per day")
             )
             figureDivider
             FleetFigure(
-                title: "Effizienz",
+                title: "Efficiency",
                 value: store.fleetEfficiencyJPerTH > 0 ? DisplayFormat.decimal(store.fleetEfficiencyJPerTH, fractionDigits: 1) : "—",
                 unit: "J/TH",
-                detail: String(localized: "Energie pro Terahash")
+                detail: String(localized: "Energy per terahash")
             )
             figureDivider
             FleetFigure(
                 title: "Shares",
                 value: totalAcc.formatted(.number.locale(DisplayFormat.locale)),
                 unit: nil,
-                detail: String(localized: "\(totalRej) abgelehnt · \(DisplayFormat.percent(rejRate, fractionDigits: 2))")
+                detail: String(localized: "\(totalRej) rejected · \(DisplayFormat.percent(rejRate, fractionDigits: 2))")
             )
             figureDivider
             FleetFigure(
-                title: "Best Diff seit Neustart",
+                title: "Best diff since restart",
                 value: MinerSystemInfo.formatSessionBest(store.bestSessionMiner?.difficulty),
                 unit: nil,
-                detail: String(localized: "Allzeit \(store.highestBestDiffFormatted)")
+                detail: String(localized: "All-time \(store.highestBestDiffFormatted)")
             )
             figureDivider
             FleetFigure(
-                title: "Ø Pool-Latenz",
+                title: "Ø Pool latency",
                 value: latency.map { DisplayFormat.decimal($0, fractionDigits: 0) } ?? "—",
                 unit: latency != nil ? "ms" : nil,
                 detail: LatencyQuality.evaluate(latency).label
@@ -220,7 +220,7 @@ struct FleetOverviewView: View {
     private var minersGridSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack(alignment: .firstTextBaseline) {
-                Text("Miner")
+                Text("Miners")
                     .font(.system(size: 20, weight: .medium))
                 Text("\(store.miners.count)")
                     .font(.mono(11))
@@ -294,7 +294,7 @@ struct FleetHashrateChart: View {
 
     var body: some View {
         if samples.count < 2 {
-            Text("Der Verlauf füllt sich mit jeder Abfrage")
+            Text("The history fills in with every refresh")
                 .font(.system(size: 12))
                 .foregroundStyle(.tertiary)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -311,15 +311,15 @@ struct FleetHashrateChart: View {
 
             Chart(samples) { sample in
                 AreaMark(
-                    x: .value("Zeit", sample.timestamp),
-                    yStart: .value("Basis", domain.lowerBound),
+                    x: .value("Time", sample.timestamp),
+                    yStart: .value("Base", domain.lowerBound),
                     yEnd: .value("GH/s", sample.hashRateGHs)
                 )
                 .interpolationMethod(.monotone)
                 .foregroundStyle(Accent.color.opacity(0.08))
 
                 LineMark(
-                    x: .value("Zeit", sample.timestamp),
+                    x: .value("Time", sample.timestamp),
                     y: .value("GH/s", sample.hashRateGHs)
                 )
                 .interpolationMethod(.monotone)

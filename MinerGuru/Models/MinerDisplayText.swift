@@ -17,7 +17,7 @@ extension MinerSystemInfo {
     /// `"PID Auto"` (NerdQAxe), `"Auto-Modus"` or `"Manuell"`.
     var fanModeLabel: String {
         if autoFanModeRaw == 2 { return "PID Auto" }
-        return autoFanSpeed ? String(localized: "Auto-Modus") : String(localized: "Manuell")
+        return autoFanSpeed ? String(localized: "Auto mode") : String(localized: "Manual")
     }
 
     private var hasSecondFan: Bool { (fan2RPM ?? 0) > 0 }
@@ -41,9 +41,9 @@ extension MinerSystemInfo {
     /// Voltage regulator temperature if reported, otherwise a short cooling verdict.
     func coolingText(warningThresholdC: Double) -> String {
         if let vrTemp {
-            return String(format: String(localized: "Spannungsregler (VR): %.1f °C"), vrTemp)
+            return String(format: String(localized: "Voltage regulator (VR): %.1f °C"), vrTemp)
         }
-        return temp >= warningThresholdC ? String(localized: "Kühlstatus: Erhöht") : String(localized: "Kühlstatus: Optimal")
+        return temp >= warningThresholdC ? String(localized: "Cooling: Elevated") : String(localized: "Cooling: Optimal")
     }
 
     var powerDetailText: String {
@@ -55,7 +55,7 @@ extension MinerSystemInfo {
     }
 
     var coreVoltageText: String {
-        String(localized: "Ziel: \(String(coreVoltageTargetMV)) mV • Ist: \(String(coreVoltageActualMV)) mV")
+        String(localized: "Target: \(String(coreVoltageTargetMV)) mV • Actual: \(String(coreVoltageActualMV)) mV")
     }
 
     var sharesText: String {

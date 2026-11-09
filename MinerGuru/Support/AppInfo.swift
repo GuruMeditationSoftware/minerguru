@@ -47,9 +47,9 @@ struct LicenseSheet: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Lizenz")
+            Text("License")
                 .font(.title3.weight(.medium))
-            Text("Open Source unter der MIT-Lizenz und kostenlos nutzbar. Nutzung und Änderungen an der Hardware auf eigenes Risiko.")
+            Text("Open source under the MIT license and free to use. Use and changes to your hardware are at your own risk.")
                 .font(.callout)
                 .foregroundStyle(.secondary)
             Text(verbatim: AppInfo.licenseText.replacingOccurrences(of: #"(?m)^(.{60,})\n *(?=\S)"#, with: "$1 ", options: .regularExpression))
@@ -59,7 +59,7 @@ struct LicenseSheet: View {
                 .fixedSize(horizontal: false, vertical: true)
             HStack {
                 Spacer()
-                Button("Fertig") { dismiss() }
+                Button("Done") { dismiss() }
                     .keyboardShortcut(.defaultAction)
             }
         }

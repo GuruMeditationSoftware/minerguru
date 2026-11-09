@@ -19,14 +19,14 @@ struct NetworkScannerSheet: View {
                     .font(.system(size: 18))
                     .foregroundStyle(.secondary)
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Lokales Netzwerk nach Minern durchsuchen")
+                    Text("Search the Local Network for Miners")
                         .font(.system(size: 15, weight: .medium))
-                    Text("Erkennt automatisch Bitaxe (Gamma 601, Supra, Ultra) & NerdQAxe++ über /api/system/info")
+                    Text("Detects Bitaxe (Gamma 601, Supra, Ultra) & NerdQAxe++ automatically via /api/system/info")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
                 Spacer()
-                Button("Fertig") {
+                Button("Done") {
                     scanner.stopScan()
                     dismiss()
                 }
@@ -37,7 +37,7 @@ struct NetworkScannerSheet: View {
 
             // Subnet configuration & Start/Stop button
             HStack(spacing: 12) {
-                Text("Subnetz-Präfix:")
+                Text("Subnet prefix:")
                     .font(.subheadline)
                 TextField("192.168.1", text: $scanner.subnetPrefix)
                     .sensitive()
@@ -45,7 +45,7 @@ struct NetworkScannerSheet: View {
                     .frame(width: 120)
                     .monospaced()
                     .disabled(scanner.isScanning)
-                Text(".1 bis .254")
+                Text(".1 to .254")
                     .font(.caption)
                     .foregroundStyle(.secondary)
 
@@ -55,14 +55,14 @@ struct NetworkScannerSheet: View {
                     Button {
                         scanner.stopScan()
                     } label: {
-                        Label("Scan abbrechen", systemImage: "stop.fill")
+                        Label("Cancel Scan", systemImage: "stop.fill")
                     }
                     .buttonStyle(.bordered)
                 } else {
                     Button {
                         scanner.startScan(autoAddNew: false)
                     } label: {
-                        Label("Scan starten", systemImage: "magnifyingglass")
+                        Label("Start Scan", systemImage: "magnifyingglass")
                     }
                     .buttonStyle(.borderedProminent)
                 }
@@ -75,12 +75,12 @@ struct NetworkScannerSheet: View {
                         total: Double(max(1, scanner.totalCount))
                     )
                     HStack {
-                        Text("Scanne \(redactor.ip(scanner.subnetPrefix)).1–254… (\(scanner.completedCount) / \(scanner.totalCount) IPs geprüft)")
+                        Text("Scanning \(redactor.ip(scanner.subnetPrefix)).1–254… (\(scanner.completedCount) / \(scanner.totalCount) IPs checked)")
                             .font(.caption)
                             .foregroundStyle(.secondary)
                             .monospacedDigit()
                         Spacer()
-                        Text("\(scanner.discoveredMiners.count) Miner gefunden")
+                        Text("\(scanner.discoveredMiners.count) miner(s) found")
                             .font(.mono(11))
                             .foregroundStyle(.secondary)
                     }
@@ -90,11 +90,11 @@ struct NetworkScannerSheet: View {
             // Discovered list
             VStack(alignment: .leading, spacing: 8) {
                 HStack {
-                    Text("Gefundene Miner im Netzwerk (\(scanner.discoveredMiners.count))")
+                    Text("Miners Found on the Network (\(scanner.discoveredMiners.count))")
                         .font(.subheadline.weight(.medium))
                     Spacer()
                     if !scanner.discoveredMiners.isEmpty {
-                        Button("Alle neuen hinzufügen") {
+                        Button("Add All New") {
                             scanner.addAllDiscovered()
                         }
                         .buttonStyle(.borderedProminent)
@@ -108,12 +108,12 @@ struct NetworkScannerSheet: View {
                         Image(systemName: scanner.isScanning ? "dot.radiowaves.left.and.right" : "network")
                             .font(.system(size: 32))
                             .foregroundStyle(.secondary)
-                        Text(scanner.isScanning ? "Suche läuft…" : "Noch keine Miner im Scan-Ergebnis")
+                        Text(scanner.isScanning ? "Searching…" : "No miners in the scan result yet")
                             .font(.system(size: 15, weight: .medium))
                         Text(
                             scanner.isScanning
-                                ? "Antwortende Bitaxe- und NerdQAxe++-Miner erscheinen sofort hier."
-                                : "Klicke auf „Scan starten“, um das Subnetz \(redactor.ip(scanner.subnetPrefix)).1–254 zu durchsuchen."
+                                ? "Responding Bitaxe and NerdQAxe++ miners appear here right away."
+                                : "Click “Start Scan” to search the subnet \(redactor.ip(scanner.subnetPrefix)).1–254."
                         )
                         .font(.caption)
                         .foregroundStyle(.secondary)
@@ -156,11 +156,11 @@ struct NetworkScannerSheet: View {
                                     Spacer()
 
                                     if alreadyAdded {
-                                        Label("Bereits vorhanden", systemImage: "checkmark.circle.fill")
+                                        Label("Already added", systemImage: "checkmark.circle.fill")
                                             .font(.caption.weight(.medium))
                                             .foregroundStyle(.green)
                                     } else {
-                                        Button("Hinzufügen") {
+                                        Button("Add") {
                                             store.addMiner(
                                                 ipAddress: item.ipAddress,
                                                 initialInfo: item.info,
@@ -214,9 +214,9 @@ struct AddMinerByIPSheet: View {
                     .font(.system(size: 18))
                     .foregroundStyle(.secondary)
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Miner per IP-Adresse oder Hostname hinzufügen")
+                    Text("Add Miner by IP Address or Hostname")
                         .font(.system(size: 15, weight: .medium))
-                    Text("Verbindet sich über HTTP mit /api/system/info deines Bitaxe oder NerdQAxe++")
+                    Text("Connects via HTTP to /api/system/info of your Bitaxe or NerdQAxe++")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
@@ -227,11 +227,11 @@ struct AddMinerByIPSheet: View {
 
             VStack(alignment: .leading, spacing: 12) {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("IP-Adresse oder lokaler Hostname")
+                    Text("IP address or local hostname")
                         .font(.caption.weight(.medium))
                         .foregroundStyle(.secondary)
                     HStack {
-                        TextField("z.B. 192.168.1.142 oder nerdqaxe.local", text: $ipOrHost)
+                        TextField("e.g. 192.168.1.142 or nerdqaxe.local", text: $ipOrHost)
                             .sensitive()
                             .textFieldStyle(.roundedBorder)
                             .monospaced()
@@ -246,7 +246,7 @@ struct AddMinerByIPSheet: View {
                                 if isTesting {
                                     ProgressView().controlSize(.small)
                                 }
-                                Text("Verbindung prüfen")
+                                Text("Check Connection")
                             }
                         }
                         .buttonStyle(.bordered)
@@ -255,10 +255,10 @@ struct AddMinerByIPSheet: View {
                 }
 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Eigener Anzeigename (optional)")
+                    Text("Custom display name (optional)")
                         .font(.caption.weight(.medium))
                         .foregroundStyle(.secondary)
-                    TextField("z.B. Büro Gamma 601 oder Keller NerdQAxe++", text: $customName)
+                    TextField("e.g. Office Gamma 601 or Basement NerdQAxe++", text: $customName)
                         .textFieldStyle(.roundedBorder)
                 }
             }
@@ -285,9 +285,9 @@ struct AddMinerByIPSheet: View {
                     Image(systemName: "exclamationmark.triangle")
                         .foregroundStyle(Signal.warning)
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("Miner aktuell nicht erreichbar")
+                        Text("Miner currently unreachable")
                             .font(.caption.weight(.medium))
-                        Text("\(testError) — Du kannst die IP trotzdem hinzufügen.")
+                        Text("\(testError) — You can still add the IP.")
                             .font(.caption2)
                             .foregroundStyle(.secondary)
                     }
@@ -302,14 +302,14 @@ struct AddMinerByIPSheet: View {
             Divider()
 
             HStack {
-                Button("Abbrechen") {
+                Button("Cancel") {
                     dismiss()
                 }
                 .keyboardShortcut(.cancelAction)
 
                 Spacer()
 
-                Button("Miner hinzufügen") {
+                Button("Add Miner") {
                     addAndClose()
                 }
                 .buttonStyle(.borderedProminent)

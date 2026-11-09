@@ -24,10 +24,10 @@ struct PoolConfigEditorSheet: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
-                Label(isNew ? "Neue Pool-Konfiguration" : "Pool-Konfiguration bearbeiten", systemImage: "server.rack")
+                Label(isNew ? "New Pool Configuration" : "Edit Pool Configuration", systemImage: "server.rack")
                     .font(.system(size: 15, weight: .medium))
                 Spacer()
-                Menu("Vorlage…") {
+                Menu("Template…") {
                     ForEach(PoolPreset.commonPools) { preset in
                         Button("\(preset.name) (\(preset.host):\(preset.port))" as String) {
                             config.host = preset.host
@@ -41,11 +41,11 @@ struct PoolConfigEditorSheet: View {
             }
 
             PoolField("Name") {
-                TextField("z. B. CKPool EU · rig1", text: $config.name)
+                TextField("e.g. CKPool EU · rig1", text: $config.name)
             }
 
             HStack(spacing: 12) {
-                PoolField("Stratum Host / URL (ohne stratum+tcp://)") {
+                PoolField("Stratum host / URL (without stratum+tcp://)") {
                     TextField("public-pool.io", text: $config.host)
                         .monospaced()
                 }
@@ -54,21 +54,21 @@ struct PoolConfigEditorSheet: View {
                         .monospaced()
                         .frame(width: 90)
                 }
-                PoolField("Passwort") {
+                PoolField("Password") {
                     TextField("x", text: $config.password)
                         .monospaced()
                         .frame(width: 80)
                 }
             }
 
-            PoolField("Wallet-Adresse.Worker (Stratum User)") {
-                TextField("bc1q...deinewallet.bitaxe", text: $config.user)
+            PoolField("Wallet address.worker (stratum user)") {
+                TextField("bc1q...yourwallet.bitaxe", text: $config.user)
                     .monospaced()
                     .sensitive()
             }
 
             if let coins = MinedCoin.mismatch(poolHost: config.host, stratumUser: config.user) {
-                Label("Die Adresse gehört zu \(coins.address.symbol), der Pool schürft \(coins.pool.symbol). Auszahlungen könnten verloren gehen.",
+                Label("This address belongs to \(coins.address.symbol), the pool mines \(coins.pool.symbol). Payouts could be lost.",
                       systemImage: "exclamationmark.triangle")
                     .font(.caption)
                     .foregroundStyle(Signal.warning)
@@ -85,7 +85,7 @@ struct PoolConfigEditorSheet: View {
                 Button(action: testLatency) {
                     HStack(spacing: 6) {
                         if isTesting { ProgressView().controlSize(.small) }
-                        Label("Latenz testen", systemImage: "waveform.path.ecg")
+                        Label("Test Latency", systemImage: "waveform.path.ecg")
                     }
                 }
                 .disabled(isTesting || !cleanedConfig.isValid)
@@ -95,9 +95,9 @@ struct PoolConfigEditorSheet: View {
 
             HStack {
                 Spacer()
-                Button("Abbrechen") { dismiss() }
+                Button("Cancel") { dismiss() }
                     .keyboardShortcut(.cancelAction)
-                Button(isNew ? "Anlegen" : "Speichern") {
+                Button(isNew ? "Create" : "Save") {
                     onSave(cleanedConfig)
                     dismiss()
                 }
@@ -168,9 +168,9 @@ struct LibraryPoolPicker: View {
 
     var body: some View {
         Picker("", selection: selection) {
-            Text("— leer —").tag(Choice.empty)
+            Text("— empty —").tag(Choice.empty)
             if endpoint.hasContent, library.config(matching: endpoint) == nil {
-                Text("\(StratumHost.clean(endpoint.host)):\(String(endpoint.port)) (nicht in Bibliothek)")
+                Text("\(StratumHost.clean(endpoint.host)):\(String(endpoint.port)) (not in library)")
                     .tag(Choice.unsaved)
             }
             if !library.pools.isEmpty {

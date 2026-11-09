@@ -10,17 +10,17 @@ struct EmailAlertsSheet: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("E-Mail-Warnungen")
+            Text("Email alerts")
                 .font(.headline)
-            Text("MinerGuru schickt jede Warnung zusätzlich an diese Adressen, über deinen eigenen Mailserver. Das Passwort liegt im Schlüsselbund.")
+            Text("MinerGuru also sends every alert to these addresses through your own mail server. The password is kept in the keychain.")
                 .font(.callout)
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
 
             Form {
-                Toggle("Warnungen per E-Mail senden", isOn: $email.values.isEnabled)
-                TextField("Server", text: $email.values.host, prompt: Text("z. B. smtp.example.com"))
-                Picker("Verschlüsselung", selection: Binding {
+                Toggle("Send alerts by email", isOn: $email.values.isEnabled)
+                TextField("Server", text: $email.values.host, prompt: Text("e.g. smtp.example.com"))
+                Picker("Encryption", selection: Binding {
                     email.values.security
                 } set: { security in
                     email.values.security = security
@@ -29,16 +29,16 @@ struct EmailAlertsSheet: View {
                     ForEach(SmtpSecurity.allCases) { Text($0.title).tag($0) }
                 }
                 TextField("Port", value: $email.values.port, format: .number.grouping(.never))
-                TextField("Benutzername", text: $email.values.username, prompt: Text("leer, wenn der Server keine Anmeldung braucht"))
-                SecureField("Passwort", text: $email.password)
-                TextField("Absender", text: $email.values.sender, prompt: Text("miner@example.com"))
-                TextField("Empfänger", text: $email.values.recipients, prompt: Text("mehrere mit Komma trennen"))
+                TextField("Username", text: $email.values.username, prompt: Text("empty if the server needs no login"))
+                SecureField("Password", text: $email.password)
+                TextField("Sender", text: $email.values.sender, prompt: Text("miner@example.com"))
+                TextField("Recipients", text: $email.values.recipients, prompt: Text("separate several with commas"))
             }
             .formStyle(.columns)
             .autocorrectionDisabled()
 
             if email.values.security == .none {
-                Label("Ohne Verschlüsselung gehen Passwort und Inhalt lesbar durchs Netz. Nur für einen Mailserver im eigenen Netz.",
+                Label("Without encryption, password and content cross the network in the clear. Only for a mail server on your own network.",
                       systemImage: "exclamationmark.triangle")
                     .font(.caption)
                     .foregroundStyle(Signal.warning)
@@ -58,12 +58,12 @@ struct EmailAlertsSheet: View {
                 } label: {
                     HStack(spacing: 6) {
                         if isTesting { ProgressView().controlSize(.small) }
-                        Text("Test-Mail senden")
+                        Text("Send test mail")
                     }
                 }
                 .disabled(!email.isComplete || isTesting)
                 Spacer()
-                Button("Fertig") { dismiss() }
+                Button("Done") { dismiss() }
                     .keyboardShortcut(.defaultAction)
             }
         }
@@ -77,7 +77,7 @@ struct EmailAlertsSheet: View {
         do {
             try await email.sendTest()
             testFailed = false
-            testResult = String(localized: "Test-Mail versendet.")
+            testResult = String(localized: "Test mail sent.")
         } catch {
             testFailed = true
             testResult = error.localizedDescription

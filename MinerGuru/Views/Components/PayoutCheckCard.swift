@@ -13,7 +13,7 @@ struct PayoutCheckCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Label("Auszahlung", systemImage: "checkmark.shield")
+            Label("Payout", systemImage: "checkmark.shield")
                 .font(.headline)
             ForEach(slots) { slot in
                 HStack(spacing: 10) {
@@ -33,7 +33,7 @@ struct PayoutCheckCard: View {
                     Spacer()
                     if slot.verdict == .foreign || slot.verdict == .factoryDefault || slot.verdict == .account,
                        let target = alerts.expectedAddresses[slot.coin.rawValue] {
-                        Button("Soll-Adresse eintragen") { apply(target, to: slot) }
+                        Button("Enter expected address") { apply(target, to: slot) }
                             .controlSize(.small)
                     }
                 }
@@ -56,8 +56,8 @@ struct PayoutCheckCard: View {
 
     private var blockStatus: LocalizedStringKey? {
         switch info.coinbasePayoutStatus {
-        case "verified": "Der aktuelle Block zahlt an diesen Miner."
-        case "not_found": "Der aktuelle Block enthält die Adresse dieses Miners nicht."
+        case "verified": "The current block pays this miner."
+        case "not_found": "The current block does not contain this miner's address."
         default: nil
         }
     }
@@ -73,12 +73,12 @@ struct PayoutCheckCard: View {
 
     private func description(_ verdict: PayoutVerdict) -> LocalizedStringKey {
         switch verdict {
-        case .expected: "Entspricht deiner Soll-Adresse"
-        case .valid: "Gültige Adresse, keine Soll-Adresse festgelegt"
-        case .foreign: "Weicht von deiner Soll-Adresse ab"
-        case .factoryDefault: "Standard-Adresse der Firmware: Ein Fund ginge nicht an dich"
-        case .account: "Konto bei einem Pool oder Tippfehler"
-        case .empty: "Nichts eingetragen"
+        case .expected: "Matches your expected address"
+        case .valid: "Valid address, no expected address set"
+        case .foreign: "Differs from your expected address"
+        case .factoryDefault: "Firmware default: a block found would not go to you"
+        case .account: "Pool account or typing error"
+        case .empty: "Nothing entered"
         }
     }
 

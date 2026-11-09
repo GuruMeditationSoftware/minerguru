@@ -56,30 +56,30 @@ struct MinerGuruApp: App {
         .windowResizability(.contentMinSize)
         .commands {
             CommandGroup(replacing: .appSettings) {
-                OpenSettingsButton { Text("Einstellungen…") }
+                OpenSettingsButton { Text("Settings…") }
                     .keyboardShortcut(",", modifiers: .command)
             }
             SidebarCommands()
 
             CommandGroup(after: .sidebar) {
-                Toggle("Sensible Daten ausblenden", isOn: $hideSensitiveData)
+                Toggle("Hide Sensitive Data", isOn: $hideSensitiveData)
                     .keyboardShortcut("h", modifiers: [.command, .shift])
             }
 
-            CommandMenu("Miner") {
-                Button("Miner per IP hinzufügen…") {
+            CommandMenu("Miners") {
+                Button("Add Miner by IP…") {
                     store.showAddIPSheet = true
                 }
                 .keyboardShortcut("n", modifiers: [.command])
 
-                Button("Lokales Netzwerk scannen…") {
+                Button("Scan Local Network…") {
                     store.showScannerSheet = true
                 }
                 .keyboardShortcut("s", modifiers: [.command, .shift])
 
                 Divider()
 
-                Button("Alle Miner jetzt aktualisieren") {
+                Button("Refresh All Miners Now") {
                     Task { await store.refreshAllMiners() }
                 }
                 .keyboardShortcut("r", modifiers: [.command])
@@ -94,7 +94,7 @@ struct MinerGuruApp: App {
         }
         .menuBarExtraStyle(.window)
 
-        Window("Einstellungen", id: SettingsView.windowID) {
+        Window("Settings", id: SettingsView.windowID) {
             SettingsView(store: store)
                 .environment(\.redactor, redactor)
         }

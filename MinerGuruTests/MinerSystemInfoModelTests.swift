@@ -39,8 +39,8 @@ struct MinerSystemInfoModelTests {
 
     @Test func unconfiguredPool() throws {
         let info = try Fixtures.info(["hashRate": 1])
-        #expect(info.primaryPoolEndpoint == "Nicht konfiguriert")
-        #expect(info.fallbackPoolEndpoint == "Nicht konfiguriert")
+        #expect(info.primaryPoolEndpoint == "Not configured")
+        #expect(info.fallbackPoolEndpoint == "Not configured")
     }
 
     @Test func dualPoolSplitAndCoins() throws {

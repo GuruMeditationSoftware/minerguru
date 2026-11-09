@@ -59,13 +59,13 @@ struct SupportDevelopmentButton: View {
         Button {
             isShowingDialog = true
         } label: {
-            Label("Diese Entwicklung unterstützen", systemImage: "heart")
+            Label("Support this project", systemImage: "heart")
                 .font(.system(size: 12))
                 .foregroundStyle(isHovered ? Color.primary : Color.secondary)
         }
         .buttonStyle(.plain)
         .onHover { isHovered = $0 }
-        .help("Spenden-Adressen und QR-Codes anzeigen")
+        .help("Show donation addresses and QR codes")
         .sheet(isPresented: $isShowingDialog) { SupportDevelopmentSheet() }
     }
 }
@@ -77,9 +77,9 @@ struct SupportDevelopmentSheet: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Diese Entwicklung unterstützen")
+            Text("Support this project")
                 .font(.headline)
-            Text("MinerGuru ist kostenlos und zeigt keine Werbung. Wenn dir die App hilft, freue ich mich über eine kleine Spende für die Weiterentwicklung.")
+            Text("MinerGuru is free and has no ads. If the app helps you, a small donation towards further development is very welcome.")
                 .font(.callout)
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
@@ -92,7 +92,7 @@ struct SupportDevelopmentSheet: View {
 
             HStack {
                 Spacer()
-                Button("Schließen") { dismiss() }
+                Button("Close") { dismiss() }
                     .keyboardShortcut(.defaultAction)
             }
         }
@@ -123,11 +123,11 @@ struct SupportDevelopmentSheet: View {
                     NSPasteboard.general.setString(coin.address, forType: .string)
                     copied = coin
                 } label: {
-                    Label(copied == coin ? "Kopiert" : "Adresse kopieren",
+                    Label(copied == coin ? "Copied" : "Copy address",
                           systemImage: copied == coin ? "checkmark" : "doc.on.doc")
                 }
             } else {
-                Text("Adresse noch nicht hinterlegt.")
+                Text("Address not set yet.")
                     .font(.callout)
                     .foregroundStyle(.secondary)
                     .frame(width: 186, height: 186)
@@ -147,13 +147,13 @@ struct DonationSection: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Label("Entwicklung unterstützen", systemImage: "heart")
+            Label("Support development", systemImage: "heart")
                 .font(.subheadline.weight(.semibold))
                 .foregroundStyle(.secondary)
                 .padding(.leading, 4)
 
             VStack(alignment: .leading, spacing: 0) {
-                Text("MinerGuru ist kostenlos. Wenn dir die App gefällt, freue ich mich über eine kleine Spende für die Weiterentwicklung.")
+                Text("MinerGuru is free. If you like the app, a small donation towards further development is much appreciated.")
                     .font(.callout)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -189,7 +189,7 @@ struct DonationSection: View {
             Text(verbatim: coin.rawValue)
                 .fontWeight(.semibold)
                 .frame(width: 34, alignment: .leading)
-            Text(verbatim: coin.isConfigured ? coin.address : String(localized: "Adresse noch nicht hinterlegt"))
+            Text(verbatim: coin.isConfigured ? coin.address : String(localized: "Address not set yet"))
                 .font(.caption.monospaced())
                 .foregroundStyle(.secondary)
                 .lineLimit(1)
@@ -201,7 +201,7 @@ struct DonationSection: View {
             } label: {
                 Image(systemName: "qrcode")
             }
-            .help("QR-Code anzeigen")
+            .help("Show QR code")
             .disabled(!coin.isConfigured)
             Button {
                 NSPasteboard.general.clearContents()
@@ -210,7 +210,7 @@ struct DonationSection: View {
             } label: {
                 Image(systemName: copied == coin ? "checkmark" : "doc.on.doc")
             }
-            .help("Adresse kopieren")
+            .help("Copy address")
             .disabled(!coin.isConfigured)
         }
         .buttonStyle(.borderless)

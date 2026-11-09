@@ -52,7 +52,7 @@ final class PoolLibraryStore: ObservableObject {
         guard let original = config(id: id) else { return nil }
         var copy = original
         copy.id = UUID()
-        copy.name += String(localized: " Kopie")
+        copy.name += String(localized: " Copy")
         return add(copy)
     }
 

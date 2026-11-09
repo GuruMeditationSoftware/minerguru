@@ -245,7 +245,7 @@ final class PowerStore: ObservableObject {
         if needed, appNapActivity == nil {
             appNapActivity = ProcessInfo.processInfo.beginActivity(
                 options: .userInitiatedAllowingIdleSystemSleep,
-                reason: "Zeitpläne für Miner"
+                reason: "Miner schedules"
             )
         } else if !needed, let activity = appNapActivity {
             ProcessInfo.processInfo.endActivity(activity)

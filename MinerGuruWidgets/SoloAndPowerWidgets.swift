@@ -11,8 +11,8 @@ struct SoloWidget: Widget {
                 .containerBackground(.fill.tertiary, for: .widget)
                 .widgetURL(WidgetCommand.openOverview.url)
         }
-        .configurationDisplayName(LocalizedStringResource("Solo-Chance"))
-        .description(LocalizedStringResource("Wie wahrscheinlich die Flotte solo einen Block findet, für jede Münze."))
+        .configurationDisplayName(LocalizedStringResource("Solo chance"))
+        .description(LocalizedStringResource("How likely the fleet finds a block solo, for every coin."))
         .supportedFamilies([.systemSmall])
     }
 }
@@ -39,7 +39,7 @@ struct SoloWidgetView: View {
                     .fill(Palette(scheme: scheme).coin(solo?.coin ?? "BTC"))
                     .frame(width: 8, height: 8)
                     .widgetAccentable()
-                Text(text("Solo-Chance"))
+                Text(text("Solo chance"))
                     .font(.system(size: 12, weight: .semibold))
                     .lineLimit(1)
                 Spacer(minLength: 4)
@@ -54,12 +54,12 @@ struct SoloWidgetView: View {
                 .lineLimit(1)
                 .widgetAccentable()
                 .opacity(entry.source == .stale ? 0.45 : 1)
-            Text(solo?.period ?? text("Keine Miner online"))
+            Text(solo?.period ?? text("No miners online"))
                 .font(.system(size: 12))
                 .foregroundStyle(.secondary)
             Spacer(minLength: 4)
             if let solo {
-                Text(text("Ø 1 Block alle"))
+                Text(text("Ø 1 block every"))
                     .font(.mono(11))
                     .foregroundStyle(.secondary)
                 Text(solo.blockEvery)
@@ -75,7 +75,7 @@ struct SoloWidgetView: View {
         let text = entry.text
         let palette = Palette(scheme: scheme)
         return VStack(alignment: .leading, spacing: 4) {
-            Text(text("Solo-Chance"))
+            Text(text("Solo chance"))
                 .font(.system(size: 12, weight: .semibold))
                 .lineLimit(1)
             Text(coins[0].period)
@@ -116,8 +116,8 @@ struct PowerWidget: Widget {
                 .containerBackground(.fill.tertiary, for: .widget)
                 .widgetURL(WidgetCommand.openPower.url)
         }
-        .configurationDisplayName(LocalizedStringResource("Strom"))
-        .description(LocalizedStringResource("Leistung, Energie und Kosten der Flotte heute."))
+        .configurationDisplayName(LocalizedStringResource("Power (section)"))
+        .description(LocalizedStringResource("Power, energy and cost of the fleet today."))
         .supportedFamilies([.systemMedium])
     }
 }
@@ -136,14 +136,14 @@ struct PowerWidgetView: View {
                     Image(systemName: "bolt.fill")
                         .font(.system(size: 11))
                         .foregroundStyle(.secondary)
-                    Text(text("Strom"))
+                    Text(text("Power (section)"))
                         .font(.system(size: 12, weight: .semibold))
-                    Text(text("heute"))
+                    Text(text("today"))
                         .font(.mono(11))
                         .foregroundStyle(.secondary)
                     Spacer()
                     if s.nightModeOn {
-                        Label(text("Nachtmodus"), systemImage: "moon.fill")
+                        Label(text("Night mode"), systemImage: "moon.fill")
                             .font(.system(size: 11))
                             .foregroundStyle(.secondary)
                             .labelStyle(.titleAndIcon)
@@ -159,8 +159,8 @@ struct PowerWidgetView: View {
                     }
                     .layoutPriority(1)
                     Spacer(minLength: 0)
-                    Stat(title: text("Energie / Tag"), value: s.energyPerDayKWh.map(text.energy) ?? "–")
-                    Stat(title: text("Kosten heute"), value: s.costToday ?? "–")
+                    Stat(title: text("Energy / day"), value: s.energyPerDayKWh.map(text.energy) ?? "–")
+                    Stat(title: text("Cost today"), value: s.costToday ?? "–")
                 }
                 EnergyBars(hours: s.energyHourlyKWh)
                     .frame(maxHeight: .infinity, alignment: .bottom)

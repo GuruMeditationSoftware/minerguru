@@ -38,9 +38,9 @@ struct SettingsView: View {
         VStack(spacing: 18) {
             header
 
-            SettingsSection("Sprache", systemImage: "globe") {
-                SettingsRow("Sprache der Oberfläche") {
-                    Picker("Sprache der Oberfläche", selection: $language) {
+            SettingsSection("Language", systemImage: "globe") {
+                SettingsRow("Interface language") {
+                    Picker("Interface language", selection: $language) {
                         ForEach(AppLanguage.allCases) { option in
                             Text(option.title).tag(option)
                         }
@@ -55,11 +55,11 @@ struct SettingsView: View {
                 if AppLanguage.needsRestart(for: language) {
                     Divider()
                     HStack {
-                        Label("Die neue Sprache wird nach einem Neustart aktiv.", systemImage: "arrow.clockwise.circle")
+                        Label("The new language takes effect after a restart.", systemImage: "arrow.clockwise.circle")
                             .font(.callout)
                             .foregroundStyle(.secondary)
                         Spacer()
-                        Button("Jetzt neu starten") {
+                        Button("Restart Now") {
                             AppLanguage.relaunch()
                         }
                         .controlSize(.small)
@@ -68,14 +68,14 @@ struct SettingsView: View {
                 }
             }
 
-            SettingsSection("Aktualisierung & Überwachung", systemImage: "gauge.with.dots.needle.67percent") {
-                SettingsRow("Abfrage-Intervall") {
-                    Picker("Abfrage-Intervall", selection: $store.pollingIntervalSeconds) {
-                        Text("Alle 2 Sekunden (Echtzeit)").tag(2)
-                        Text("Alle 5 Sekunden (Empfohlen)").tag(5)
-                        Text("Alle 10 Sekunden").tag(10)
-                        Text("Alle 15 Sekunden").tag(15)
-                        Text("Alle 30 Sekunden").tag(30)
+            SettingsSection("Refresh & Monitoring", systemImage: "gauge.with.dots.needle.67percent") {
+                SettingsRow("Polling interval") {
+                    Picker("Polling interval", selection: $store.pollingIntervalSeconds) {
+                        Text("Every 2 seconds (real time)").tag(2)
+                        Text("Every 5 seconds (recommended)").tag(5)
+                        Text("Every 10 seconds").tag(10)
+                        Text("Every 15 seconds").tag(15)
+                        Text("Every 30 seconds").tag(30)
                     }
                     .labelsHidden()
                     .fixedSize()
@@ -83,7 +83,7 @@ struct SettingsView: View {
 
                 Divider()
 
-                SettingsRow("Temperatur-Warnschwelle (ASIC)") {
+                SettingsRow("Temperature warning threshold (ASIC)") {
                     Stepper(value: $store.tempWarningThresholdC, in: 55...85, step: 1) {
                         Text("\(Int(store.tempWarningThresholdC)) °C")
                             .monospacedDigit()
@@ -96,8 +96,8 @@ struct SettingsView: View {
 
             BlockProbeSettingsSection(isEnabled: $store.stratumProbeEnabled)
 
-            SettingsSection("Netzwerk-Scan", systemImage: "antenna.radiowaves.left.and.right") {
-                SettingsRow("Standard-Subnetz (/24)") {
+            SettingsSection("Network Scan", systemImage: "antenna.radiowaves.left.and.right") {
+                SettingsRow("Default subnet (/24)") {
                     TextField("192.168.1", text: $scanner.subnetPrefix)
                         .sensitive()
                         .textFieldStyle(.roundedBorder)
@@ -108,7 +108,7 @@ struct SettingsView: View {
                 Divider()
 
                 Toggle(isOn: $store.autoScanOnEmptyLaunch) {
-                    Text("Beim Start automatisch scannen, wenn keine Miner konfiguriert sind")
+                    Text("Scan automatically at launch when no miners are set up")
                         .fixedSize(horizontal: false, vertical: true)
                 }
                 .toggleStyle(TrailingSwitch())
@@ -152,8 +152,8 @@ struct SettingsView: View {
             }
             Spacer()
             VStack(alignment: .trailing, spacing: 4) {
-                Link("Feedback geben", destination: AppInfo.feedbackURL)
-                Button("Lizenz") { isShowingLicense = true }
+                Link("Send feedback", destination: AppInfo.feedbackURL)
+                Button("License") { isShowingLicense = true }
                     .buttonStyle(.link)
             }
             .font(.callout)
@@ -185,11 +185,11 @@ private struct NotificationSettingsSection: View {
     @State private var isEditingEmail = false
 
     var body: some View {
-        SettingsSection("Benachrichtigungen", systemImage: "bell.badge") {
+        SettingsSection("Notifications", systemImage: "bell.badge") {
             Toggle(isOn: $alerts.isEnabled) {
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Bei Problemen benachrichtigen")
-                    Text("Nur Alarme, keine Werbung. Läuft weiter, solange MinerGuru in der Menüleiste ist.")
+                    Text("Notify me about problems")
+                    Text("Alerts only, no advertising. Keeps running while MinerGuru is in the menu bar.")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
@@ -201,14 +201,14 @@ private struct NotificationSettingsSection: View {
 
             if alerts.isEnabled {
                 Divider()
-                SettingsRow("Stummschalten") {
+                SettingsRow("Mute") {
                     if let until = alerts.silencedUntil, alerts.isSilenced() {
-                        Text("Stumm bis \(until.formatted(date: .omitted, time: .shortened))")
+                        Text("Silent until \(until.formatted(date: .omitted, time: .shortened))")
                             .foregroundStyle(.secondary)
-                        Button("Wieder einschalten") { alerts.endSilence() }
+                        Button("Turn back on") { alerts.endSilence() }
                             .controlSize(.small)
                     } else {
-                        Button("Bis morgen früh") { alerts.silenceUntilMorning() }
+                        Button("Until tomorrow morning") { alerts.silenceUntilMorning() }
                             .controlSize(.small)
                     }
                 }
@@ -223,10 +223,10 @@ private struct NotificationSettingsSection: View {
                     .padding(.vertical, 6)
                 }
                 Divider()
-                SettingsRow("E-Mail-Warnungen") {
-                    Text(email.values.isEnabled && email.isComplete ? "Aktiv" : "Aus")
+                SettingsRow("Email alerts") {
+                    Text(email.values.isEnabled && email.isComplete ? "Active" : "Off")
                         .foregroundStyle(.secondary)
-                    Button("Einrichten …") { isEditingEmail = true }
+                    Button("Set up …") { isEditingEmail = true }
                 }
             }
         }
@@ -240,14 +240,14 @@ private struct PayoutSettingsSection: View {
     private let coins: [MinedCoin] = [.btc, .bch, .dgb, .xec]
 
     var body: some View {
-        SettingsSection("Soll-Adressen", systemImage: "checkmark.shield") {
+        SettingsSection("Expected addresses", systemImage: "checkmark.shield") {
             VStack(alignment: .leading, spacing: 8) {
                 ForEach(coins, id: \.self) { coin in
                     let text = alerts.expectedAddresses[coin.rawValue] ?? ""
                     HStack {
                         Text(verbatim: coin.fullName)
                         Spacer()
-                        TextField("Adresse", text: Binding(
+                        TextField("Address", text: Binding(
                             get: { text },
                             set: { alerts.setExpectedAddress($0, for: coin) }
                         ))
@@ -257,12 +257,12 @@ private struct PayoutSettingsSection: View {
                         .frame(maxWidth: 300)
                     }
                     if !text.isEmpty, CoinAddress.scriptPubKey(for: text) == nil {
-                        Text("Das ist keine gültige Adresse.")
+                        Text("This is not a valid address.")
                             .font(.caption)
                             .foregroundStyle(.red)
                     }
                 }
-                Text("MinerGuru warnt, wenn ein Miner an eine andere Adresse zahlt, und schreibt nie von selbst eine Adresse auf einen Miner.")
+                Text("MinerGuru warns when a miner pays to another address and never writes an address to a miner on its own.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -279,31 +279,31 @@ private struct AutomationSettingsSection: View {
     @State private var isShowingChanges = false
 
     var body: some View {
-        SettingsSection("Eingriffe", systemImage: "hand.raised") {
-            Toggle("Nur lesen: nichts an Minern ändern", isOn: $isReadOnly)
+        SettingsSection("Interventions", systemImage: "hand.raised") {
+            Toggle("Read-only: change nothing on miners", isOn: $isReadOnly)
                 .toggleStyle(TrailingSwitch())
                 .controlSize(.small)
                 .padding(.vertical, 6)
             Divider()
-            Toggle("Ohne Shares neu starten", isOn: $alerts.restartsOnFlatline)
+            Toggle("Restart without shares", isOn: $alerts.restartsOnFlatline)
                 .toggleStyle(TrailingSwitch())
                 .controlSize(.small)
                 .padding(.vertical, 6)
                 .disabled(isReadOnly)
             Divider()
-            Toggle("Zum Primär-Pool zurückholen", isOn: $alerts.restartsToPrimary)
+            Toggle("Bring back to primary pool", isOn: $alerts.restartsToPrimary)
                 .toggleStyle(TrailingSwitch())
                 .controlSize(.small)
                 .padding(.vertical, 6)
                 .disabled(isReadOnly)
-            Text("Automatische Neustarts höchstens einmal pro Stunde je Miner, nie bei Überhitzung. Jeder Eingriff kommt als Mitteilung und ins Protokoll.")
+            Text("Automatic restarts at most once an hour per miner, never when overheating. Every intervention sends a notification and goes into the log.")
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(.bottom, 6)
             Divider()
-            SettingsRow("Änderungsprotokoll") {
-                Button("Anzeigen …") { isShowingChanges = true }
+            SettingsRow("Change log") {
+                Button("Show …") { isShowingChanges = true }
             }
         }
         .sheet(isPresented: $isShowingChanges) { ChangeLogSheet() }
@@ -318,10 +318,10 @@ private struct ChangeLogSheet: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Änderungsprotokoll")
+            Text("Change log")
                 .font(.headline)
             if entries.isEmpty {
-                Text("Noch keine Änderungen.")
+                Text("No changes yet.")
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
@@ -343,10 +343,10 @@ private struct ChangeLogSheet: View {
                 }
             }
             HStack {
-                Button("Exportieren …", action: export)
+                Button("Export …", action: export)
                     .disabled(entries.isEmpty)
                 Spacer()
-                Button("Schließen") { dismiss() }
+                Button("Close") { dismiss() }
                     .keyboardShortcut(.defaultAction)
             }
         }
@@ -383,12 +383,12 @@ private struct TrailingSwitch: ToggleStyle {
 /// The local log for bug reports. It stays on the Mac until exported here.
 private struct DiagnosticLogSection: View {
     var body: some View {
-        SettingsSection("Diagnose", systemImage: "doc.text.magnifyingglass") {
+        SettingsSection("Diagnostics", systemImage: "doc.text.magnifyingglass") {
             VStack(alignment: .leading, spacing: 8) {
-                SettingsRow("Diagnose-Log") {
-                    Button("Exportieren …", action: export)
+                SettingsRow("Diagnostic log") {
+                    Button("Export …", action: export)
                 }
-                Text("Hält Zustände, Warnungen, Schaltvorgänge und Messwerte fest, nur auf diesem Mac. Enthält die lokalen IP-Adressen der Miner, aber keine Passwörter, Wallet-Adressen oder Codes. Wird nie automatisch gesendet.")
+                Text("Records states, alerts, switching and measurements, only on this Mac. Contains the miners' local IP addresses, but no passwords, wallet addresses or codes. Never sent automatically.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -415,19 +415,19 @@ private struct BlockProbeSettingsSection: View {
     @Binding var isEnabled: Bool
 
     var body: some View {
-        SettingsSection("Blockansicht", systemImage: "cube") {
+        SettingsSection("Block view", systemImage: "cube") {
             VStack(alignment: .leading, spacing: 6) {
                 Toggle(isOn: $isEnabled) {
-                    Text("Block-Vorlage selbst beim Pool abfragen")
+                    Text("Fetch the block template from the pool")
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .toggleStyle(TrailingSwitch())
                 .controlSize(.small)
-                Text("Für Miner, die ihren Block nicht selbst melden (NerdOS, AxeOS vor 2.13). MinerGuru verbindet sich dazu vom Mac aus kurz mit dem Pool des Miners, meldet sich mit dessen Adresse und dem Worker-Namen „minerguru“ an, liest den ersten Auftrag und trennt wieder. So siehst du Blockhöhe, Belohnung, Gebühren und Empfänger und ob deine Adresse dabei ist.")
+                Text("For miners that do not report their block themselves (NerdOS, AxeOS before 2.13). MinerGuru briefly connects from this Mac to the miner's pool, logs in with the miner's address and the worker name “minerguru”, reads the first job and disconnects. You then see block height, reward, fees and recipients, and whether your address is among them.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
-                Text("Es werden keine Shares eingereicht; bei 17 getesteten Solo-Pools erschien kein zusätzlicher Worker. Abgefragt wird nur bei offener Detailseite, höchstens alle 5 Minuten je Pool. Der Pool sieht die IP-Adresse deines Anschlusses, wie beim Miner auch.")
+                Text("No shares are submitted; on 17 tested solo pools no extra worker appeared. It only asks while a miner's detail page is open, at most every 5 minutes per pool. The pool sees your connection's IP address, just as it does for your miner.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -445,12 +445,12 @@ private struct UpdateSettingsSection: View {
         SettingsSection("Updates", systemImage: "arrow.down.circle") {
             VStack(alignment: .leading, spacing: 6) {
                 Toggle(isOn: $updates.isEnabled) {
-                    Text("Täglich nach neuen Versionen suchen")
+                    Text("Check for new versions daily")
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .toggleStyle(TrailingSwitch())
                 .controlSize(.small)
-                Text("MinerGuru fragt dazu GitHub nach der neuesten Version. GitHub sieht dabei deine IP-Adresse und die App-Version. Installiert wird nichts automatisch.")
+                Text("MinerGuru asks GitHub for the latest version. GitHub sees your IP address and the app version. Nothing is installed automatically.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -465,10 +465,10 @@ private struct UpdateSettingsSection: View {
                     .foregroundStyle(.secondary)
                 Spacer()
                 if updates.availableVersion != nil {
-                    Link("Zum Download", destination: AppInfo.releasesURL)
+                    Link("Go to download", destination: AppInfo.releasesURL)
                         .font(.callout)
                 }
-                Button("Jetzt suchen") {
+                Button("Check now") {
                     Task { await updates.check() }
                 }
                 .controlSize(.small)
@@ -479,10 +479,10 @@ private struct UpdateSettingsSection: View {
     }
 
     private var statusText: Text {
-        if updates.status == .checking { return Text("Suche läuft …") }
-        if updates.status == .failed { return Text("GitHub ist gerade nicht erreichbar.") }
-        if let version = updates.availableVersion { return Text("MinerGuru \(version) ist verfügbar") }
-        return updates.status == .upToDate ? Text("MinerGuru ist aktuell.") : Text("Noch nicht gesucht")
+        if updates.status == .checking { return Text("Checking …") }
+        if updates.status == .failed { return Text("GitHub cannot be reached right now.") }
+        if let version = updates.availableVersion { return Text("MinerGuru \(version) is available") }
+        return updates.status == .upToDate ? Text("MinerGuru is up to date.") : Text("Not checked yet")
     }
 }
 

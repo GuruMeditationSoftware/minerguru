@@ -103,10 +103,10 @@ struct PrivacyToggleButton: View {
         Button {
             hidden.toggle()
         } label: {
-            Label(hidden ? "Sensible Daten einblenden" : "Sensible Daten ausblenden", systemImage: hidden ? "eye.slash.fill" : "eye")
+            Label(hidden ? "Show Sensitive Data" : "Hide Sensitive Data", systemImage: hidden ? "eye.slash.fill" : "eye")
         }
         .help(hidden
-              ? "IP-, Wallet- und MAC-Adressen wieder anzeigen (⇧⌘H)"
-              : "IP-, Wallet- und MAC-Adressen für Screenshots verschleiern (⇧⌘H)")
+              ? "Show IP, wallet and MAC addresses again (⇧⌘H)"
+              : "Scramble IP, wallet and MAC addresses for screenshots (⇧⌘H)")
     }
 }

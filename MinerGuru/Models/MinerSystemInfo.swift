@@ -396,12 +396,12 @@ struct MinerSystemInfo: Codable, Sendable, Equatable {
     }
 
     var primaryPoolEndpoint: String {
-        guard !stratumURL.isEmpty else { return String(localized: "Nicht konfiguriert") }
+        guard !stratumURL.isEmpty else { return String(localized: "Not configured") }
         return "\(StratumHost.clean(stratumURL, keepPort: true)):\(stratumPort)"
     }
 
     var fallbackPoolEndpoint: String {
-        guard !fallbackStratumURL.isEmpty else { return String(localized: "Nicht konfiguriert") }
+        guard !fallbackStratumURL.isEmpty else { return String(localized: "Not configured") }
         return "\(StratumHost.clean(fallbackStratumURL, keepPort: true)):\(fallbackStratumPort)"
     }
 

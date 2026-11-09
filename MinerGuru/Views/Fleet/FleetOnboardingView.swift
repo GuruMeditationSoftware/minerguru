@@ -26,10 +26,10 @@ struct FleetOnboardingView: View {
                 ], width: 168)
                 .padding(.bottom, 8)
 
-                Text("Bitaxe und NerdQAxe im Heimnetz überwachen")
+                Text("Monitor Bitaxe and NerdQAxe miners on your home network")
                     .font(.system(size: 28, weight: .medium))
 
-                Text("Scanne dein lokales Netzwerk oder füge einen Miner direkt per IP-Adresse hinzu.")
+                Text("Scan your local network or add a miner directly by IP address.")
                     .font(.system(size: 13))
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
@@ -45,9 +45,9 @@ struct FleetOnboardingView: View {
                             .font(.system(size: 18))
                             .foregroundStyle(.secondary)
                         VStack(alignment: .leading, spacing: 2) {
-                            Text("Netzwerk automatisch scannen")
+                            Text("Scan network automatically")
                                 .font(.system(size: 15, weight: .medium))
-                            Text("Sucht nach Bitaxe & NerdQAxe++ in \(redactor.ip(scanner.subnetPrefix)).1–254")
+                            Text("Looks for Bitaxe & NerdQAxe++ in \(redactor.ip(scanner.subnetPrefix)).1–254")
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         }
@@ -57,7 +57,7 @@ struct FleetOnboardingView: View {
                     Divider()
 
                     HStack(spacing: 8) {
-                        Text("Subnetz:")
+                        Text("Subnet:")
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                         TextField("192.168.1", text: $scanner.subnetPrefix)
@@ -78,12 +78,12 @@ struct FleetOnboardingView: View {
                                 total: Double(max(1, scanner.totalCount))
                             )
                             HStack {
-                                Text("Prüfe IPs im lokalen Netzwerk… (\(scanner.completedCount)/\(scanner.totalCount))")
+                                Text("Checking IPs on the local network… (\(scanner.completedCount)/\(scanner.totalCount))")
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
                                     .monospacedDigit()
                                 Spacer()
-                                Button("Stopp") {
+                                Button("Stop") {
                                     scanner.stopScan()
                                 }
                                 .buttonStyle(.bordered)
@@ -94,7 +94,7 @@ struct FleetOnboardingView: View {
                         Button {
                             scanner.startScan(autoAddNew: true)
                         } label: {
-                            Label("Lokales Netzwerk jetzt scannen", systemImage: "magnifyingglass")
+                            Label("Scan local network now", systemImage: "magnifyingglass")
                                 .frame(maxWidth: .infinity)
                         }
                         .buttonStyle(.borderedProminent)
@@ -103,7 +103,7 @@ struct FleetOnboardingView: View {
 
                     if !scanner.discoveredMiners.isEmpty {
                         VStack(alignment: .leading, spacing: 8) {
-                            Text("Gefundene Miner (\(scanner.discoveredMiners.count)):")
+                            Text("Miners found (\(scanner.discoveredMiners.count)):")
                                 .font(.caption.weight(.medium))
                                 .foregroundStyle(.secondary)
 
@@ -121,7 +121,7 @@ struct FleetOnboardingView: View {
                                             .monospacedDigit()
                                     }
                                     Spacer()
-                                    Button(store.isIPAlreadyAdded(item.ipAddress) ? "Hinzugefügt" : "Übernehmen") {
+                                    Button(store.isIPAlreadyAdded(item.ipAddress) ? "Added" : "Add") {
                                         store.addMiner(
                                             ipAddress: item.ipAddress,
                                             initialInfo: item.info,
@@ -149,9 +149,9 @@ struct FleetOnboardingView: View {
                             .font(.title2)
                             .foregroundStyle(.secondary)
                         VStack(alignment: .leading, spacing: 2) {
-                            Text("Miner per IP-Adresse hinzufügen")
+                            Text("Add miner by IP address")
                                 .font(.system(size: 15, weight: .medium))
-                            Text("Direkte Eingabe einer IP oder eines Hostnamens")
+                            Text("Enter an IP address or hostname directly")
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         }
@@ -162,10 +162,10 @@ struct FleetOnboardingView: View {
 
                     VStack(alignment: .leading, spacing: 10) {
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("IP-Adresse oder Hostname")
+                            Text("IP address or hostname")
                                 .font(.caption.weight(.medium))
                                 .foregroundStyle(.secondary)
-                            TextField("z.B. 192.168.1.150 oder bitaxe.local", text: $quickIPInput)
+                            TextField("e.g. 192.168.1.150 or bitaxe.local", text: $quickIPInput)
                                 .sensitive()
                                 .textFieldStyle(.roundedBorder)
                                 .monospaced()
@@ -175,10 +175,10 @@ struct FleetOnboardingView: View {
                         }
 
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("Anzeigename (optional)")
+                            Text("Display name (optional)")
                                 .font(.caption.weight(.medium))
                                 .foregroundStyle(.secondary)
-                            TextField("z.B. Wohnzimmer Gamma 601 oder NerdQAxe++", text: $quickNameInput)
+                            TextField("e.g. Living Room Gamma 601 or NerdQAxe++", text: $quickNameInput)
                                 .textFieldStyle(.roundedBorder)
                         }
                     }
@@ -197,7 +197,7 @@ struct FleetOnboardingView: View {
                                 ProgressView()
                                     .controlSize(.small)
                             }
-                            Label("Miner verbinden & hinzufügen", systemImage: "plus.circle.fill")
+                            Label("Connect & add miner", systemImage: "plus.circle.fill")
                         }
                         .frame(maxWidth: .infinity)
                     }

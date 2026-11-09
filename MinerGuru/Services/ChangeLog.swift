@@ -6,9 +6,9 @@ enum ChangeSource: String, Codable, Sendable {
 
     var title: String {
         switch self {
-        case .manual: String(localized: "Von Hand")
-        case .schedule: String(localized: "Zeitplan")
-        case .watchdog: String(localized: "Automatik")
+        case .manual: String(localized: "By hand")
+        case .schedule: String(localized: "Schedule")
+        case .watchdog: String(localized: "Automatic")
         }
     }
 }
@@ -143,11 +143,11 @@ final class ChangeLog: @unchecked Sendable {
 
     static func actionTitle(_ action: String) -> String {
         switch action {
-        case "restart": String(localized: "Neustart")
-        case "pause": String(localized: "Pausieren")
-        case "resume": String(localized: "Fortsetzen")
-        case "clearSlot": String(localized: "Pool-Slot geleert")
-        default: String(localized: "Einstellungen")
+        case "restart": String(localized: "Restart")
+        case "pause": String(localized: "Pause")
+        case "resume": String(localized: "Resume")
+        case "clearSlot": String(localized: "Pool slot cleared")
+        default: String(localized: "Settings")
         }
     }
 
@@ -217,34 +217,34 @@ final class ChangeLog: @unchecked Sendable {
         let title: String
         switch name {
         case "hostname": title = String(localized: "Hostname")
-        case "frequency": title = String(localized: "Frequenz")
-        case "coreVoltage": title = String(localized: "Kernspannung")
-        case "autofanspeed": title = String(localized: "Lüfterautomatik")
-        case "fanspeed", "manualFanSpeed": title = String(localized: "Lüfter")
-        case "stratumURL": title = String(localized: "Pool-Adresse")
-        case "stratumPort": title = String(localized: "Pool-Port")
-        case "stratumUser": title = String(localized: "Pool-Benutzer")
-        case "stratumPassword": title = String(localized: "Pool-Passwort")
-        case "fallbackStratumURL": title = String(localized: "Fallback-Adresse")
-        case "fallbackStratumPort": title = String(localized: "Fallback-Port")
-        case "fallbackStratumUser": title = String(localized: "Fallback-Benutzer")
-        case "fallbackStratumPassword": title = String(localized: "Fallback-Passwort")
-        case "overclockEnabled": title = String(localized: "Eigene Taktwerte")
-        case "temptarget", "pidTargetTemp": title = String(localized: "Zieltemperatur")
-        case "poolMode": title = String(localized: "Pool-Modus")
-        case "poolBalance": title = String(localized: "Pool-Aufteilung")
-        case "primaryPoolIndex": title = String(localized: "Primärer Pool-Platz")
-        case "secondaryPoolIndex": title = String(localized: "Fallback-Platz")
-        case "id": title = String(localized: "Platz")
-        case "stratumProtocol": title = String(localized: "Protokoll")
+        case "frequency": title = String(localized: "Frequency")
+        case "coreVoltage": title = String(localized: "Core voltage")
+        case "autofanspeed": title = String(localized: "Automatic fan")
+        case "fanspeed", "manualFanSpeed": title = String(localized: "Fan")
+        case "stratumURL": title = String(localized: "Pool address")
+        case "stratumPort": title = String(localized: "Pool port")
+        case "stratumUser": title = String(localized: "Pool user")
+        case "stratumPassword": title = String(localized: "Pool password")
+        case "fallbackStratumURL": title = String(localized: "Fallback address")
+        case "fallbackStratumPort": title = String(localized: "Fallback port")
+        case "fallbackStratumUser": title = String(localized: "Fallback user")
+        case "fallbackStratumPassword": title = String(localized: "Fallback password")
+        case "overclockEnabled": title = String(localized: "Custom clock values")
+        case "temptarget", "pidTargetTemp": title = String(localized: "Target temperature")
+        case "poolMode": title = String(localized: "Pool mode")
+        case "poolBalance": title = String(localized: "Pool split")
+        case "primaryPoolIndex": title = String(localized: "Primary pool slot")
+        case "secondaryPoolIndex": title = String(localized: "Fallback slot")
+        case "id": title = String(localized: "Slot")
+        case "stratumProtocol": title = String(localized: "Protocol")
         case "stratumTLS": title = "TLS"
-        case "stratumSuggestedDifficulty": title = String(localized: "Vorgeschlagene Difficulty")
+        case "stratumSuggestedDifficulty": title = String(localized: "Suggested difficulty")
         case "stratumExtranonceSubscribe": title = "Extranonce-Subscribe"
-        case "stratumDecodeCoinbase": title = String(localized: "Coinbase auswerten")
-        case "stratumShareWarning": title = String(localized: "Share-Warnung")
-        case "stratumV2ChannelType": title = String(localized: "SV2-Kanaltyp")
-        case "stratumV2AuthorityPubkey": title = String(localized: "SV2-Authority-Key")
-        case "stratumV2RequireAuth": title = String(localized: "SV2-Authentifizierung")
+        case "stratumDecodeCoinbase": title = String(localized: "Decode coinbase")
+        case "stratumShareWarning": title = String(localized: "Share warning")
+        case "stratumV2ChannelType": title = String(localized: "SV2 channel type")
+        case "stratumV2AuthorityPubkey": title = String(localized: "SV2 authority key")
+        case "stratumV2RequireAuth": title = String(localized: "SV2 authentication")
         default: title = name
         }
         return prefix + title
@@ -255,8 +255,8 @@ final class ChangeLog: @unchecked Sendable {
         let name = key.split(separator: ".").last.map(String.init) ?? key
         switch name {
         case "overclockEnabled", "autofanspeed", "stratumExtranonceSubscribe", "stratumDecodeCoinbase", "stratumShareWarning", "stratumV2RequireAuth":
-            if value == "1" || value == "true" { return String(localized: "an") }
-            if value == "0" || value == "false" { return String(localized: "aus") }
+            if value == "1" || value == "true" { return String(localized: "on") }
+            if value == "0" || value == "false" { return String(localized: "off") }
         case "poolMode":
             if value == "0" { return "Failover" }
             if value == "1" { return "Dual-Pool" }

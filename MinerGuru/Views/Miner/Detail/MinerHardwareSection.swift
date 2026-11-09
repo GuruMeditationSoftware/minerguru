@@ -8,29 +8,29 @@ struct MinerHardwareSection: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Label("Hardware- & System-Telemetrie", systemImage: "memorychip")
+            Label("Hardware & System Telemetry", systemImage: "memorychip")
                 .font(.system(size: 15, weight: .medium))
 
             Grid(alignment: .leading, horizontalSpacing: 28, verticalSpacing: 10) {
                 GridRow {
-                    pair("Modell / Typ", miner.hardwareTitle)
-                    pair("ASIC-Chip", "\(info.asicCount)x \(info.asicModel)")
-                    pair("Board-Version", info.boardVersion ?? "—")
-                    pair("Small Cores", info.smallCoreCount.map { "\($0)" } ?? "—")
+                    pair("Model / type", miner.hardwareTitle)
+                    pair("ASIC chip", "\(info.asicCount)x \(info.asicModel)")
+                    pair("Board version", info.boardVersion ?? "—")
+                    pair("Small cores", info.smallCoreCount.map { "\($0)" } ?? "—")
                 }
                 Divider()
                 GridRow {
                     pair("Hostname", info.hostname)
-                    pair("MAC-Adresse", info.macAddress.map(redactor.mac) ?? "—")
-                    pair("WLAN SSID", info.ssid.map(redactor.ssid) ?? "—")
-                    pair("WLAN Signal", info.wifiRSSI.map { "\($0) dBm" } ?? info.wifiStatus ?? "—")
+                    pair("MAC address", info.macAddress.map(redactor.mac) ?? "—")
+                    pair("Wi-Fi SSID", info.ssid.map(redactor.ssid) ?? "—")
+                    pair("Wi-Fi signal", info.wifiRSSI.map { "\($0) dBm" } ?? info.wifiStatus ?? "—")
                 }
                 Divider()
                 GridRow {
                     pair("Firmware", info.firmwareVersion.isEmpty ? "—" : info.firmwareVersion)
                     pair("ESP-IDF", info.idfVersion ?? "—")
-                    pair("Freier Heap RAM", info.freeHeap.map { "\($0 / 1024) KB" } ?? "—")
-                    pair("Best Diff Session / Allzeit", "\(info.sessionBestDiffText) / \(info.bestDiffFormatted)")
+                    pair("Free heap RAM", info.freeHeap.map { "\($0 / 1024) KB" } ?? "—")
+                    pair("Best diff session / all-time", "\(info.sessionBestDiffText) / \(info.bestDiffFormatted)")
                 }
             }
             .padding(16)

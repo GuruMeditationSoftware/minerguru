@@ -500,7 +500,7 @@ final class MinerStore: ObservableObject {
     /// Returns `true` if persisted fields (hostname, hardware model) changed and the miner list should be saved.
     static func apply(_ result: SingleMinerFetchResult, to device: inout MinerDevice) -> Bool {
         guard let info = result.info, let latency = result.latency else {
-            device.connectionState = .offline(reason: result.errorDescription ?? String(localized: "Nicht erreichbar"))
+            device.connectionState = .offline(reason: result.errorDescription ?? String(localized: "Unreachable"))
             return false
         }
 
@@ -560,7 +560,7 @@ final class MinerStore: ObservableObject {
         guard let miner = miners.first(where: { $0.id == minerID }) else { return }
         try await confirm(payload, on: miner)
         try await writeSettings(payload, to: miner)
-        showBanner(String(localized: "Einstellungen an \(miner.displayName) übertragen."), isError: false)
+        showBanner(String(localized: "Settings sent to \(miner.displayName)."), isError: false)
         try? await Task.sleep(for: .milliseconds(600))
         await refreshMiner(id: minerID)
     }
@@ -576,7 +576,7 @@ final class MinerStore: ObservableObject {
             try await MinerAPIClient.shared.deletePoolSlot(host: miner.ipAddress, index: slot)
         }
         try await MinerAPIClient.shared.restartMiner(host: miner.ipAddress)
-        showBanner(String(localized: "Pool-Konfiguration an \(miner.displayName) übertragen – Miner startet neu."), isError: false)
+        showBanner(String(localized: "Pool configuration sent to \(miner.displayName) – the miner is restarting."), isError: false)
         if let idx = miners.firstIndex(where: { $0.id == minerID }) {
             miners[idx].connectionState = .checking
         }
@@ -594,7 +594,7 @@ final class MinerStore: ObservableObject {
         if ChangeLog.isReadOnly { throw MinerAPIError.readOnly }
         let body = try JSONEncoder().encode(payload)
         var fields = ChangeLog.changes(body: body, current: ChangeLog.flatten(rawJSON: miner.rawJSON ?? "") ?? [:])
-        fields += slots.map { ChangeField(key: "pools.\($0).stratumURL", before: nil, after: String(localized: "(geleert)")) }
+        fields += slots.map { ChangeField(key: "pools.\($0).stratumURL", before: nil, after: String(localized: "(cleared)")) }
         guard await confirmWrite(miner, fields, restarts) else { throw CancellationError() }
     }
 
@@ -605,14 +605,14 @@ final class MinerStore: ObservableObject {
 
     private static func askBeforeWriting(_ miner: MinerDevice, _ fields: [ChangeField], restarts: Bool) -> Bool {
         var lines = fields.map(\.summary)
-        if lines.isEmpty { lines = [String(localized: "Es ändert sich kein Wert.")] }
-        if restarts { lines.append(String(localized: "Danach startet der Miner neu.")) }
+        if lines.isEmpty { lines = [String(localized: "No value changes.")] }
+        if restarts { lines.append(String(localized: "The miner restarts afterwards.")) }
         let text = lines.joined(separator: "\n")
         let alert = NSAlert()
-        alert.messageText = String(localized: "An \(miner.displayName) übertragen?")
+        alert.messageText = String(localized: "Send to \(miner.displayName)?")
         alert.informativeText = UserDefaults.standard.bool(forKey: PrivacyMode.storageKey) ? PrivacyMode.scrambleFreeText(text) : text
-        alert.addButton(withTitle: String(localized: "Übertragen"))
-        alert.addButton(withTitle: String(localized: "Abbrechen"))
+        alert.addButton(withTitle: String(localized: "Send"))
+        alert.addButton(withTitle: String(localized: "Cancel"))
         NSApp.activate()
         return alert.runModal() == .alertFirstButtonReturn
     }
@@ -638,10 +638,10 @@ final class MinerStore: ObservableObject {
             try await MinerAPIClient.shared.restartMiner(host: miner.ipAddress)
         } catch {
             Log.miner.error("Restart of \(miner.ipAddress, privacy: .public) failed: \(error.localizedDescription, privacy: .public)")
-            showBanner(String(localized: "Neustart von \(miner.displayName) fehlgeschlagen: \(error.localizedDescription)"), isError: true)
+            showBanner(String(localized: "Restart of \(miner.displayName) failed: \(error.localizedDescription)"), isError: true)
             return
         }
-        showBanner(String(localized: "Neustart für \(miner.displayName) ausgelöst."), isError: false)
+        showBanner(String(localized: "Restart of \(miner.displayName) triggered."), isError: false)
         if let idx = miners.firstIndex(where: { $0.id == minerID }) {
             miners[idx].connectionState = .checking
         }
@@ -672,7 +672,7 @@ final class MinerStore: ObservableObject {
     }
 
     private func showHistoryDamaged() {
-        showBanner(String(localized: "Der Verlauf war beschädigt und beginnt neu. Die alte Datei liegt im App-Datenordner."), isError: true, seconds: 30)
+        showBanner(String(localized: "The history was damaged and starts over. The old file is in the app's data folder."), isError: true, seconds: 30)
     }
 
     func showBanner(_ message: String, isError: Bool, seconds: Int = 4) {

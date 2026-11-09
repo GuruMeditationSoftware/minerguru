@@ -38,15 +38,15 @@ struct PoolConfigurationView: View {
             libraryCard
             PoolSchedulesCard(store: store)
 
-            Text("Zuordnung zu Minern")
+            Text("Assignment to Miners")
                 .font(.title3.weight(.medium))
                 .padding(.top, 4)
 
             if configurableMiners.isEmpty {
                 ContentUnavailableView(
-                    "Keine Miner online",
+                    "No Miners Online",
                     systemImage: "cpu",
-                    description: Text("Sobald ein Miner Telemetrie liefert, kannst du hier seine Pool-Slots belegen.")
+                    description: Text("As soon as a miner reports telemetry, you can fill its pool slots here.")
                 )
                 .frame(maxWidth: .infinity)
             } else {
@@ -67,30 +67,30 @@ struct PoolConfigurationView: View {
                 }
             }
         }
-        .navigationTitle("Pool-Konfiguration")
-        .navigationSubtitle("Pools speichern und Minern zuordnen")
+        .navigationTitle("Pool Configuration")
+        .navigationSubtitle("Save pools and assign them to miners")
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
                 Button {
                     importFromMiners()
                 } label: {
-                    Label("Aus Minern auslesen", systemImage: "square.and.arrow.down.on.square")
+                    Label("Read from Miners", systemImage: "square.and.arrow.down.on.square")
                 }
-                .help("Alle auf den Minern konfigurierten Pools in die Bibliothek übernehmen")
+                .help("Add all pools configured on the miners to the library")
 
                 Button {
                     editing = EditingPool(config: PoolConfig(name: "", host: ""), isNew: true)
                 } label: {
-                    Label("Neuer Pool", systemImage: "plus")
+                    Label("New Pool", systemImage: "plus")
                 }
-                .help("Neue Pool-Konfiguration anlegen")
+                .help("Create a new pool configuration")
 
                 Button {
                     apply(minerIDs: dirtyMinerIDs)
                 } label: {
-                    Label("Alle übernehmen (\(dirtyMinerIDs.count))", systemImage: "checkmark.circle.fill")
+                    Label("Apply All (\(dirtyMinerIDs.count))", systemImage: "checkmark.circle.fill")
                 }
-                .help("Alle geänderten Pool-Zuordnungen senden; die Miner starten danach neu")
+                .help("Send all changed pool assignments; the miners restart afterwards")
                 .disabled(dirtyMinerIDs.isEmpty || dirtyMinerIDs.contains { drafts[$0]?.poolValidationMessage != nil })
             }
         }
@@ -106,14 +106,14 @@ struct PoolConfigurationView: View {
             }
         }
         .alert(
-            "Pool-Konfiguration löschen?",
+            "Delete Pool Configuration?",
             isPresented: Binding { pendingDelete != nil } set: { if !$0 { pendingDelete = nil } },
             presenting: pendingDelete
         ) { pool in
-            Button("Abbrechen", role: .cancel) {}
-            Button("Löschen", role: .destructive) { library.remove(id: pool.id) }
+            Button("Cancel", role: .cancel) {}
+            Button("Delete", role: .destructive) { library.remove(id: pool.id) }
         } message: { pool in
-            Text("„\(pool.name)“ wird nur aus der Bibliothek entfernt. Die Miner behalten ihre aktuelle Konfiguration.")
+            Text("“\(pool.name)” is only removed from the library. The miners keep their current configuration.")
         }
     }
 
@@ -122,7 +122,7 @@ struct PoolConfigurationView: View {
     private var libraryCard: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
-                Label("Pool-Bibliothek", systemImage: "server.rack")
+                Label("Pool Library", systemImage: "server.rack")
                     .font(.system(size: 15, weight: .medium))
                 Text("\(library.pools.count)")
                     .font(.caption.weight(.medium).monospacedDigit())
@@ -131,7 +131,7 @@ struct PoolConfigurationView: View {
             }
 
             if library.pools.isEmpty {
-                Text("Noch keine Pools gespeichert. Lies die Pools deiner Miner aus oder lege einen neuen an.")
+                Text("No pools saved yet. Read the pools from your miners or create a new one.")
                     .font(.callout)
                     .foregroundStyle(.secondary)
             } else {
@@ -167,21 +167,21 @@ struct PoolConfigurationView: View {
 
             let usage = usageCount(pool)
             if usage > 0 {
-                Text(usage == 1 ? "1 Miner" : "\(usage) Miner")
+                Text(usage == 1 ? "1 miner" : "\(usage) miners")
                     .font(.caption2.weight(.medium))
                     .foregroundStyle(.secondary)
                     .fixedSize()
             }
 
             Menu {
-                Button("Als Primär-Pool auf allen Minern") { assignEverywhere(pool, asPrimary: true) }
-                Button("Als Fallback / Pool 2 auf allen Minern") { assignEverywhere(pool, asPrimary: false) }
+                Button("As Primary Pool on All Miners") { assignEverywhere(pool, asPrimary: true) }
+                Button("As Fallback / Pool 2 on All Miners") { assignEverywhere(pool, asPrimary: false) }
             } label: {
-                Label("Zuweisen", systemImage: "arrow.right.circle")
+                Label("Assign", systemImage: "arrow.right.circle")
             }
             .fixedSize()
             .disabled(configurableMiners.isEmpty)
-            .help("Pool in die Entwürfe aller Miner übernehmen – gesendet wird erst mit „Übernehmen & neu starten“")
+            .help("Put the pool into the drafts of all miners – nothing is sent until “Apply & Restart”")
 
             Button {
                 editing = EditingPool(config: pool, isNew: false)
@@ -189,7 +189,7 @@ struct PoolConfigurationView: View {
                 Image(systemName: "pencil")
             }
             .buttonStyle(.borderless)
-            .help("Bearbeiten")
+            .help("Edit")
 
             Button {
                 if let copy = library.duplicate(id: pool.id) {
@@ -199,7 +199,7 @@ struct PoolConfigurationView: View {
                 Image(systemName: "plus.square.on.square")
             }
             .buttonStyle(.borderless)
-            .help("Duplizieren (z. B. für einen anderen Worker)")
+            .help("Duplicate (e.g. for another worker)")
 
             Button {
                 pendingDelete = pool
@@ -207,7 +207,7 @@ struct PoolConfigurationView: View {
                 Image(systemName: "trash")
             }
             .buttonStyle(.borderless)
-            .help("Aus der Bibliothek löschen")
+            .help("Delete from library")
         }
         .controlSize(.small)
         .padding(.vertical, 6)
@@ -287,7 +287,7 @@ struct PoolConfigurationView: View {
     private func importFromMiners() {
         let added = library.importPools(from: store.miners)
         store.showBanner(
-            added == 0 ? String(localized: "Keine neuen Pools gefunden.") : String(localized: "\(added) Pool(s) in die Bibliothek übernommen."),
+            added == 0 ? String(localized: "No new pools found.") : String(localized: "Added \(added) pool(s) to the library."),
             isError: false
         )
     }

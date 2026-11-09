@@ -17,10 +17,10 @@ struct LongTermHistoryCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
             HStack(alignment: .firstTextBaseline) {
-                Text("Langzeit-Verlauf")
+                Text("Long-term history")
                     .font(.system(size: 20, weight: .medium))
                 Spacer()
-                Picker("Zeitraum", selection: $range) {
+                Picker("Timeframe", selection: $range) {
                     ForEach(HistoryRange.allCases) { Text($0.title).tag($0) }
                 }
                 .labelsHidden()
@@ -30,7 +30,7 @@ struct LongTermHistoryCard: View {
 
             VStack(alignment: .leading, spacing: 14) {
                 HStack {
-                    Picker("Messwert", selection: $metric) {
+                    Picker("Metric", selection: $metric) {
                         ForEach(HistoryMetric.allCases) { Text($0.title).tag($0) }
                     }
                     .labelsHidden()
@@ -42,11 +42,11 @@ struct LongTermHistoryCard: View {
                         Label("CSV", systemImage: "square.and.arrow.up")
                     }
                     .disabled(points.isEmpty)
-                    .help("Verlauf als CSV sichern")
+                    .help("Save history as CSV")
                 }
 
                 if values.isEmpty {
-                    Text("Noch keine Daten in diesem Zeitraum. MinerGuru zeichnet auf, solange die App läuft.")
+                    Text("No data for this period yet. MinerGuru records while the app is running.")
                         .font(.callout)
                         .foregroundStyle(.secondary)
                         .frame(maxWidth: .infinity, minHeight: 170)
@@ -69,7 +69,7 @@ struct LongTermHistoryCard: View {
             ForEach(segments, id: \.offset) { index, segment in
                 ForEach(segment) { point in
                     if let value = metric.value(point) {
-                        LineMark(x: .value("Zeit", point.date), y: .value(metric.title, value), series: .value("Abschnitt", index))
+                        LineMark(x: .value("Time", point.date), y: .value(metric.title, value), series: .value("Segment", index))
                             .foregroundStyle(Accent.color)
                             .lineStyle(StrokeStyle(lineWidth: 1.5))
                             .interpolationMethod(.monotone)
@@ -87,7 +87,7 @@ struct LongTermHistoryCard: View {
             stat("Min", metric.format(values.min() ?? 0))
             stat("Max", metric.format(values.max() ?? 0))
             if let uptime {
-                stat("Betriebszeit", DisplayFormat.decimal(uptime, fractionDigits: 1) + " %")
+                stat("Uptime", DisplayFormat.decimal(uptime, fractionDigits: 1) + " %")
             }
             Spacer()
         }

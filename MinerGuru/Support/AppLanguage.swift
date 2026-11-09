@@ -13,7 +13,7 @@ enum AppLanguage: String, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
-        case .system: return String(localized: "Systemsprache")
+        case .system: return String(localized: "System Language")
         case .german: return "Deutsch"
         case .english: return "English"
         }

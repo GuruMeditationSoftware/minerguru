@@ -19,9 +19,9 @@ struct WeekdayPicker: View {
                 }
             }
             HStack(spacing: 12) {
-                Button("Täglich") { days = WeekdayOrder.all }
-                Button("Mo–Fr") { days = WeekdayOrder.workdays }
-                Button("Wochenende") { days = WeekdayOrder.weekend }
+                Button("Daily") { days = WeekdayOrder.all }
+                Button("Mon–Fri") { days = WeekdayOrder.workdays }
+                Button("Weekend") { days = WeekdayOrder.weekend }
             }
             .buttonStyle(.link)
             .font(.caption)
@@ -36,14 +36,14 @@ struct TimeWindowFields: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             HStack(spacing: 8) {
-                Picker("Von", selection: $window.startMinute) { options }
+                Picker("From", selection: $window.startMinute) { options }
                     .frame(width: 130)
-                Picker("bis", selection: $window.endMinute) { options }
+                Picker("to", selection: $window.endMinute) { options }
                     .frame(width: 120)
             }
             Text(window.isWholeDay
-                 ? "Gleiche Zeit zweimal: gilt den ganzen Tag."
-                 : window.wrapsMidnight ? "Läuft über Mitternacht in den nächsten Tag." : " ")
+                 ? "Same time twice: applies all day."
+                 : window.wrapsMidnight ? "Runs past midnight into the next day." : " ")
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }
@@ -71,12 +71,12 @@ struct TariffZoneEditorSheet: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(isNew ? "Neue Tarifzone" : "Tarifzone bearbeiten")
+            Text(isNew ? "New Tariff Zone" : "Edit Tariff Zone")
                 .font(.headline)
 
             Form {
-                TextField("Name", text: $zone.name, prompt: Text("z. B. Nacht"))
-                LabeledContent("Preis pro kWh") {
+                TextField("Name", text: $zone.name, prompt: Text("e.g. Night"))
+                LabeledContent("Price per kWh") {
                     HStack(spacing: 6) {
                         TextField("", value: $zone.pricePerKWh, format: .number.precision(.fractionLength(2...4)))
                             .textFieldStyle(.roundedBorder)
@@ -85,16 +85,16 @@ struct TariffZoneEditorSheet: View {
                         Text(currencyCode).foregroundStyle(.secondary)
                     }
                 }
-                LabeledContent("Tage") { WeekdayPicker(days: $zone.window.weekdays) }
-                LabeledContent("Uhrzeit") { TimeWindowFields(window: $zone.window) }
+                LabeledContent("Days") { WeekdayPicker(days: $zone.window.weekdays) }
+                LabeledContent("Time of day") { TimeWindowFields(window: $zone.window) }
             }
             .formStyle(.columns)
 
             HStack {
                 Spacer()
-                Button("Abbrechen", role: .cancel) { dismiss() }
+                Button("Cancel", role: .cancel) { dismiss() }
                     .keyboardShortcut(.cancelAction)
-                Button("Sichern") {
+                Button("Save") {
                     zone.name = zone.name.trimmingCharacters(in: .whitespaces)
                     onSave(zone)
                     dismiss()
@@ -158,14 +158,14 @@ struct ScheduleRuleEditorSheet: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(isNew ? "Neuer Zeitplan" : "Zeitplan bearbeiten")
+            Text(isNew ? "New Schedule" : "Edit Schedule")
                 .font(.headline)
 
             Form {
-                Picker("Wann", selection: kind) {
-                    Text("Während einer Tarifzone").tag(TriggerKind.zone)
+                Picker("When", selection: kind) {
+                    Text("During a tariff zone").tag(TriggerKind.zone)
                         .disabled(zones.isEmpty)
-                    Text("Zu festen Uhrzeiten").tag(TriggerKind.window)
+                    Text("At set times").tag(TriggerKind.window)
                 }
                 .pickerStyle(.radioGroup)
 
@@ -175,29 +175,29 @@ struct ScheduleRuleEditorSheet: View {
                             Text("\(zone.name) (\(WeekdayOrder.summary(zone.window.weekdays)) \(zone.window.timeRangeText))").tag(zone.id)
                         }
                     }
-                    Text("Ändert sich die Zone, zieht der Zeitplan mit.")
+                    Text("If the zone changes, the schedule follows it.")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 } else {
-                    LabeledContent("Tage") { WeekdayPicker(days: window.weekdays) }
-                    LabeledContent("Uhrzeit") { TimeWindowFields(window: window) }
+                    LabeledContent("Days") { WeekdayPicker(days: window.weekdays) }
+                    LabeledContent("Time of day") { TimeWindowFields(window: window) }
                 }
 
-                Picker("Aktion", selection: $rule.action) {
+                Picker("Action", selection: $rule.action) {
                     ForEach([PowerAction.nightMode, .pause, .normal]) { action in
                         Label(action.title, systemImage: action.systemImage).tag(action)
                     }
                 }
                 if rule.action == .normal {
-                    Text("„Normal“ hält Miner bei ihren eigenen Einstellungen, auch wenn ein Zeitplan weiter unten etwas anderes will.")
+                    Text("“Normal” keeps miners on their own settings, even if a schedule further down wants something else.")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
                 }
 
-                LabeledContent("Miner") {
+                LabeledContent("Miners") {
                     VStack(alignment: .leading, spacing: 4) {
-                        Toggle("Alle Miner", isOn: Binding {
+                        Toggle("All miners", isOn: Binding {
                             rule.minerIDs.isEmpty
                         } set: { all in
                             rule.minerIDs = all ? [] : Set(miners.map(\.id))
@@ -220,9 +220,9 @@ struct ScheduleRuleEditorSheet: View {
 
             HStack {
                 Spacer()
-                Button("Abbrechen", role: .cancel) { dismiss() }
+                Button("Cancel", role: .cancel) { dismiss() }
                     .keyboardShortcut(.cancelAction)
-                Button("Sichern") {
+                Button("Save") {
                     onSave(rule)
                     dismiss()
                 }
@@ -237,6 +237,6 @@ struct ScheduleRuleEditorSheet: View {
     private func minerLabel(_ miner: MinerDevice) -> String {
         let name = redactor.freeText(miner.displayName)
         guard rule.action == .pause, miner.latestInfo != nil, !PowerStore.canPause(miner) else { return name }
-        return String(localized: "\(name) (kann nicht pausieren, Nachtmodus)")
+        return String(localized: "\(name) (cannot pause, night mode)")
     }
 }

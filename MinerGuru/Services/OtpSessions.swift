@@ -34,8 +34,8 @@ enum OtpError: LocalizedError, Equatable {
 
     var errorDescription: String? {
         switch self {
-        case .cancelled: String(localized: "Kein Einmalcode eingegeben, nichts geändert.")
-        case .codeNeeded: String(localized: "Dieser Miner braucht einen Einmalcode.")
+        case .cancelled: String(localized: "No one-time code entered, nothing changed.")
+        case .codeNeeded: String(localized: "This miner needs a one-time code.")
         }
     }
 }
@@ -108,7 +108,7 @@ final class OtpSessions: ObservableObject {
             guard let answer = await prompt(miner.displayName, problem) else { throw OtpError.cancelled }
             let code = answer.trimmingCharacters(in: .whitespaces)
             guard code.count == 6, code.allSatisfy({ $0.isASCII && $0.isNumber }) else {
-                problem = String(localized: "Der Code hat 6 Ziffern.")
+                problem = String(localized: "The code has 6 digits.")
                 continue
             }
             do {
@@ -118,7 +118,7 @@ final class OtpSessions: ObservableObject {
             } catch MinerAPIError.httpStatusError(405, _) {
                 return nil
             } catch let error as MinerAPIError where error.isOtpWrongCode {
-                problem = String(localized: "Der Code stimmt nicht. Warte auf den nächsten und versuche es noch einmal.")
+                problem = String(localized: "That code is wrong. Wait for the next one and try again.")
             }
         }
     }
@@ -142,13 +142,13 @@ final class OtpSessions: ObservableObject {
 
     private static func askWithAlert(minerName: String, problem: String?) -> String? {
         let alert = NSAlert()
-        alert.messageText = String(localized: "Einmalcode für \(minerName)")
-        alert.informativeText = problem ?? String(localized: "Dieser Miner schützt seine Einstellungen mit einem Einmalcode. Gib den 6-stelligen Code aus deiner Authenticator-App ein. Die Sitzung gilt bis zu 24 Stunden.")
+        alert.messageText = String(localized: "One-time code for \(minerName)")
+        alert.informativeText = problem ?? String(localized: "This miner protects its settings with a one-time code. Enter the 6-digit code from your authenticator app. The session lasts up to 24 hours.")
         let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 220, height: 24))
         field.placeholderString = "123456"
         alert.accessoryView = field
-        alert.addButton(withTitle: String(localized: "Bestätigen"))
-        alert.addButton(withTitle: String(localized: "Abbrechen"))
+        alert.addButton(withTitle: String(localized: "Confirm"))
+        alert.addButton(withTitle: String(localized: "Cancel"))
         alert.window.initialFirstResponder = field
         NSApp.activate()
         return alert.runModal() == .alertFirstButtonReturn ? field.stringValue : nil

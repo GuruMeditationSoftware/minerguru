@@ -25,7 +25,7 @@ struct PoolInformationCard: View {
         VStack(alignment: .leading, spacing: 14) {
             VStack(alignment: .leading, spacing: 8) {
                 HStack(spacing: 10) {
-                    Label("Pool & Stratum-Verbindung", systemImage: "globe.europe.africa.fill")
+                    Label("Pool & Stratum Connection", systemImage: "globe.europe.africa.fill")
                         .font(.system(size: 15, weight: .medium))
                         .lineLimit(1)
                         .fixedSize()
@@ -36,18 +36,18 @@ struct PoolInformationCard: View {
                         Button {
                             onRefreshLatency()
                         } label: {
-                            Label("Latenz prüfen", systemImage: "waveform.path.ecg")
+                            Label("Check latency", systemImage: "waveform.path.ecg")
                                 .labelStyle(.iconOnly)
                         }
-                        .help("Latenz prüfen")
+                        .help("Check latency")
 
                         Button {
                             onConfigurePool()
                         } label: {
-                            Label("Pool konfigurieren…", systemImage: "slider.horizontal.3")
+                            Label("Configure Pool…", systemImage: "slider.horizontal.3")
                                 .labelStyle(.iconOnly)
                         }
-                        .help("Pool konfigurieren…")
+                        .help("Configure Pool…")
                     }
                     .buttonStyle(.bordered)
                     .controlSize(.small)
@@ -78,7 +78,7 @@ struct PoolInformationCard: View {
                         poolSlotColumn(
                             title: isDual
                                 ? "Pool 1 (\(info.dualPoolPrimaryPercent)% • ~\(MinerFormatting.formatHashrate(info.hashRate * Double(info.dualPoolPrimaryPercent) / 100.0)))"
-                                : String(localized: "Primärer Stratum-Pool"),
+                                : String(localized: "Primary Stratum Pool"),
                             coin: info.primaryPoolCoin,
                             isActive: isDual ? (info.primaryPoolStatus?.connected ?? true) : !usingFallback,
                             accentColor: isDual ? info.primaryPoolCoin.badgeColor : Accent.color,
@@ -95,7 +95,7 @@ struct PoolInformationCard: View {
                         poolSlotColumn(
                             title: isDual
                                 ? "Pool 2 (\(info.dualPoolSecondaryPercent)% • ~\(MinerFormatting.formatHashrate(info.hashRate * Double(info.dualPoolSecondaryPercent) / 100.0)))"
-                                : String(localized: "Fallback Stratum-Pool"),
+                                : String(localized: "Fallback Stratum Pool"),
                             coin: info.secondaryPoolCoin,
                             isActive: isDual ? (info.secondaryPoolStatus?.connected ?? true) : usingFallback,
                             accentColor: isDual ? info.secondaryPoolCoin.badgeColor : Accent.color,
@@ -133,7 +133,7 @@ struct PoolInformationCard: View {
                         HStack(spacing: 6) {
                             Image(systemName: "arrow.triangle.branch")
                                 .foregroundStyle(.secondary)
-                            Text("Dual-Mining:")
+                            Text("Dual mining:")
                                 .foregroundStyle(.secondary)
                             Text("\(info.primaryPoolCoin.symbol) (\(info.dualPoolPrimaryPercent)%) + \(info.secondaryPoolCoin.symbol) (\(info.dualPoolSecondaryPercent)%)")
                                 .fontWeight(.medium)
@@ -144,7 +144,7 @@ struct PoolInformationCard: View {
                         HStack(spacing: 6) {
                             Image(systemName: "gauge.with.dots.needle.50percent")
                                 .foregroundStyle(.secondary)
-                            Text("Pool-Difficulty:")
+                            Text("Pool difficulty:")
                                 .foregroundStyle(.secondary)
                             Text(MinerSystemInfo.formatDifficultyNumber(poolDiff))
                                 .fontWeight(.medium)
@@ -164,7 +164,7 @@ struct PoolInformationCard: View {
                             copiedUser = false
                         }
                     } label: {
-                        Label(copiedUser ? "Kopiert!" : "Pool-User kopieren", systemImage: copiedUser ? "checkmark" : "doc.on.doc")
+                        Label(copiedUser ? "Copied!" : "Copy pool user", systemImage: copiedUser ? "checkmark" : "doc.on.doc")
                             .font(.caption)
                     }
                     .buttonStyle(.plain)
@@ -172,7 +172,7 @@ struct PoolInformationCard: View {
                     .fixedSize()
                 }
             } else {
-                Text("Keine Pool-Informationen verfügbar (Miner offline).")
+                Text("No pool information available (miner offline).")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
             }
@@ -198,7 +198,7 @@ struct PoolInformationCard: View {
                         .font(.caption.weight(.medium))
                 }
                 Spacer()
-                Text("Dual-Pool Hashrate-Split")
+                Text("Dual-pool hashrate split")
                     .font(.caption2.weight(.medium))
                     .foregroundStyle(.secondary)
                 Spacer()
@@ -304,13 +304,13 @@ struct PoolInformationCard: View {
                         }
 
                         if let diff = poolStatus.poolDifficulty, diff > 0 {
-                            Text("• Pool-Diff: \(MinerSystemInfo.formatDifficultyNumber(diff))")
+                            Text("• Pool diff: \(MinerSystemInfo.formatDifficultyNumber(diff))")
                                 .font(.caption2.monospacedDigit())
                                 .foregroundStyle(.secondary)
                         }
 
                         if let netDiff = networkDiffFormatted {
-                            Text("• Net-Diff: \(netDiff)")
+                            Text("• Net diff: \(netDiff)")
                                 .font(.caption2.monospacedDigit())
                                 .foregroundStyle(.secondary)
                         }
@@ -318,11 +318,11 @@ struct PoolInformationCard: View {
                 }
             } else if let netDiff = networkDiffFormatted {
                 HStack(spacing: 10) {
-                    Text("Netzwerk:")
+                    Text("Network:")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                         .frame(width: 60, alignment: .leading)
-                    Text("Net-Diff: \(netDiff) (\(coin.fullName))")
+                    Text("Net diff: \(netDiff) (\(coin.fullName))")
                         .font(.caption2.monospacedDigit())
                         .foregroundStyle(.secondary)
                 }
@@ -335,31 +335,31 @@ struct PoolInformationCard: View {
                     .frame(width: 60, alignment: .leading)
                 Text(MinerSystemInfo.formatSessionBest(sessionBestDiff))
                     .font(.caption.weight(.medium).monospacedDigit())
-                Text("seit Neustart")
+                Text("since restart")
                     .font(.caption2)
                     .foregroundStyle(.secondary)
             }
 
             HStack(spacing: 12) {
-                Text("Latenz:")
+                Text("Latency:")
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .frame(width: 60, alignment: .leading)
 
                 if let minerLatencyMs, minerLatencyMs > 0 {
-                    Text("Miner-RTT: \(MinerFormatting.formatLatency(minerLatencyMs))")
+                    Text("Miner RTT: \(MinerFormatting.formatLatency(minerLatencyMs))")
                         .font(.caption2.weight(.medium))
                         .foregroundStyle(.secondary)
                         .monospacedDigit()
                 }
                 if let directLatencyMs, directLatencyMs > 0 {
-                    Text("TCP-Ping: \(MinerFormatting.formatLatency(directLatencyMs))")
+                    Text("TCP ping: \(MinerFormatting.formatLatency(directLatencyMs))")
                         .font(.caption2)
                         .foregroundStyle(.secondary)
                         .monospacedDigit()
                 }
                 if minerLatencyMs == nil && directLatencyMs == nil {
-                    Text("Wird gemessen…")
+                    Text("Measuring…")
                         .font(.caption2)
                         .foregroundStyle(.tertiary)
                 }

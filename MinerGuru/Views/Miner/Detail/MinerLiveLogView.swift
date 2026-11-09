@@ -67,7 +67,7 @@ struct MinerLiveLogSectionView: View {
     }
 
     private var logTitleLabel: some View {
-        Label("Live-Log & Konsole", systemImage: "terminal.fill")
+        Label("Live Log & Console", systemImage: "terminal.fill")
             .font(.system(size: 15, weight: .medium))
             .lineLimit(1)
             .fixedSize()
@@ -81,25 +81,25 @@ struct MinerLiveLogSectionView: View {
                 Button {
                     logController.pauseStreaming()
                 } label: {
-                    Label("Stoppen", systemImage: "pause.fill")
+                    Label("Stop", systemImage: "pause.fill")
                 }
                 .buttonStyle(.borderedProminent)
                 
                 .controlSize(.small)
-                .help("Live-Stream anhalten, um in Ruhe im Log zu lesen und zu suchen")
+                .help("Pause the live stream to read and search the log")
             } else {
                 Button {
                     logController.startStreaming(host: miner.ipAddress)
                 } label: {
                     Label(
-                        logController.state == .paused ? "Weiter" : "Live-Log starten",
+                        logController.state == .paused ? "Resume" : "Start Live Log",
                         systemImage: "play.fill"
                     )
                 }
                 .buttonStyle(.borderedProminent)
                 
                 .controlSize(.small)
-                .help("WebSocket-Verbindung zu ws://\(redactor.ip(miner.ipAddress))/api/ws starten")
+                .help("Start the WebSocket connection to ws://\(redactor.ip(miner.ipAddress))/api/ws")
             }
 
             // Auto-Scroll Toggle
@@ -107,50 +107,50 @@ struct MinerLiveLogSectionView: View {
                 logController.autoScroll.toggle()
             } label: {
                 Label(
-                    "Auto-Scroll",
+                    "Auto-scroll",
                     systemImage: logController.autoScroll ? "arrow.down.to.line.circle.fill" : "arrow.down.to.line.circle"
                 )
             }
             .buttonStyle(.bordered)
             .tint(logController.autoScroll ? Accent.color : .secondary)
             .controlSize(.small)
-            .help("Automatisch zur neuesten Log-Zeile scrollen")
+            .help("Scroll to the newest log line automatically")
 
             // Clear Log Buffer
             Button {
                 logController.clearLogs()
             } label: {
-                Label("Leeren", systemImage: "trash")
+                Label("Clear", systemImage: "trash")
             }
             .buttonStyle(.bordered)
             .controlSize(.small)
             .disabled(logController.entries.isEmpty)
-            .help("Aktuellen Log-Puffer leeren")
+            .help("Clear the current log buffer")
 
             // Copy Filtered Logs
             Button {
                 copyLogsToClipboard()
             } label: {
                 Label(
-                    copiedFeedback ? "Kopiert" : "Kopieren",
+                    copiedFeedback ? "Copied" : "Copy",
                     systemImage: copiedFeedback ? "checkmark" : "doc.on.doc"
                 )
             }
             .buttonStyle(.bordered)
             .controlSize(.small)
             .disabled(logController.filteredEntries.isEmpty)
-            .help("Gefilterte Log-Zeilen in die Zwischenablage kopieren")
+            .help("Copy the filtered log lines to the clipboard")
 
             // Export Logs to File
             Button {
                 exportLogsToFile()
             } label: {
-                Label("Exportieren…", systemImage: "square.and.arrow.up")
+                Label("Export…", systemImage: "square.and.arrow.up")
             }
             .buttonStyle(.bordered)
             .controlSize(.small)
             .disabled(logController.filteredEntries.isEmpty)
-            .help("Gefilterte Log-Ausgabe als .log / .txt Datei speichern")
+            .help("Save the filtered log output as a .log / .txt file")
 
             // Toggle Console Height
             Button {
@@ -162,7 +162,7 @@ struct MinerLiveLogSectionView: View {
             }
             .buttonStyle(.bordered)
             .controlSize(.small)
-            .help(isExpandedHeight ? "Konsole verkleinern" : "Konsole vergrößern")
+            .help(isExpandedHeight ? "Shrink console" : "Enlarge console")
         }
     }
 
@@ -173,13 +173,13 @@ struct MinerLiveLogSectionView: View {
             case .streaming:
                 return ("Live", Signal.good)
             case .connecting:
-                return (String(localized: "Verbinde…"), Signal.idle)
+                return (String(localized: "Connecting…"), Signal.idle)
             case .paused:
-                return (String(localized: "Angehalten"), Signal.warning)
+                return (String(localized: "Paused"), Signal.warning)
             case .stopped:
-                return (String(localized: "Gestoppt"), .secondary)
+                return (String(localized: "Stopped"), .secondary)
             case .error:
-                return (String(localized: "Getrennt"), Signal.bad)
+                return (String(localized: "Disconnected"), Signal.bad)
             }
         }()
 
@@ -226,7 +226,7 @@ struct MinerLiveLogSectionView: View {
                     .foregroundStyle(.secondary)
 
                 TextField(
-                    "Im Log suchen (z.B. Accepted, diff, BM1370, stratum, Pool)…",
+                    "Search the log (e.g. Accepted, diff, BM1370, stratum, pool)…",
                     text: $logController.searchText
                 )
                 .textFieldStyle(.plain)
@@ -241,7 +241,7 @@ struct MinerLiveLogSectionView: View {
                             .foregroundStyle(.secondary)
                     }
                     .buttonStyle(.plain)
-                    .help("Suchfeld leeren")
+                    .help("Clear search field")
                 }
             }
             .padding(.horizontal, 8)
@@ -256,8 +256,8 @@ struct MinerLiveLogSectionView: View {
             let totalCount = logController.entries.count
             Text(
                 filteredCount == totalCount
-                    ? "\(totalCount) Zeilen"
-                    : "\(filteredCount) von \(totalCount) Zeilen"
+                    ? "\(totalCount) lines"
+                    : "\(filteredCount) of \(totalCount) lines"
             )
             .font(.caption2.monospacedDigit())
             .foregroundStyle(.secondary)
@@ -312,7 +312,7 @@ struct MinerLiveLogSectionView: View {
             if case .connecting = logController.state {
                 ProgressView()
                     .controlSize(.small)
-                Text("Verbinde mit Live-Log von \(redactor.freeText(miner.displayName)) (ws://\(redactor.ip(miner.ipAddress))/api/ws)…")
+                Text("Connecting to the live log of \(redactor.freeText(miner.displayName)) (ws://\(redactor.ip(miner.ipAddress))/api/ws)…")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             } else if case .error(let msg) = logController.state {
@@ -323,7 +323,7 @@ struct MinerLiveLogSectionView: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
-                Button("Erneut verbinden") {
+                Button("Reconnect") {
                     logController.startStreaming(host: miner.ipAddress)
                 }
                 .buttonStyle(.bordered)
@@ -332,10 +332,10 @@ struct MinerLiveLogSectionView: View {
                 Image(systemName: "magnifyingglass")
                     .font(.title3)
                     .foregroundStyle(.secondary)
-                Text("Keine Log-Einträge für den aktuellen Filter oder Suchbegriff gefunden.")
+                Text("No log entries found for the current filter or search term.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
-                Button("Filter & Suche zurücksetzen") {
+                Button("Reset filter & search") {
                     logController.categoryFilter = .all
                     logController.searchText = ""
                 }
@@ -344,20 +344,20 @@ struct MinerLiveLogSectionView: View {
             } else if logController.state == .streaming {
                 ProgressView()
                     .controlSize(.small)
-                Text("Verbunden – warte auf nächste Log-Ausgabe vom Miner…")
+                Text("Connected – waiting for the next log output from the miner…")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             } else {
                 Image(systemName: "terminal")
                     .font(.title3)
                     .foregroundStyle(.secondary)
-                Text("Die Live-Konsole ist standardmäßig deaktiviert, um den Miner nicht unnötig zu belasten.")
+                Text("The live console is off by default so the miner is not loaded unnecessarily.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
                 Button {
                     logController.startStreaming(host: miner.ipAddress)
                 } label: {
-                    Label("Live-Log starten", systemImage: "play.fill")
+                    Label("Start Live Log", systemImage: "play.fill")
                 }
                 .buttonStyle(.borderedProminent)
                 
@@ -393,8 +393,8 @@ struct MinerLiveLogSectionView: View {
         )
 
         let savePanel = NSSavePanel()
-        savePanel.title = String(localized: "Miner-Log exportieren")
-        savePanel.message = String(localized: "Speichere die aktuelle Log-Ausgabe von \(miner.displayName) (\(miner.ipAddress)) als Textdatei.")
+        savePanel.title = String(localized: "Export Miner Log")
+        savePanel.message = String(localized: "Save the current log output of \(miner.displayName) (\(miner.ipAddress)) as a text file.")
         savePanel.canCreateDirectories = true
         savePanel.allowedContentTypes = [.log, .plainText]
 

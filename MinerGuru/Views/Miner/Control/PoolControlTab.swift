@@ -19,7 +19,7 @@ struct PoolControlTab: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
-                Text("Stratum-Server & Wallet konfigurieren")
+                Text("Configure Stratum Server & Wallet")
                     .font(.subheadline.weight(.medium))
                 Spacer()
                 presetMenu
@@ -42,8 +42,8 @@ struct PoolControlTab: View {
                     symbol: "\(min(index + 1, 50)).circle.fill",
                     hostPlaceholder: index == form.primarySlot ? "public-pool.io" : "eusolo.ckpool.org",
                     passwordHelp: form.poolAPI == .slots
-                        ? String(localized: "„*****“ behält das auf dem Miner gespeicherte Passwort.")
-                        : String(localized: "Leer lassen, um das auf dem Miner gespeicherte Passwort zu behalten."),
+                        ? String(localized: "“*****” keeps the password stored on the miner.")
+                        : String(localized: "Leave empty to keep the password stored on the miner."),
                     networkDifficulty: networkDifficulty(for: index),
                     testedLatencyMs: latency(for: index),
                     isSavedToLibrary: savedToLibrary.contains(index),
@@ -66,7 +66,7 @@ struct PoolControlTab: View {
                     .foregroundStyle(Signal.warning)
             } else if !form.slotsToClear.isEmpty {
                 Label(
-                    String(localized: "Beim Speichern geleert: ") + form.slotsToClear.map { form.slotTitle($0) }.joined(separator: ", "),
+                    String(localized: "Cleared when saving: ") + form.slotsToClear.map { form.slotTitle($0) }.joined(separator: ", "),
                     systemImage: "trash"
                 )
                 .font(.caption)
@@ -77,7 +77,7 @@ struct PoolControlTab: View {
                 Button(action: testLatencies) {
                     HStack(spacing: 6) {
                         if isTesting { ProgressView().controlSize(.small) }
-                        Label("Pool-Latenz testen", systemImage: "waveform.path.ecg")
+                        Label("Test Pool Latency", systemImage: "waveform.path.ecg")
                     }
                 }
                 .buttonStyle(.bordered)
@@ -89,7 +89,7 @@ struct PoolControlTab: View {
                 Button(action: onSave) {
                     HStack(spacing: 6) {
                         if isSaving { ProgressView().controlSize(.small) }
-                        Label("Speichern & neu starten", systemImage: "checkmark.circle.fill")
+                        Label("Save & Restart", systemImage: "checkmark.circle.fill")
                     }
                 }
                 .buttonStyle(.borderedProminent)
@@ -108,14 +108,14 @@ struct PoolControlTab: View {
     private func title(for index: Int) -> String {
         switch form.poolAPI {
         case .slots:
-            if index == form.primarySlot { return String(localized: "\(form.slotTitle(index)) – Primärer Pool") }
-            if index == form.secondarySlot { return String(localized: "\(form.slotTitle(index)) – Fallback-Pool") }
+            if index == form.primarySlot { return String(localized: "\(form.slotTitle(index)) – Primary Pool") }
+            if index == form.secondarySlot { return String(localized: "\(form.slotTitle(index)) – Fallback Pool") }
             return String(localized: "\(form.slotTitle(index)) – Reserve")
         case .legacy:
             if index == 0 {
-                return isDual ? String(localized: "Pool 1 – Primärer Stratum-Pool (\(form.primaryPercent)%)") : String(localized: "Primärer Stratum-Pool")
+                return isDual ? String(localized: "Pool 1 – Primary Stratum Pool (\(form.primaryPercent)%)") : String(localized: "Primary Stratum Pool")
             }
-            return isDual ? String(localized: "Pool 2 – Sekundärer Stratum-Pool (\(form.secondaryPercent)%)") : String(localized: "Fallback Stratum-Pool")
+            return isDual ? String(localized: "Pool 2 – Secondary Stratum Pool (\(form.secondaryPercent)%)") : String(localized: "Fallback Stratum Pool")
         }
     }
 
@@ -149,11 +149,11 @@ struct PoolControlTab: View {
     // MARK: - Sections
 
     private var presetMenu: some View {
-        Menu("Pool-Vorlage einfügen…") {
-            Section("Als Primär-Pool übernehmen") {
+        Menu("Insert Pool Template…") {
+            Section("Use as Primary Pool") {
                 presetButtons { form.primary.host = $0.host; form.primary.port = $0.port }
             }
-            Section("Als Fallback / Pool 2 übernehmen") {
+            Section("Use as Fallback / Pool 2") {
                 presetButtons { form.fallback.host = $0.host; form.fallback.port = $0.port }
             }
         }
@@ -169,10 +169,10 @@ struct PoolControlTab: View {
 
     private var slotRoleSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Label("Pool-Slots (AxeOS: bis zu \(AxeOSPool.slotCount))", systemImage: "square.stack.3d.up")
+            Label("Pool Slots (AxeOS: up to \(AxeOSPool.slotCount))", systemImage: "square.stack.3d.up")
                 .font(.subheadline.weight(.medium))
             HStack(spacing: 16) {
-                Picker("Primär", selection: $form.primarySlot) {
+                Picker("Primary", selection: $form.primarySlot) {
                     ForEach(roleChoices(including: form.primarySlot), id: \.self) { index in
                         Text(slotChoiceTitle(index)).tag(index)
                     }
@@ -183,7 +183,7 @@ struct PoolControlTab: View {
                     }
                 }
             }
-            Text("Weitere Slots bleiben als Reserve auf dem Miner gespeichert – so wechselst du Pools ohne neu einzutippen.")
+            Text("Other slots stay stored on the miner as reserves – so you can switch pools without retyping them.")
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }
@@ -195,7 +195,7 @@ struct PoolControlTab: View {
 
     private func slotChoiceTitle(_ index: Int) -> String {
         let slot = form.slots[index]
-        guard slot.hasContent else { return String(localized: "\(form.slotTitle(index)) (leer)") }
+        guard slot.hasContent else { return String(localized: "\(form.slotTitle(index)) (empty)") }
         let name = library.config(matching: slot)?.name ?? StratumHost.clean(slot.host)
         return "\(form.slotTitle(index)): \(name)"
     }
@@ -203,7 +203,7 @@ struct PoolControlTab: View {
     private var poolModeSection: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
-                Label("Pool-Betriebsmodus", systemImage: "arrow.triangle.branch")
+                Label("Pool Mode", systemImage: "arrow.triangle.branch")
                     .font(.subheadline.weight(.medium))
                 Spacer()
                 Picker("", selection: $form.poolMode) {
@@ -218,12 +218,12 @@ struct PoolControlTab: View {
             if isDual {
                 VStack(alignment: .leading, spacing: 6) {
                     HStack {
-                        Text("Pool 1 (Primär): \(form.primaryPercent)%")
+                        Text("Pool 1 (primary): \(form.primaryPercent)%")
                         Spacer()
-                        Text("Hashrate-Aufteilung")
+                        Text("Hashrate split")
                             .foregroundStyle(.secondary)
                         Spacer()
-                        Text("Pool 2 (Sekundär): \(form.secondaryPercent)%")
+                        Text("Pool 2 (secondary): \(form.secondaryPercent)%")
                     }
                     .font(.caption.weight(.medium).monospacedDigit())
                     Slider(value: $form.poolBalance, in: 1...99, step: 1)
@@ -287,18 +287,18 @@ private struct PoolEndpointEditor: View {
                         Image(systemName: "xmark.circle")
                     }
                     .buttonStyle(.borderless)
-                    .help("Pool aus diesem Slot entfernen")
+                    .help("Remove pool from this slot")
                 }
             }
 
             if let libraryMatch {
-                Label("Bibliothek: \(libraryMatch.name)", systemImage: "checkmark.seal")
+                Label("Library: \(libraryMatch.name)", systemImage: "checkmark.seal")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
 
             HStack(spacing: 12) {
-                PoolField("Stratum Host / URL (ohne stratum+tcp://)") {
+                PoolField("Stratum host / URL (without stratum+tcp://)") {
                     TextField(hostPlaceholder, text: $endpoint.host)
                         .monospaced()
                 }
@@ -307,7 +307,7 @@ private struct PoolEndpointEditor: View {
                         .monospaced()
                         .frame(width: 90)
                 }
-                PoolField("Passwort") {
+                PoolField("Password") {
                     TextField("x", text: $endpoint.password)
                         .monospaced()
                         .frame(width: 80)
@@ -315,8 +315,8 @@ private struct PoolEndpointEditor: View {
                 }
             }
 
-            PoolField("Wallet-Adresse.Worker (Stratum User)") {
-                TextField("bc1q...deinewallet.bitaxe", text: $endpoint.user)
+            PoolField("Wallet address.worker (stratum user)") {
+                TextField("bc1q...yourwallet.bitaxe", text: $endpoint.user)
                     .monospaced()
                     .sensitive()
             }
@@ -326,7 +326,7 @@ private struct PoolEndpointEditor: View {
     private var libraryMenu: some View {
         Menu {
             if library.pools.isEmpty {
-                Text("Bibliothek ist leer")
+                Text("Library is empty")
             }
             ForEach(library.pools) { pool in
                 Button("\(pool.name) – \(pool.hostAndPort)") {
@@ -338,10 +338,10 @@ private struct PoolEndpointEditor: View {
                 }
             }
             Divider()
-            Button("Diesen Pool in Bibliothek speichern", action: onSaveToLibrary)
+            Button("Save This Pool to Library", action: onSaveToLibrary)
                 .disabled(!endpoint.hasContent || libraryMatch != nil || isSavedToLibrary)
         } label: {
-            Label("Bibliothek", systemImage: "server.rack")
+            Label("Library", systemImage: "server.rack")
         }
         .controlSize(.small)
         .fixedSize()

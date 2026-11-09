@@ -39,7 +39,7 @@ struct MinerSummaryCard: View {
             Button {
                 onSelect()
             } label: {
-                Label("Details & Steuerung öffnen", systemImage: "gauge.with.dots.needle.67percent")
+                Label("Open details & controls", systemImage: "gauge.with.dots.needle.67percent")
             }
 
             Button {
@@ -47,7 +47,7 @@ struct MinerSummaryCard: View {
                     NSWorkspace.shared.open(url)
                 }
             } label: {
-                Label("AxeOS / NerdOS im Browser öffnen", systemImage: "safari")
+                Label("Open AxeOS / NerdOS in browser", systemImage: "safari")
             }
 
             Divider()
@@ -55,7 +55,7 @@ struct MinerSummaryCard: View {
             Button {
                 onRestart()
             } label: {
-                Label("Miner neu starten", systemImage: "arrow.clockwise.circle")
+                Label("Restart Miner", systemImage: "arrow.clockwise.circle")
             }
 
             Divider()
@@ -63,7 +63,7 @@ struct MinerSummaryCard: View {
             Button(role: .destructive) {
                 onRemove()
             } label: {
-                Label("Aus MinerGuru entfernen", systemImage: "trash")
+                Label("Remove from MinerGuru", systemImage: "trash")
             }
         }
     }
@@ -122,7 +122,7 @@ struct MinerSummaryCard: View {
                         .foregroundStyle(.secondary)
                 }
 
-                Text("Session-Best \(info.sessionBestDiffText) · Allzeit \(info.bestDiffFormatted)")
+                Text("Session best \(info.sessionBestDiffText) · all-time \(info.bestDiffFormatted)")
                     .font(.mono(11))
                     .foregroundStyle(.tertiary)
                     .lineLimit(1)
@@ -134,7 +134,7 @@ struct MinerSummaryCard: View {
                 let recentSamples = Array(miner.history.suffix(30))
                 Chart(recentSamples) { sample in
                     LineMark(
-                        x: .value("Zeit", sample.timestamp),
+                        x: .value("Time", sample.timestamp),
                         y: .value("GH/s", sample.hashRateGHs)
                     )
                     .interpolationMethod(.monotone)
@@ -162,11 +162,11 @@ struct MinerSummaryCard: View {
             if let vr = info.vrTemp {
                 sensor(label: "VR", value: "\(DisplayFormat.decimal(vr, fractionDigits: 0)) °C", detail: nil, warning: vr > 75)
             } else {
-                sensor(label: String(localized: "Takt"), value: "\(info.frequencyMHz) MHz", detail: nil)
+                sensor(label: String(localized: "Clock"), value: "\(info.frequencyMHz) MHz", detail: nil)
             }
 
             sensor(
-                label: String(localized: "Leistung"),
+                label: String(localized: "Power"),
                 value: "\(DisplayFormat.decimal(info.power, fractionDigits: 1)) W",
                 detail: "\(DisplayFormat.decimal(info.efficiencyJPerTH, fractionDigits: 1)) J/TH"
             )
@@ -174,13 +174,13 @@ struct MinerSummaryCard: View {
             if let fan2RPM = info.fan2RPM, fan2RPM > 0 {
                 let fan2Pct = info.fan2SpeedPercent ?? info.fanSpeedPercent
                 sensor(
-                    label: String(localized: "Lüfter"),
+                    label: String(localized: "Fan"),
                     value: "\(DisplayFormat.decimal(info.fanSpeedPercent, fractionDigits: 0)) / \(DisplayFormat.decimal(fan2Pct, fractionDigits: 0)) %",
                     detail: "\(info.fanRPM)/\(fan2RPM) RPM"
                 )
             } else {
                 sensor(
-                    label: String(localized: "Lüfter"),
+                    label: String(localized: "Fan"),
                     value: "\(DisplayFormat.decimal(info.fanSpeedPercent, fractionDigits: 0)) %",
                     detail: info.fanRPM > 0 ? "\(info.fanRPM) RPM" : nil
                 )
@@ -214,12 +214,12 @@ struct MinerSummaryCard: View {
             if case .checking = miner.connectionState {
                 ProgressView()
                     .controlSize(.small)
-                Text("Verbinde mit \(redactor.ip(miner.ipAddress))…")
+                Text("Connecting to \(redactor.ip(miner.ipAddress))…")
                     .font(.system(size: 12))
                     .foregroundStyle(.secondary)
             } else if case .offline(let reason) = miner.connectionState {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Nicht erreichbar")
+                    Text("Unreachable")
                         .font(.system(size: 13))
                         .foregroundStyle(Signal.bad)
                     Text(reason)

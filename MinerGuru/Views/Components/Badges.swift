@@ -65,9 +65,9 @@ struct ConnectionStatusDot: View {
     private var accessibilityText: Text {
         switch state {
         case .online:
-            return isHighTemp ? Text("Online, Temperatur hoch") : Text("Online")
+            return isHighTemp ? Text("Online, temperature high") : Text("Online")
         case .checking, .unknown:
-            return Text("Verbindung wird geprüft")
+            return Text("Checking connection")
         case .offline:
             return Text("Offline")
         }
@@ -211,18 +211,18 @@ struct PoolModeBadgeView: View {
                     Text(
                         compact
                             ? "Dual \(info.dualPoolPrimaryPercent)/\(info.dualPoolSecondaryPercent)"
-                            : "Dual-Pool \(info.dualPoolPrimaryPercent) / \(info.dualPoolSecondaryPercent) %"
+                            : "Dual pool \(info.dualPoolPrimaryPercent) / \(info.dualPoolSecondaryPercent) %"
                     )
                 }
                 .foregroundStyle(.secondary)
             } else if info.isUsingFallbackStratum {
                 HStack(spacing: 6) {
                     Circle().fill(Signal.warning).frame(width: 6, height: 6)
-                    Text(compact ? "Fallback" : "Fallback-Pool aktiv")
+                    Text(compact ? "Fallback" : "Fallback pool active")
                 }
                 .foregroundStyle(.secondary)
             } else {
-                Text(compact ? "Primär" : "Primärer Pool aktiv")
+                Text(compact ? "Primary" : "Primary pool active")
                     .foregroundStyle(.tertiary)
             }
         }

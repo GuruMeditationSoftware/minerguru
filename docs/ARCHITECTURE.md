@@ -109,7 +109,8 @@ The version lives in two places that must match: `MinerGuru/Info.plist` and the 
 
 ## Pitfalls
 
-- Xcode picks up new strings into `Localizable.xcstrings` when building; you have to enter the English translation there yourself.
+- The string catalogs' source language is English: the English text in the code is the key, `Text("Fleet")`. Xcode picks up new strings into `Localizable.xcstrings` when building; you have to enter the German translation there yourself. The widgets look their texts up by hand (`WidgetText`), so a new widget text goes into `MinerGuruWidgets/Localizable.xcstrings` by hand too.
+- One English word with two German meanings needs two keys. The Power page uses the key `Power (section)`, whose English value in the catalog is `Power` (German `Strom`); `Text("Power")` is the figure (German `Leistung`).
 - Every new ad hoc signature changes the code hash. System permissions bound to the code no longer match afterwards and are asked for again.
 - Mock app and real app installed at the same time: the widget gallery then shows every widget twice.
 - A write that bypasses `MinerAPIClient` does not show up in the change log and ignores read-only mode. Always route new writes through the client.

@@ -137,19 +137,19 @@ struct MinerDisplayTextTests {
     @Test func fanTexts() throws {
         let single = try Fixtures.bitaxeInfo(overrides: ["fanspeed": 70, "fanrpm": 5299, "autofanspeed": 0])
         #expect(single.fanPercentText == "70")
-        #expect(single.fanRPMText == "5299 RPM • Manuell")
+        #expect(single.fanRPMText == "5299 RPM • Manual")
 
         let dual = try Fixtures.bitaxeInfo(overrides: ["fanspeed": 40, "fanrpm": 1248, "fanspeed2": 19, "fanrpm2": 2592, "autofanspeed": 2])
         #expect(dual.fanPercentText == "40 / 19")
         #expect(dual.fanRPMText == "1248 & 2592 RPM • PID Auto")
 
-        #expect(try Fixtures.bitaxeInfo(overrides: ["autofanspeed": 1]).fanModeLabel == "Auto-Modus")
+        #expect(try Fixtures.bitaxeInfo(overrides: ["autofanspeed": 1]).fanModeLabel == "Auto mode")
     }
 
     @Test func coolingText() throws {
-        #expect(try Fixtures.bitaxeInfo(overrides: ["vrTemp": 62.0]).coolingText(warningThresholdC: 68) == "Spannungsregler (VR): 62.0 °C")
-        #expect(try Fixtures.bitaxeInfo(overrides: ["temp": 55]).coolingText(warningThresholdC: 68) == "Kühlstatus: Optimal")
-        #expect(try Fixtures.bitaxeInfo(overrides: ["temp": 70]).coolingText(warningThresholdC: 68) == "Kühlstatus: Erhöht")
+        #expect(try Fixtures.bitaxeInfo(overrides: ["vrTemp": 62.0]).coolingText(warningThresholdC: 68) == "Voltage regulator (VR): 62.0 °C")
+        #expect(try Fixtures.bitaxeInfo(overrides: ["temp": 55]).coolingText(warningThresholdC: 68) == "Cooling: Optimal")
+        #expect(try Fixtures.bitaxeInfo(overrides: ["temp": 70]).coolingText(warningThresholdC: 68) == "Cooling: Elevated")
     }
 
     @Test func powerAndShares() throws {
@@ -159,13 +159,13 @@ struct MinerDisplayTextTests {
         ])
         #expect(info.powerDetailText == "5.16 V • 11.55 A")
         #expect(info.dailyEnergyText == "~0.44 kWh / 24h")
-        #expect(info.coreVoltageText == "Ziel: 1150 mV • Ist: 1144 mV")
+        #expect(info.coreVoltageText == "Target: 1150 mV • Actual: 1144 mV")
         #expect(info.sharesText == "Shares: 99 ok / 1 rej (1.00%)")
     }
 
     @Test func poolLatencyText() throws {
         let single = Fixtures.device(info: try Fixtures.bitaxeInfo())
-        #expect(single.poolLatencyDetailText == "Exzellent • eusolo.ckpool.org")
+        #expect(single.poolLatencyDetailText == "Excellent • eusolo.ckpool.org")
 
         let dual = Fixtures.device(info: try Fixtures.dualPoolInfo())
         #expect(dual.poolLatencyDetailText == "Dual (1%/99%) • P1: 20 ms / P2: 30 ms")

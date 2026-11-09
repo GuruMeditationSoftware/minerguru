@@ -56,8 +56,8 @@ final class MaintenanceStore: ObservableObject {
                   remindedAt[task.id].map({ date.timeIntervalSince($0) >= Self.remindAgain }) ?? true else { return nil }
             remindedAt[task.id] = date
             return AlertEvent(kind: .maintenance, minerID: task.id,
-                              title: String(localized: "Wartung fällig: \(task.title)"),
-                              body: task.kind.hint.isEmpty ? String(localized: "Trag sie in MinerGuru als erledigt ein.") : task.kind.hint,
+                              title: String(localized: "Maintenance due: \(task.title)"),
+                              body: task.kind.hint.isEmpty ? String(localized: "Mark it as done in MinerGuru.") : task.kind.hint,
                               isRecovery: false, minerName: task.title)
         }
     }

@@ -7,11 +7,11 @@ enum ReportPeriod: String, CaseIterable, Identifiable, Sendable {
 
     var title: String {
         switch self {
-        case .yesterday: String(localized: "Gestern")
-        case .last7Days: String(localized: "Letzte 7 Tage")
-        case .last30Days: String(localized: "Letzte 30 Tage")
-        case .thisMonth: String(localized: "Dieser Monat")
-        case .lastMonth: String(localized: "Letzter Monat")
+        case .yesterday: String(localized: "Yesterday")
+        case .last7Days: String(localized: "Last 7 days")
+        case .last30Days: String(localized: "Last 30 days")
+        case .thisMonth: String(localized: "This month")
+        case .lastMonth: String(localized: "Last month")
         }
     }
 

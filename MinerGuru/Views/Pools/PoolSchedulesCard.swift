@@ -25,7 +25,7 @@ struct PoolSchedulesCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
             HStack {
-                Label("Geplanter Pool-Wechsel", systemImage: "calendar.badge.clock")
+                Label("Scheduled pool switching", systemImage: "calendar.badge.clock")
                     .font(.system(size: 15, weight: .medium))
                 Spacer()
                 Button {
@@ -33,14 +33,14 @@ struct PoolSchedulesCard: View {
                         editing = EditingRule(rule: PoolScheduleRule(poolID: pool.id), isNew: true)
                     }
                 } label: {
-                    Label("Wechsel planen", systemImage: "plus")
+                    Label("Schedule a switch", systemImage: "plus")
                 }
                 .disabled(library.pools.isEmpty || store.miners.isEmpty)
-                .help("Miner zu einer festen Zeit auf einen gespeicherten Pool umstellen")
+                .help("Move miners to a saved pool at a set time")
             }
 
             if schedules.rules.isEmpty {
-                Text("Stell Miner automatisch um, zum Beispiel nachts und am Wochenende auf einen Solo-Pool und morgens zurück. Jeder Wechsel ist ein eigener Eintrag; der Miner startet dabei kurz neu.")
+                Text("Move miners automatically, for example to a solo pool on nights and weekends and back in the morning. Each switch is its own entry; the miner restarts briefly.")
                     .font(.callout)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -54,13 +54,13 @@ struct PoolSchedulesCard: View {
             }
 
             if !schedules.rules.isEmpty && !power.runsSchedules {
-                Label("Dieser Mac führt keine Zeitpläne aus. Das lässt sich auf der Seite Strom einschalten.", systemImage: "info.circle")
+                Label("This Mac does not run schedules. You can turn that on on the Power page.", systemImage: "info.circle")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
             OtpWaitingNotice(store: store)
             if let error = schedules.lastError {
-                Label("Letzter Wechsel fehlgeschlagen: \(error)", systemImage: "exclamationmark.triangle")
+                Label("Last pool switch failed: \(error)", systemImage: "exclamationmark.triangle")
                     .font(.caption)
                     .foregroundStyle(Signal.bad)
             }
@@ -110,26 +110,26 @@ struct PoolSchedulesCard: View {
                 Image(systemName: "pencil")
             }
             .buttonStyle(.borderless)
-            .help("Bearbeiten")
+            .help("Edit")
             Button(role: .destructive) {
                 schedules.rules.removeAll { $0.id == rule.id }
             } label: {
                 Image(systemName: "trash")
             }
             .buttonStyle(.borderless)
-            .help("Wechsel löschen")
+            .help("Delete switch")
         }
         .padding(.vertical, 8)
     }
 
     private func poolName(_ rule: PoolScheduleRule) -> String {
-        library.config(id: rule.poolID)?.name ?? String(localized: "Pool gelöscht")
+        library.config(id: rule.poolID)?.name ?? String(localized: "Pool deleted")
     }
 
     private func minersText(_ rule: PoolScheduleRule) -> String {
-        if rule.minerIDs.isEmpty { return String(localized: "Alle Miner") }
+        if rule.minerIDs.isEmpty { return String(localized: "All miners") }
         let names = store.miners.filter { rule.minerIDs.contains($0.id) }.map(\.displayName)
-        return names.isEmpty ? String(localized: "Miner entfernt") : names.joined(separator: ", ")
+        return names.isEmpty ? String(localized: "Miner removed") : names.joined(separator: ", ")
     }
 }
 
@@ -145,33 +145,33 @@ struct PoolScheduleEditorSheet: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(isNew ? "Pool-Wechsel planen" : "Pool-Wechsel bearbeiten")
+            Text(isNew ? "Schedule a pool switch" : "Edit pool switch")
                 .font(.headline)
 
             Form {
                 Picker("Pool", selection: $rule.poolID) {
                     ForEach(pools) { Text(verbatim: $0.name).tag($0.id) }
                 }
-                LabeledContent("Tage") { WeekdayPicker(days: $rule.weekdays) }
-                Picker("Uhrzeit", selection: $rule.minute) {
+                LabeledContent("Days") { WeekdayPicker(days: $rule.weekdays) }
+                Picker("Time of day", selection: $rule.minute) {
                     ForEach(Array(stride(from: 0, to: WeeklyWindow.minutesPerDay, by: 15)), id: \.self) { minute in
                         Text(WeeklyWindow.clock(minute)).tag(minute)
                     }
                 }
-                LabeledContent("Miner") { MinerScopePicker(selection: $rule.minerIDs, miners: miners) }
+                LabeledContent("Miners") { MinerScopePicker(selection: $rule.minerIDs, miners: miners) }
             }
             .formStyle(.columns)
 
-            Text("Der Miner bekommt den Pool als Hauptpool und startet neu. War er zur Uhrzeit offline, holt MinerGuru den Wechsel in den nächsten 30 Minuten nach.")
+            Text("The miner gets the pool as its primary pool and restarts. If it was offline at that time, MinerGuru catches up within the next 30 minutes.")
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
 
             HStack {
                 Spacer()
-                Button("Abbrechen", role: .cancel) { dismiss() }
+                Button("Cancel", role: .cancel) { dismiss() }
                     .keyboardShortcut(.cancelAction)
-                Button("Sichern") {
+                Button("Save") {
                     if isNew { rule.createdAt = Date() }
                     onSave(rule)
                     dismiss()
@@ -193,7 +193,7 @@ struct MinerScopePicker: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Toggle("Alle Miner", isOn: Binding {
+            Toggle("All miners", isOn: Binding {
                 selection.isEmpty && !isPicking
             } set: { all in
                 isPicking = !all

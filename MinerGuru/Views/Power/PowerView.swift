@@ -36,8 +36,8 @@ struct PowerView: View {
                 minersCard(now: context.date)
             }
         }
-        .navigationTitle("Strom")
-        .navigationSubtitle("Tarif, Zeitpläne und Kosten")
+        .navigationTitle("Power (section)")
+        .navigationSubtitle("Tariff, schedules and costs")
         .sheet(item: $editingZone) { item in
             TariffZoneEditorSheet(zone: item.zone, isNew: item.isNew, currencyCode: power.tariff.currencyCode) { saved in
                 if let idx = power.tariff.zones.firstIndex(where: { $0.id == saved.id }) {
@@ -74,32 +74,32 @@ struct PowerView: View {
         let totalTH = store.totalHashrateGHs / 1000
         return AdaptiveGrid(minColumnWidth: 180) {
             PowerFigure(
-                label: "Preis jetzt",
+                label: "Price now",
                 value: tariff.formatPrice(tariff.price(at: now), digits: 3),
                 detail: zone.map { "\($0.name) · \($0.window.timeRangeText)" }
-                    ?? (tariff.hasZones ? String(localized: "Standardpreis") : String(localized: "Festpreis"))
+                    ?? (tariff.hasZones ? String(localized: "Standard price") : String(localized: "Fixed price"))
             )
             PowerFigure(
-                label: "Leistung",
+                label: "Power",
                 value: String(format: "%.0f W", fleetWatts),
-                detail: String(localized: "\(store.onlineMiners.count) Miner online")
+                detail: String(localized: "\(store.onlineMiners.count) miners online")
             )
             PowerFigure(
-                label: "Kosten pro Stunde",
+                label: "Cost per hour",
                 value: tariff.formatPrice(power.costPerHour(watts: fleetWatts, at: now), digits: 3),
-                detail: String(localized: "bei aktueller Leistung")
+                detail: String(localized: "at the current draw")
             )
             PowerFigure(
-                label: "Heute",
+                label: "Today",
                 value: tariff.formatPrice(today),
-                detail: String(localized: "0–24 Uhr, hochgerechnet")
+                detail: String(localized: "midnight to midnight, projected")
             )
             PowerFigure(
-                label: "30 Tage",
+                label: "30 days",
                 value: tariff.formatPrice(month),
                 detail: totalTH > 0.01
-                    ? String(localized: "\(tariff.formatPrice(month / totalTH)) pro TH/s")
-                    : String(localized: "mit Preisen und Pausen")
+                    ? String(localized: "\(tariff.formatPrice(month / totalTH)) per TH/s")
+                    : String(localized: "with prices and pauses")
             )
         }
     }
@@ -109,33 +109,33 @@ struct PowerView: View {
     private func tariffCard(now: Date) -> some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
-                Label("Tarif", systemImage: "bolt.badge.clock")
+                Label("Tariff", systemImage: "bolt.badge.clock")
                     .font(.system(size: 15, weight: .medium))
                 Spacer()
                 Menu {
-                    Button("Nacht und Tag (HT/NT)") { addTemplate(.dayNight) }
-                    Button("Wochenende günstiger") { addTemplate(.weekend) }
+                    Button("Night and day (off-peak/peak)") { addTemplate(.dayNight) }
+                    Button("Cheaper weekends") { addTemplate(.weekend) }
                 } label: {
-                    Label("Vorlage", systemImage: "square.on.square")
+                    Label("Template", systemImage: "square.on.square")
                 }
                 .fixedSize()
-                .help("Typische Zonen anlegen und danach die Preise anpassen")
+                .help("Add typical zones, then adjust the prices")
                 Button {
                     editingZone = EditingZone(zone: newZone(), isNew: true)
                 } label: {
-                    Label("Zone hinzufügen", systemImage: "plus")
+                    Label("Add Zone", systemImage: "plus")
                 }
-                .help("Zeitzone mit eigenem Preis anlegen, z. B. Nachtstrom")
+                .help("Add a time zone with its own price, e.g. a night rate")
             }
 
             HStack(alignment: .firstTextBaseline, spacing: 20) {
-                LabeledContent("Währung") {
+                LabeledContent("Currency") {
                     TextField("EUR", text: currencyBinding)
                         .textFieldStyle(.roundedBorder)
                         .frame(width: 64)
                 }
-                LabeledContent(power.tariff.hasZones ? "Standardpreis pro kWh" : "Preis pro kWh") {
-                    TextField("0,30", value: $power.tariff.basePricePerKWh, format: .number.precision(.fractionLength(2...4)))
+                LabeledContent(power.tariff.hasZones ? "Standard price per kWh" : "Price per kWh") {
+                    TextField("0.30", value: $power.tariff.basePricePerKWh, format: .number.precision(.fractionLength(2...4)))
                         .textFieldStyle(.roundedBorder)
                         .frame(width: 90)
                         .multilineTextAlignment(.trailing)
@@ -152,7 +152,7 @@ struct PowerView: View {
                     }
                 }
             } else {
-                Text("Ein Festpreis gilt rund um die Uhr. Mit Zonen bekommen Nacht, Wochenende oder Spitzenzeiten eigene Preise, und Zeitpläne können sich danach richten.")
+                Text("A fixed price applies around the clock. With zones, nights, weekends or peak hours get prices of their own, and schedules can follow them.")
                     .font(.callout)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -163,11 +163,11 @@ struct PowerView: View {
             if !power.tariff.overlappingZones.isEmpty || power.tariff.hasGaps {
                 VStack(alignment: .leading, spacing: 4) {
                     ForEach(power.tariff.overlappingZones, id: \.0.id) { pair in
-                        hint("„\(pair.0.name)“ und „\(pair.1.name)“ überschneiden sich. Dort gilt „\(pair.0.name)“, weil sie weiter oben steht.",
+                        hint("“\(pair.0.name)” and “\(pair.1.name)” overlap. There “\(pair.0.name)” applies because it is higher up.",
                              systemImage: "exclamationmark.triangle", color: Signal.warning)
                     }
                     if power.tariff.hasGaps {
-                        hint("Zeiten ohne Zone kosten den Standardpreis (grau im Wochenbalken).",
+                        hint("Times without a zone cost the standard price (grey in the week bar).",
                              systemImage: "info.circle", color: .secondary)
                     }
                 }
@@ -186,7 +186,7 @@ struct PowerView: View {
                 HStack(spacing: 6) {
                     Text(zone.name).font(.subheadline.weight(.medium))
                     if isNow {
-                        Text("jetzt")
+                        Text("now")
                             .font(.caption2.weight(.medium))
                             .foregroundStyle(Accent.color)
                     }
@@ -201,7 +201,7 @@ struct PowerView: View {
                 .foregroundStyle(.secondary)
             let ruleCount = power.rules.filter { $0.trigger == .zone(zone.id) }.count
             if ruleCount > 0 {
-                Text(ruleCount == 1 ? "1 Zeitplan" : "\(ruleCount) Zeitpläne")
+                Text(ruleCount == 1 ? "1 schedule" : "\(ruleCount) schedules")
                     .font(.caption2.weight(.medium))
                     .foregroundStyle(.secondary)
                     .fixedSize()
@@ -213,21 +213,21 @@ struct PowerView: View {
             }
             .buttonStyle(.borderless)
             .disabled(index == 0)
-            .help("Nach oben: gewinnt bei Überschneidungen")
+            .help("Move up: wins where zones overlap")
             Button {
                 editingZone = EditingZone(zone: zone, isNew: false)
             } label: {
                 Image(systemName: "pencil")
             }
             .buttonStyle(.borderless)
-            .help("Bearbeiten")
+            .help("Edit")
             Button(role: .destructive) {
                 power.removeZone(id: zone.id)
             } label: {
                 Image(systemName: "trash")
             }
             .buttonStyle(.borderless)
-            .help("Zone löschen; Zeitpläne für diese Zone werden mit entfernt")
+            .help("Delete zone; schedules for this zone are removed with it")
         }
         .padding(.vertical, 8)
     }
@@ -249,7 +249,7 @@ struct PowerView: View {
 
     private func newZone() -> TariffZone {
         TariffZone(
-            name: String(localized: "Nacht"),
+            name: String(localized: "Night"),
             pricePerKWh: power.tariff.basePricePerKWh,
             window: WeeklyWindow(weekdays: WeekdayOrder.all, startMinute: 22 * 60, endMinute: 6 * 60)
         )
@@ -262,14 +262,14 @@ struct PowerView: View {
         switch template {
         case .dayNight:
             power.tariff.zones.append(TariffZone(
-                name: String(localized: "Nacht"), pricePerKWh: (base * 0.8 * 1000).rounded() / 1000,
+                name: String(localized: "Night"), pricePerKWh: (base * 0.8 * 1000).rounded() / 1000,
                 window: WeeklyWindow(weekdays: WeekdayOrder.all, startMinute: 22 * 60, endMinute: 6 * 60)))
             power.tariff.zones.append(TariffZone(
-                name: String(localized: "Tag"), pricePerKWh: base,
+                name: String(localized: "Day"), pricePerKWh: base,
                 window: WeeklyWindow(weekdays: WeekdayOrder.workdays, startMinute: 6 * 60, endMinute: 22 * 60)))
         case .weekend:
             power.tariff.zones.append(TariffZone(
-                name: String(localized: "Wochenende"), pricePerKWh: (base * 0.8 * 1000).rounded() / 1000,
+                name: String(localized: "Weekend"), pricePerKWh: (base * 0.8 * 1000).rounded() / 1000,
                 window: WeeklyWindow(weekdays: WeekdayOrder.weekend, startMinute: 0, endMinute: 0)))
         }
     }
@@ -279,20 +279,20 @@ struct PowerView: View {
     private var schedulesCard: some View {
         VStack(alignment: .leading, spacing: 14) {
             HStack {
-                Label("Zeitpläne", systemImage: "calendar.badge.clock")
+                Label("Schedules", systemImage: "calendar.badge.clock")
                     .font(.system(size: 15, weight: .medium))
                 Spacer()
                 Button {
                     editingRule = EditingRule(rule: newRule(), isNew: true)
                 } label: {
-                    Label("Zeitplan hinzufügen", systemImage: "plus")
+                    Label("Add Schedule", systemImage: "plus")
                 }
                 .disabled(store.miners.isEmpty)
-                .help("Miner zu einer Tarifzone oder Uhrzeit in den Nachtmodus schicken oder pausieren")
+                .help("Send miners into night mode or pause them during a tariff zone or at set times")
             }
 
             if power.rules.isEmpty {
-                Text("Noch keine Zeitpläne. Ein Zeitplan schaltet Miner während einer Tarifzone oder zu festen Uhrzeiten in den Nachtmodus oder pausiert sie; danach kehren sie zu ihren eigenen Einstellungen zurück.")
+                Text("No schedules yet. A schedule puts miners into night mode or pauses them during a tariff zone or at set times; afterwards they return to their own settings.")
                     .font(.callout)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -309,14 +309,14 @@ struct PowerView: View {
 
             HStack(alignment: .top, spacing: 24) {
                 VStack(alignment: .leading, spacing: 4) {
-                    Toggle("Dieser Mac führt die Zeitpläne aus", isOn: $power.runsSchedules)
-                    Text("Nur ein Gerät sollte schalten, sonst arbeiten Mac und Handy gegeneinander. Im Ruhezustand schaltet der Mac nicht.")
+                    Toggle("This Mac runs the schedules", isOn: $power.runsSchedules)
+                    Text("Only one device should switch, otherwise the Mac and the phone work against each other. A sleeping Mac does not switch.")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
-                    Toggle("Nachtmodus jetzt für alle Miner", isOn: $power.manualNight)
+                    Toggle("Night mode for all miners now", isOn: $power.manualNight)
                         .padding(.top, 8)
-                    Text("Gilt, bis du ihn wieder ausschaltest, auch über das Kontrollzentrum. Eine geplante Pause bleibt eine Pause.")
+                    Text("Stays on until you switch it off again, also from Control Center. A scheduled pause stays a pause.")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
@@ -325,13 +325,13 @@ struct PowerView: View {
 
                 VStack(alignment: .leading, spacing: 4) {
                     HStack(spacing: 6) {
-                        Text("Lüfter im Nachtmodus")
+                        Text("Fan in night mode")
                         Text(verbatim: "\(power.nightFanPercent) %")
                             .monospacedDigit()
-                        Stepper("Lüfter im Nachtmodus", value: $power.nightFanPercent, in: 20...100, step: 5)
+                        Stepper("Fan in night mode", value: $power.nightFanPercent, in: 20...100, step: 5)
                             .labelsHidden()
                     }
-                    Text("Der Nachtmodus senkt den Takt auf Eco und hält den Lüfter fest. Pause gibt es ab AxeOS 2.15; ältere AxeOS und NerdOS gehen stattdessen in den Nachtmodus.")
+                    Text("Night mode lowers the clock to Eco and fixes the fan speed. Pause needs AxeOS 2.15; older AxeOS and NerdOS go into night mode instead.")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
@@ -342,7 +342,7 @@ struct PowerView: View {
             OtpWaitingNotice(store: store)
 
             if let error = power.lastError {
-                hint("Letzte Schaltung fehlgeschlagen: \(error)", systemImage: "exclamationmark.triangle", color: Signal.bad)
+                hint("Last switch failed: \(error)", systemImage: "exclamationmark.triangle", color: Signal.bad)
             }
         }
         .padding(16)
@@ -378,7 +378,7 @@ struct PowerView: View {
             Spacer(minLength: 8)
 
             if rule.isActive(at: Date(), tariff: power.tariff) {
-                Text("aktiv")
+                Text("active")
                     .font(.caption2.weight(.medium))
                     .foregroundStyle(Accent.color)
             }
@@ -391,21 +391,21 @@ struct PowerView: View {
             }
             .buttonStyle(.borderless)
             .disabled(index == 0)
-            .help("Nach oben: gewinnt, wenn mehrere Zeitpläne gleichzeitig gelten")
+            .help("Move up: wins when several schedules apply at once")
             Button {
                 editingRule = EditingRule(rule: rule, isNew: false)
             } label: {
                 Image(systemName: "pencil")
             }
             .buttonStyle(.borderless)
-            .help("Bearbeiten")
+            .help("Edit")
             Button(role: .destructive) {
                 power.rules.removeAll { $0.id == rule.id }
             } label: {
                 Image(systemName: "trash")
             }
             .buttonStyle(.borderless)
-            .help("Zeitplan löschen")
+            .help("Delete schedule")
         }
         .padding(.vertical, 8)
     }
@@ -419,40 +419,40 @@ struct PowerView: View {
     private func triggerText(_ trigger: ScheduleTrigger) -> String {
         switch trigger {
         case .zone(let id):
-            guard let zone = power.zone(id: id) else { return String(localized: "Zone gelöscht") }
-            return String(localized: "während „\(zone.name)“")
+            guard let zone = power.zone(id: id) else { return String(localized: "zone deleted") }
+            return String(localized: "during “\(zone.name)”")
         case .window(let window):
             return "\(WeekdayOrder.summary(window.weekdays)) \(window.timeRangeText)"
         }
     }
 
     private func minersText(_ rule: ScheduleRule) -> String {
-        guard !rule.minerIDs.isEmpty else { return String(localized: "Alle Miner") }
+        guard !rule.minerIDs.isEmpty else { return String(localized: "All miners") }
         let names = store.miners.filter { rule.minerIDs.contains($0.id) }.map { redactor.freeText($0.displayName) }
-        return names.isEmpty ? String(localized: "Miner entfernt") : names.joined(separator: ", ")
+        return names.isEmpty ? String(localized: "Miner removed") : names.joined(separator: ", ")
     }
 
     // MARK: - Miners
 
     private func minersCard(now: Date) -> some View {
         VStack(alignment: .leading, spacing: 10) {
-            Label("Kosten je Miner", systemImage: "cpu")
+            Label("Cost per Miner", systemImage: "cpu")
                 .font(.system(size: 15, weight: .medium))
 
             if store.miners.isEmpty {
-                Text("Noch keine Miner. Füge Miner hinzu, um ihren Verbrauch und ihre Kosten zu sehen.")
+                Text("No miners yet. Add miners to see their consumption and costs.")
                     .font(.callout)
                     .foregroundStyle(.secondary)
             } else {
                 Grid(alignment: .leading, horizontalSpacing: 16, verticalSpacing: 8) {
                     GridRow {
-                        Text("Miner")
-                        Text("Zeitplan")
-                        Text("Leistung").gridColumnAlignment(.trailing)
-                        Text("pro Stunde").gridColumnAlignment(.trailing)
-                        Text("heute").gridColumnAlignment(.trailing)
-                        Text("30 Tage").gridColumnAlignment(.trailing)
-                        Text("30 Tage pro TH/s").gridColumnAlignment(.trailing)
+                        Text("Miners")
+                        Text("Schedule")
+                        Text("Power").gridColumnAlignment(.trailing)
+                        Text("per hour").gridColumnAlignment(.trailing)
+                        Text("today").gridColumnAlignment(.trailing)
+                        Text("30 days").gridColumnAlignment(.trailing)
+                        Text("30 days per TH/s").gridColumnAlignment(.trailing)
                     }
                     .sectionLabelStyle()
                     Divider()
@@ -497,8 +497,8 @@ struct PowerView: View {
                 Text("→ \(planned.title)")
                     .foregroundStyle(.secondary)
                     .help(power.runsSchedules
-                          ? String(localized: "Wird umgeschaltet, sobald der Miner online ist und die letzte Schaltung 15 Minuten her ist")
-                          : String(localized: "Dieser Mac führt keine Zeitpläne aus"))
+                          ? String(localized: "Switches as soon as the miner is online and the last switch was 15 minutes ago")
+                          : String(localized: "This Mac does not run schedules"))
             }
         }
         .font(.system(size: 12))
@@ -609,7 +609,7 @@ struct WeekTariffBar: View {
             }
         }
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel(Text("Wochenübersicht des Tarifs"))
+        .accessibilityLabel(Text("Weekly overview of the tariff"))
     }
 
     private func x(_ minute: Int, in width: CGFloat) -> CGFloat {
@@ -628,7 +628,7 @@ struct WeekTariffBar: View {
     }
 
     private func label(for segment: TariffSegment) -> String {
-        let name = tariff.zones.first { $0.id == segment.zoneID }?.name ?? String(localized: "Standardpreis")
+        let name = tariff.zones.first { $0.id == segment.zoneID }?.name ?? String(localized: "Standard price")
         return "\(name) \(WeeklyWindow.clock(segment.startMinute))–\(WeeklyWindow.clock(segment.endMinute))"
     }
 }

@@ -71,7 +71,7 @@ enum PayoutCheck {
             return pools.compactMap { slot("pool\($0.id)", "Pool \($0.id + 1)", host: $0.stratumURL, user: $0.stratumUser) }
         }
         return [
-            slot("primary", String(localized: "Primär"), host: info.stratumURL, user: info.stratumUser),
+            slot("primary", String(localized: "Primary"), host: info.stratumURL, user: info.stratumUser),
             slot("fallback", String(localized: "Fallback"), host: info.fallbackStratumURL, user: info.fallbackStratumUser),
         ].compactMap { $0 }
     }

@@ -8,30 +8,30 @@ enum MaintenanceKind: String, Codable, CaseIterable, Identifiable, Sendable {
 
     var title: String {
         switch self {
-        case .firmware: String(localized: "Firmware-Update prüfen")
-        case .fanCleaning: String(localized: "Lüfter reinigen")
-        case .dust: String(localized: "Kühlkörper entstauben")
-        case .thermalPaste: String(localized: "Wärmeleitpaste erneuern")
-        case .fanReplacement: String(localized: "Lüfter tauschen")
-        case .power: String(localized: "Netzteil und Stecker prüfen")
-        case .cabling: String(localized: "Standort und WLAN prüfen")
-        case .pools: String(localized: "Pool und Auszahlungsadresse prüfen")
-        case .backup: String(localized: "Einstellungen sichern")
-        case .custom: String(localized: "Eigene Aufgabe")
+        case .firmware: String(localized: "Check for firmware update")
+        case .fanCleaning: String(localized: "Clean the fan")
+        case .dust: String(localized: "Dust the heatsink")
+        case .thermalPaste: String(localized: "Renew thermal paste")
+        case .fanReplacement: String(localized: "Replace the fan")
+        case .power: String(localized: "Check power supply and plugs")
+        case .cabling: String(localized: "Check location and Wi-Fi")
+        case .pools: String(localized: "Check pool and payout address")
+        case .backup: String(localized: "Back up settings")
+        case .custom: String(localized: "Custom task")
         }
     }
 
     var hint: String {
         switch self {
-        case .firmware: String(localized: "Neue Firmware bringt Fehlerbehebungen. Vor dem Update Einstellungen sichern.")
-        case .fanCleaning: String(localized: "Staub am Lüfter kostet Drehzahl und treibt die Temperatur hoch. Nur im Stillstand reinigen.")
-        case .dust: String(localized: "Mit Druckluft oder Pinsel, Miner vorher vom Strom trennen.")
-        case .thermalPaste: String(localized: "Steigt die Temperatur bei gleichem Takt, ist die Paste oft trocken.")
-        case .fanReplacement: String(localized: "Lager nutzen sich ab. Laute oder langsame Lüfter rechtzeitig ersetzen.")
-        case .power: String(localized: "Warme Stecker und knappe Netzteile sind die häufigste Brandursache.")
-        case .cabling: String(localized: "Luftzufuhr, Umgebungstemperatur und WLAN-Empfang kontrollieren.")
-        case .pools: String(localized: "Stimmen Pool und Adresse noch? Abgleich mit der Blockansicht.")
-        case .backup: String(localized: "Pools und Takt notieren oder exportieren, bevor etwas schiefgeht.")
+        case .firmware: String(localized: "New firmware brings fixes. Back up your settings before updating.")
+        case .fanCleaning: String(localized: "Dust on the fan costs speed and drives up the temperature. Clean it only when it has stopped.")
+        case .dust: String(localized: "Use compressed air or a brush, and unplug the miner first.")
+        case .thermalPaste: String(localized: "If the temperature rises at the same frequency, the paste has often dried out.")
+        case .fanReplacement: String(localized: "Bearings wear out. Replace loud or slow fans in good time.")
+        case .power: String(localized: "Warm plugs and undersized power supplies are the most common fire hazard.")
+        case .cabling: String(localized: "Check airflow, room temperature and Wi-Fi reception.")
+        case .pools: String(localized: "Are pool and address still right? Compare them with the block view.")
+        case .backup: String(localized: "Note down or export pools and frequency before something goes wrong.")
         case .custom: ""
         }
     }

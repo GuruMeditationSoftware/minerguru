@@ -28,11 +28,11 @@ enum StratumProbeError: Error, Equatable, Sendable {
 
     var message: String {
         switch self {
-        case .invalidEndpoint: return String(localized: "Pool-Adresse ist unvollständig.")
-        case .connectionFailed(let reason): return String(localized: "Keine Verbindung zum Pool: \(reason)")
-        case .rejected(let reason): return String(localized: "Der Pool lehnt den User ab: \(reason)")
-        case .timeout: return String(localized: "Der Pool hat keinen Auftrag geschickt.")
-        case .closed: return String(localized: "Der Pool hat die Verbindung getrennt.")
+        case .invalidEndpoint: return String(localized: "The pool address is incomplete.")
+        case .connectionFailed(let reason): return String(localized: "Could not connect to the pool: \(reason)")
+        case .rejected(let reason): return String(localized: "The pool rejected the user: \(reason)")
+        case .timeout: return String(localized: "The pool sent no job.")
+        case .closed: return String(localized: "The pool closed the connection.")
         }
     }
 }
@@ -95,7 +95,7 @@ struct StratumProbeSession {
         case 2:
             let accepted = (message["result"] as? Bool) ?? ((message["result"] as? NSNumber)?.boolValue ?? false)
             if !accepted {
-                let reason = Self.errorText(message["error"]) ?? String(localized: "ohne Begründung")
+                let reason = Self.errorText(message["error"]) ?? String(localized: "no reason given")
                 authorizeError = reason
                 return .failed(.rejected(reason))
             }

@@ -58,12 +58,12 @@ final class StatusItemMenu: NSObject {
 
     private func makeMenu() -> NSMenu {
         let menu = NSMenu()
-        menu.addItem(item(String(localized: "Dashboard öffnen"), #selector(openDashboard)))
-        menu.addItem(item(String(localized: "Jetzt aktualisieren"), #selector(refresh)))
+        menu.addItem(item(String(localized: "Open Dashboard"), #selector(openDashboard)))
+        menu.addItem(item(String(localized: "Refresh Now"), #selector(refresh)))
         menu.addItem(.separator())
-        menu.addItem(item(String(localized: "Einstellungen…"), #selector(openSettings), key: ","))
+        menu.addItem(item(String(localized: "Settings…"), #selector(openSettings), key: ","))
         menu.addItem(.separator())
-        menu.addItem(item(String(localized: "MinerGuru beenden"), #selector(quit), key: "q"))
+        menu.addItem(item(String(localized: "Quit MinerGuru"), #selector(quit), key: "q"))
         return menu
     }
 

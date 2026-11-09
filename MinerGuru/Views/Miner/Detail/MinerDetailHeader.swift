@@ -49,14 +49,14 @@ struct MinerDetailHeader: View {
                 if let info {
                     metadata("Uptime", MinerFormatting.formatUptime(info.uptimeSeconds))
                     if let ssid = info.ssid, !ssid.isEmpty {
-                        metadata("WLAN", redactor.ssid(ssid) + (info.wifiRSSI.map { " (\($0) dBm)" } ?? ""))
+                        metadata("Wi-Fi", redactor.ssid(ssid) + (info.wifiRSSI.map { " (\($0) dBm)" } ?? ""))
                     }
                     if !info.firmwareVersion.isEmpty {
                         metadata("Firmware", info.firmwareVersion)
                     }
                 }
                 Button(action: onRefresh) {
-                    Label("Jetzt aktualisieren", systemImage: "arrow.clockwise")
+                    Label("Refresh Now", systemImage: "arrow.clockwise")
                         .font(.system(size: 11))
                 }
                 .buttonStyle(.borderless)
@@ -93,12 +93,12 @@ struct MinerDetailHeader: View {
     /// Always icon-only: identical look at every window size.
     private var actionButtons: some View {
         HStack(spacing: 8) {
-            iconButton("JSON-Rohdaten", "curlybraces", action: onShowJSON)
-            iconButton("Browser öffnen", "safari") {
+            iconButton("Raw JSON", "curlybraces", action: onShowJSON)
+            iconButton("Open in Browser", "safari") {
                 if let url = miner.webInterfaceURL { NSWorkspace.shared.open(url) }
             }
-            iconButton("Neu starten", "arrow.clockwise.circle", action: onRestart)
-            iconButton("Steuerung & Einstellungen…", "slider.horizontal.3", action: onOpenControl)
+            iconButton("Restart", "arrow.clockwise.circle", action: onRestart)
+            iconButton("Controls & Settings…", "slider.horizontal.3", action: onOpenControl)
         }
     }
 

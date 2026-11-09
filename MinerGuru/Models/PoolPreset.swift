@@ -15,42 +15,42 @@ struct PoolPreset: Identifiable, Sendable, Equatable {
             category: "Solo Mining",
             host: "public-pool.io",
             port: 21496,
-            notes: String(localized: "Beliebter Open-Source Solo-Pool für Bitaxe & NerdQAxe++")
+            notes: String(localized: "Popular open-source solo pool for Bitaxe & NerdQAxe++")
         ),
         PoolPreset(
             name: "CKPool EU (Solo)",
             category: "Solo Mining",
             host: "eusolo.ckpool.org",
             port: 3333,
-            notes: String(localized: "Europäischer CKPool Solo-Server mit niedriger Latenz in DE/AT/CH")
+            notes: String(localized: "European CKPool solo server with low latency in central Europe")
         ),
         PoolPreset(
             name: "CKPool Global (Solo)",
             category: "Solo Mining",
             host: "solo.ckpool.org",
             port: 3333,
-            notes: String(localized: "Klassischer globaler CKPool Solo-Server")
+            notes: String(localized: "Classic global CKPool solo server")
         ),
         PoolPreset(
             name: "AtlasPool EU (Solo)",
             category: "Solo Mining",
             host: "solo.atlaspool.io",
             port: 3333,
-            notes: String(localized: "Solo-Mining Pool mit niedriger Latenz")
+            notes: String(localized: "Solo mining pool with low latency")
         ),
         PoolPreset(
             name: "Braiins Pool",
             category: "FPPS / Pool",
             host: "stratum.braiins.com",
             port: 3333,
-            notes: String(localized: "Regelmäßige Auszahlungen (Account-Name.Worker erforderlich)")
+            notes: String(localized: "Regular payouts (account name.worker required)")
         ),
         PoolPreset(
             name: "OCEAN",
-            category: String(localized: "TIDES / Dezentral"),
+            category: String(localized: "TIDES / Decentralized"),
             host: "mine.ocean.xyz",
             port: 3334,
-            notes: String(localized: "Transparenter, dezentraler Bitcoin-Pool")
+            notes: String(localized: "Transparent, decentralized Bitcoin pool")
         )
     ]
 }
@@ -72,11 +72,11 @@ enum LatencyQuality: Sendable {
 
     var label: String {
         switch self {
-        case .excellent: return String(localized: "Exzellent")
-        case .good: return String(localized: "Gut")
-        case .fair: return String(localized: "Mittel")
-        case .poor: return String(localized: "Hoch")
-        case .unavailable: return String(localized: "Keine Daten")
+        case .excellent: return String(localized: "Excellent")
+        case .good: return String(localized: "Good")
+        case .fair: return String(localized: "Fair")
+        case .poor: return String(localized: "High")
+        case .unavailable: return String(localized: "No data")
         }
     }
 

@@ -195,7 +195,7 @@ struct MinerSettingsForm: Equatable {
     var poolCoinWarning: String? {
         for (index, slot) in slots.enumerated() where slot.hasContent {
             if let coins = MinedCoin.mismatch(poolHost: slot.host, stratumUser: slot.user) {
-                return String(localized: "\(slotTitle(index)): Die Adresse gehört zu \(coins.address.symbol), der Pool schürft \(coins.pool.symbol). Auszahlungen könnten verloren gehen.")
+                return String(localized: "\(slotTitle(index)): this address belongs to \(coins.address.symbol), the pool mines \(coins.pool.symbol). Payouts could be lost.")
             }
         }
         return nil
@@ -204,19 +204,19 @@ struct MinerSettingsForm: Equatable {
     /// Why the pool settings cannot be sent yet, or `nil`.
     var poolValidationMessage: String? {
         if StratumHost.clean(primary.host).isEmpty {
-            return String(localized: "Der primäre Pool braucht einen Host.")
+            return String(localized: "The primary pool needs a host.")
         }
         for (index, slot) in slots.enumerated() where slot.hasContent {
             if !(1...65535).contains(slot.port) {
-                return String(localized: "\(slotTitle(index)): Ungültiger Port \(String(slot.port)).")
+                return String(localized: "\(slotTitle(index)): Invalid port \(String(slot.port)).")
             }
             if poolAPI == .slots, !slot.isComplete {
-                return String(localized: "\(slotTitle(index)): Host und Wallet/Stratum-User sind erforderlich.")
+                return String(localized: "\(slotTitle(index)): Host and wallet/stratum user are required.")
             }
         }
         if poolAPI == .slots, !slots[secondarySlot].hasContent, secondarySlot != primarySlot,
            storedSlots.contains(secondarySlot) {
-            return String(localized: "Der Fallback-Slot ist leer. Wähle einen anderen Fallback-Slot oder belege ihn.")
+            return String(localized: "The fallback slot is empty. Choose another fallback slot or fill this one.")
         }
         return nil
     }

@@ -111,11 +111,13 @@ Widgets and controls redraw at once when a state changes, otherwise at most once
 
 ## Language
 
-German is the source language, English the translation. Without a choice in the settings the app starts in German on a German system, otherwise in English.
+English is the source language, German the translation. All three apps keep their texts in the platform's resource files; the code only names the key. Without a choice in the settings the app starts in German on a German system, otherwise in English, which is also the fallback for every other language.
 
 | macOS | Android | Windows |
 |---|---|---|
-| `Localizable.xcstrings`; Xcode picks up new strings when building, enter the English in the catalog editor | `L("deutsch", "english")` right in the code, `Lp(…)` for plurals | `L(de, en)` in code, `{local:T De=…, En=…}` in XAML |
+| `Localizable.xcstrings`, source language English. The key is the English text: `Text("Fleet")`, `String(localized: "Fleet")`. Xcode picks up new strings when building; enter the German in the catalog editor | `res/values/strings.xml` (English) and `res/values-de/strings.xml` (German): `tr(R.string.fleet)`, `tr(R.string.miner_added, name)` with `%1$s`, `trp(R.plurals.pools, n)` for counts | `src/MinerGuru.Core/Resources/Strings.resx` (English) and `Strings.de.resx` (German). The build generates `Strings` with one property per key: `Strings.Fleet`, `string.Format(Strings.MinerAdded, name)` with `{0}`, in XAML `{local:T Key=Fleet}` |
+
+One English word with two German meanings needs two keys. The Power page is "Strom" in German, the power figure "Leistung", both "Power" in English: on the Mac the page uses the key `Power (section)`, whose English value in the catalog is `Power`; on Android and Windows the keys differ anyway (`power_page`, `PowerPage`).
 
 ## Testing without hardware
 

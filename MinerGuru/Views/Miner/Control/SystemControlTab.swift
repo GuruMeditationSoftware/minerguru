@@ -13,12 +13,12 @@ struct SystemControlTab: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
             VStack(alignment: .leading, spacing: 8) {
-                Text("Anzeigename in MinerGuru")
+                Text("Display Name in MinerGuru")
                     .font(.subheadline.weight(.medium))
                 HStack(spacing: 10) {
-                    TextField("Eigenen Namen vergeben (leer = Hostname vom Miner)", text: $form.customAlias)
+                    TextField("Custom name (empty = hostname of the miner)", text: $form.customAlias)
                         .textFieldStyle(.roundedBorder)
-                    Button("Speichern", action: onSaveAlias)
+                    Button("Save", action: onSaveAlias)
                         .buttonStyle(.borderedProminent)
                 }
             }
@@ -26,13 +26,13 @@ struct SystemControlTab: View {
             Divider()
 
             VStack(alignment: .leading, spacing: 8) {
-                Text("Miner-Hostname im Netzwerk")
+                Text("Miner Hostname on the Network")
                     .font(.subheadline.weight(.medium))
                 HStack(spacing: 10) {
                     TextField("bitaxe", text: $form.deviceHostname)
                         .textFieldStyle(.roundedBorder)
                         .monospaced()
-                    Button("Hostname übertragen", action: onSaveHostname)
+                    Button("Send Hostname", action: onSaveHostname)
                         .buttonStyle(.bordered)
                         .disabled(form.trimmedHostname.isEmpty || isSaving)
                 }
@@ -41,12 +41,12 @@ struct SystemControlTab: View {
             Divider()
 
             VStack(alignment: .leading, spacing: 10) {
-                Text("Geräte-Aktionen")
+                Text("Device Actions")
                     .font(.subheadline.weight(.medium))
 
                 HStack(spacing: 12) {
                     Button(action: onRestart) {
-                        Label("Miner neu starten (Reboot)", systemImage: "arrow.clockwise.circle.fill")
+                        Label("Restart Miner (Reboot)", systemImage: "arrow.clockwise.circle.fill")
                     }
                     .buttonStyle(.bordered)
                     .tint(Signal.warning)
@@ -56,7 +56,7 @@ struct SystemControlTab: View {
                             NSWorkspace.shared.open(url)
                         }
                     } label: {
-                        Label("Weboberfläche im Browser öffnen", systemImage: "safari")
+                        Label("Open Web Interface in Browser", systemImage: "safari")
                     }
                     .buttonStyle(.bordered)
                 }

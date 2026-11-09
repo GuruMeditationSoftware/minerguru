@@ -29,7 +29,7 @@ enum AppLink {
 // MARK: - Intents
 
 struct OpenMinerGuruIntent: AppIntent {
-    static let title: LocalizedStringResource = "MinerGuru öffnen"
+    static let title: LocalizedStringResource = "Open MinerGuru"
     static let isDiscoverable = false
 
     func perform() async throws -> some IntentResult {
@@ -39,10 +39,10 @@ struct OpenMinerGuruIntent: AppIntent {
 }
 
 struct SetNightModeIntent: SetValueIntent {
-    static let title: LocalizedStringResource = "Nachtmodus"
+    static let title: LocalizedStringResource = "Night mode"
     static let isDiscoverable = false
 
-    @Parameter(title: "Nachtmodus")
+    @Parameter(title: "Night mode")
     var value: Bool
 
     func perform() async throws -> some IntentResult {
@@ -54,10 +54,10 @@ struct SetNightModeIntent: SetValueIntent {
 }
 
 struct SilenceAlertsIntent: SetValueIntent {
-    static let title: LocalizedStringResource = "Alarme stumm"
+    static let title: LocalizedStringResource = "Silence alerts"
     static let isDiscoverable = false
 
-    @Parameter(title: "Stumm")
+    @Parameter(title: "Silent")
     var value: Bool
 
     func perform() async throws -> some IntentResult {
@@ -85,8 +85,8 @@ struct ControlState: Sendable {
 
     /// What the fleet button says under its title: a problem first, the hashrate otherwise.
     var fleetValue: String {
-        guard let s = snapshot, !s.miners.isEmpty else { return text("Keine Miner") }
-        if isStale { return text("Miner nicht erreichbar") }
+        guard let s = snapshot, !s.miners.isEmpty else { return text("No miners") }
+        if isStale { return text("Miners not reachable") }
         if let hot = s.hotMiners.first { return "\(hot.name) · \(text.temperature(hot.tempC ?? 0))" }
         if let offline = s.offlineMiners.first { return text.format("%@ offline", offline.name) }
         return WidgetText.hashrateText(s.totalHashRateGHs)
@@ -100,19 +100,19 @@ struct ControlState: Sendable {
     var nightOn: Bool { snapshot?.nightModeOn ?? false }
 
     func nightValue(_ on: Bool) -> String {
-        guard snapshot?.canSwitchMiners ?? true else { return text("Nur lesen") }
+        guard snapshot?.canSwitchMiners ?? true else { return text("Read-only") }
         let watts = (snapshot?.totalPowerW ?? 0) > 0 ? " · " + text.watts(snapshot?.totalPowerW ?? 0) : ""
-        return (on ? text("An") : text("Aus")) + watts
+        return (on ? text("On") : text("Off")) + watts
     }
 
     var silenced: Bool { snapshot?.alertsSilenced() ?? false }
 
     func alertsValue(_ silenced: Bool) -> String {
-        guard snapshot?.alertsEnabled ?? false else { return text("Aus") }
+        guard snapshot?.alertsEnabled ?? false else { return text("Off") }
         if silenced, let until = snapshot?.alertsSilencedUntil {
-            return text.format("Stumm bis %@", text.time(until))
+            return text.format("Silent until %@", text.time(until))
         }
-        return silenced ? text("Stumm") : text("Aktiv")
+        return silenced ? text("Silent") : text("Active")
     }
 }
 
@@ -131,7 +131,7 @@ struct FleetControl: ControlWidget {
         StaticControlConfiguration(kind: "app.minerguru.MinerGuru.Fleet", provider: ControlStateProvider()) { state in
             ControlWidgetButton(action: OpenMinerGuruIntent()) {
                 Label {
-                    Text(state.text("Flotte"))
+                    Text(state.text("Fleet"))
                     Text(state.fleetValue)
                 } icon: {
                     Image("minerguru.fleet")
@@ -139,8 +139,8 @@ struct FleetControl: ControlWidget {
             }
             .tint(state.fleetHasProblem ? .yellow : .orange)
         }
-        .displayName(LocalizedStringResource("Flotte"))
-        .description(LocalizedStringResource("Hashrate der Flotte; öffnet MinerGuru."))
+        .displayName(LocalizedStringResource("Fleet"))
+        .description(LocalizedStringResource("Fleet hashrate; opens MinerGuru."))
     }
 }
 
@@ -149,14 +149,14 @@ struct NightModeControl: ControlWidget {
     var body: some ControlWidgetConfiguration {
         StaticControlConfiguration(kind: "app.minerguru.MinerGuru.NightMode", provider: ControlStateProvider()) { state in
             ControlWidgetToggle(isOn: state.nightOn, action: SetNightModeIntent()) {
-                Text(state.text("Nachtmodus"))
+                Text(state.text("Night mode"))
             } valueLabel: { isOn in
                 Label(state.nightValue(isOn), systemImage: isOn ? "moon.fill" : "moon")
             }
             .tint(.orange)
         }
-        .displayName(LocalizedStringResource("Nachtmodus"))
-        .description(LocalizedStringResource("Alle Miner mit Eco-Takt und leisem Lüfter, bis du ihn wieder ausschaltest."))
+        .displayName(LocalizedStringResource("Night mode"))
+        .description(LocalizedStringResource("All miners at eco clock with a quiet fan, until you switch it off again."))
     }
 }
 
@@ -165,13 +165,13 @@ struct AlertsControl: ControlWidget {
     var body: some ControlWidgetConfiguration {
         StaticControlConfiguration(kind: "app.minerguru.MinerGuru.Alerts", provider: ControlStateProvider()) { state in
             ControlWidgetToggle(isOn: state.silenced, action: SilenceAlertsIntent()) {
-                Text(state.text("Alarme"))
+                Text(state.text("Alerts"))
             } valueLabel: { isOn in
                 Label(state.alertsValue(isOn), systemImage: isOn ? "bell.slash.fill" : "bell")
             }
             .tint(.orange)
         }
-        .displayName(LocalizedStringResource("Alarme"))
-        .description(LocalizedStringResource("Schaltet die Alarme bis morgen früh stumm."))
+        .displayName(LocalizedStringResource("Alerts"))
+        .description(LocalizedStringResource("Silences alerts until tomorrow morning."))
     }
 }

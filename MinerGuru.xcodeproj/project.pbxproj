@@ -231,7 +231,7 @@
 				};
 			};
 			buildConfigurationList = A80000012B00000100000001 /* Build configuration list for PBXProject "MinerGuru" */;
-			developmentRegion = de;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				de,

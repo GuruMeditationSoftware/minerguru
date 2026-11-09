@@ -24,16 +24,16 @@ struct MaintenanceView: View {
     var body: some View {
         PageScrollView(spacing: 16) {
             AdaptiveGrid(minColumnWidth: 150, spacing: 12) {
-                summary("Überfällig", overdueCount, tint: overdueCount > 0 ? Signal.bad : .primary)
-                summary("In den nächsten 7 Tagen", soonCount, tint: soonCount > 0 ? Signal.warning : .primary)
-                summary("Geplant", maintenance.tasks.count, tint: .primary)
-                summary("Erledigt", maintenance.records.count, tint: .primary)
+                summary("Overdue", overdueCount, tint: overdueCount > 0 ? Signal.bad : .primary)
+                summary("In the next 7 days", soonCount, tint: soonCount > 0 ? Signal.warning : .primary)
+                summary("Planned", maintenance.tasks.count, tint: .primary)
+                summary("Completed", maintenance.records.count, tint: .primary)
             }
             tasksCard
             recordsCard
         }
-        .navigationTitle("Wartung")
-        .navigationSubtitle("Aufgaben planen und festhalten, was erledigt ist")
+        .navigationTitle("Maintenance")
+        .navigationSubtitle("Plan tasks and keep a record of what was done")
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Menu {
@@ -41,7 +41,7 @@ struct MaintenanceView: View {
                         Button(kind.title) { add(kind) }
                     }
                 } label: {
-                    Label("Aufgabe hinzufügen", systemImage: "plus")
+                    Label("Add task", systemImage: "plus")
                 }
             }
         }
@@ -74,10 +74,10 @@ struct MaintenanceView: View {
 
     private var tasksCard: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Aufgaben")
+            Text("Tasks")
                 .font(.system(size: 15, weight: .medium))
             if maintenance.tasks.isEmpty {
-                Text("Noch keine Aufgaben. Über das Plus oben legst du zum Beispiel „Lüfter reinigen“ alle 90 Tage an. MinerGuru erinnert dich, wenn eine Aufgabe fällig ist.")
+                Text("No tasks yet. Use the plus at the top to add, for example, “Clean the fan” every 90 days. MinerGuru reminds you when a task is due.")
                     .font(.callout)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -113,43 +113,43 @@ struct MaintenanceView: View {
             Text(verbatim: dueText(task))
                 .font(.system(size: 12))
                 .foregroundStyle(statusColor(task))
-            Button("Erledigt") { finishing = task }
+            Button("Mark done") { finishing = task }
             Button {
                 editing = EditingTask(task: task, isNew: false)
             } label: {
                 Image(systemName: "pencil")
             }
             .buttonStyle(.borderless)
-            .help("Bearbeiten")
+            .help("Edit")
             Button(role: .destructive) {
                 maintenance.remove(id: task.id)
             } label: {
                 Image(systemName: "trash")
             }
             .buttonStyle(.borderless)
-            .help("Aufgabe löschen")
+            .help("Delete task")
         }
         .padding(.vertical, 8)
     }
 
     private func details(_ task: MaintenanceTask) -> String {
         var parts = [minersText(task.minerIDs)]
-        parts.append(task.intervalDays > 0 ? String(localized: "alle \(task.intervalDays) Tage") : String(localized: "einmalig"))
+        parts.append(task.intervalDays > 0 ? String(localized: "every \(task.intervalDays) days") : String(localized: "once"))
         if !task.notes.isEmpty { parts.append(task.notes) }
         return parts.joined(separator: " · ")
     }
 
     private func minersText(_ ids: Set<UUID>) -> String {
-        if ids.isEmpty { return String(localized: "Alle Miner") }
+        if ids.isEmpty { return String(localized: "All miners") }
         let names = store.miners.filter { ids.contains($0.id) }.map(\.displayName)
-        return names.isEmpty ? String(localized: "Miner entfernt") : names.joined(separator: ", ")
+        return names.isEmpty ? String(localized: "Miner removed") : names.joined(separator: ", ")
     }
 
     private func dueText(_ task: MaintenanceTask) -> String {
         let days = task.daysUntilDue()
-        if days < 0 { return String(localized: "seit \(-days) Tagen fällig") }
-        if days == 0 { return String(localized: "heute fällig") }
-        if days <= MaintenanceTask.dueSoonDays { return String(localized: "in \(days) Tagen") }
+        if days < 0 { return String(localized: "overdue by \(-days) days") }
+        if days == 0 { return String(localized: "due today") }
+        if days <= MaintenanceTask.dueSoonDays { return String(localized: "in \(days) days") }
         return task.nextDue.formatted(date: .abbreviated, time: .omitted)
     }
 
@@ -165,7 +165,7 @@ struct MaintenanceView: View {
     private var recordsCard: some View {
         if !maintenance.records.isEmpty {
             VStack(alignment: .leading, spacing: 12) {
-                Text("Erledigt")
+                Text("Completed")
                     .font(.system(size: 15, weight: .medium))
                 VStack(spacing: 0) {
                     ForEach(maintenance.records.prefix(50)) { record in
@@ -191,7 +191,7 @@ struct MaintenanceView: View {
                                 Image(systemName: "trash")
                             }
                             .buttonStyle(.borderless)
-                            .help("Eintrag löschen")
+                            .help("Delete entry")
                         }
                         .padding(.vertical, 6)
                     }
@@ -214,7 +214,7 @@ struct MaintenanceTaskEditorSheet: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(isNew ? "Wartungsaufgabe hinzufügen" : "Wartungsaufgabe bearbeiten")
+            Text(isNew ? "Add maintenance task" : "Edit maintenance task")
                 .font(.headline)
             if !task.kind.hint.isEmpty {
                 Text(verbatim: task.kind.hint)
@@ -224,29 +224,29 @@ struct MaintenanceTaskEditorSheet: View {
             }
 
             Form {
-                TextField("Titel", text: $task.customTitle, prompt: Text(verbatim: task.kind == .custom ? "" : task.kind.title))
-                DatePicker("Fällig am", selection: $task.nextDue, displayedComponents: .date)
-                LabeledContent("Wiederholen") {
+                TextField("Title", text: $task.customTitle, prompt: Text(verbatim: task.kind == .custom ? "" : task.kind.title))
+                DatePicker("Due on", selection: $task.nextDue, displayedComponents: .date)
+                LabeledContent("Repeat") {
                     HStack(spacing: 6) {
                         TextField("", value: $task.intervalDays, format: .number.grouping(.never))
                             .textFieldStyle(.roundedBorder)
                             .frame(width: 70)
                             .multilineTextAlignment(.trailing)
-                        Text("Tage, 0 = einmalig")
+                        Text("days, 0 = once")
                             .foregroundStyle(.secondary)
                     }
                 }
-                LabeledContent("Miner") { MinerScopePicker(selection: $task.minerIDs, miners: miners) }
-                TextField("Notiz", text: $task.notes, axis: .vertical)
+                LabeledContent("Miners") { MinerScopePicker(selection: $task.minerIDs, miners: miners) }
+                TextField("Note", text: $task.notes, axis: .vertical)
                     .lineLimit(2...4)
             }
             .formStyle(.columns)
 
             HStack {
                 Spacer()
-                Button("Abbrechen", role: .cancel) { dismiss() }
+                Button("Cancel", role: .cancel) { dismiss() }
                     .keyboardShortcut(.cancelAction)
-                Button("Sichern") {
+                Button("Save") {
                     task.intervalDays = max(0, task.intervalDays)
                     onSave(task)
                     dismiss()
@@ -272,16 +272,16 @@ struct MaintenanceDoneSheet: View {
             Text(verbatim: task.title)
                 .font(.headline)
             Form {
-                DatePicker("Erledigt am", selection: $date, in: ...Date(), displayedComponents: .date)
-                TextField("Notiz", text: $notes, prompt: Text("Was wurde gemacht?"), axis: .vertical)
+                DatePicker("Done on", selection: $date, in: ...Date(), displayedComponents: .date)
+                TextField("Note", text: $notes, prompt: Text("What was done?"), axis: .vertical)
                     .lineLimit(2...4)
             }
             .formStyle(.columns)
             HStack {
                 Spacer()
-                Button("Abbrechen", role: .cancel) { dismiss() }
+                Button("Cancel", role: .cancel) { dismiss() }
                     .keyboardShortcut(.cancelAction)
-                Button("Eintragen") {
+                Button("Save") {
                     onDone(date, notes)
                     dismiss()
                 }

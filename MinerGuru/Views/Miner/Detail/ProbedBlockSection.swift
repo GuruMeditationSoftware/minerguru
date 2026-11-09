@@ -45,7 +45,7 @@ struct ProbedBlockSection: View {
                 HStack(spacing: 8) {
                     ProgressView()
                         .controlSize(.small)
-                    Text("MinerGuru fragt den Pool nach seiner Vorlage …")
+                    Text("MinerGuru is asking the pool for its template …")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
@@ -64,7 +64,7 @@ struct ProbedBlockSection: View {
                         ProgressView()
                             .controlSize(.mini)
                     } else {
-                        Button("Erneut versuchen") { probes.refresh(target, force: true) }
+                        Button("Try again") { probes.refresh(target, force: true) }
                             .controlSize(.small)
                     }
                 }
@@ -115,16 +115,16 @@ private struct ProbeOffHint: View {
                 .font(.system(size: 15))
                 .foregroundStyle(.secondary)
             VStack(alignment: .leading, spacing: 4) {
-                Text("Blockansicht")
+                Text("Block view")
                     .font(.subheadline.weight(.medium))
-                Text("Dieser Miner meldet nicht, an welchem Block er rechnet. MinerGuru kann die Vorlage selbst beim Pool abfragen und prüfen, ob deine Adresse darin steht.")
+                Text("This miner does not report which block it is working on. MinerGuru can fetch the template from the pool itself and check whether your address is in it.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
             }
             Spacer(minLength: 12)
             OpenSettingsButton {
-                Text("In den Einstellungen einschalten")
+                Text("Turn on in Settings")
             }
             .controlSize(.small)
         }

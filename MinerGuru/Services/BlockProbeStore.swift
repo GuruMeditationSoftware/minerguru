@@ -100,7 +100,7 @@ final class BlockProbeStore: ObservableObject {
             do {
                 let job = try await fetch(target)
                 state = BlockTemplateSummary(job: job, coin: target.coin, stratumUser: target.user).map(State.loaded)
-                    ?? .failed(String(localized: "Der Auftrag des Pools ließ sich nicht lesen."))
+                    ?? .failed(String(localized: "The pool's job could not be read."))
             } catch let error as StratumProbeError {
                 state = .failed(error.message)
             } catch {

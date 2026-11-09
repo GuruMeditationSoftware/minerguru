@@ -71,7 +71,7 @@ final class NetworkScanStore: ObservableObject {
             added += 1
         }
         if added > 0 {
-            minerStore.showBanner(String(localized: "\(added) Miner zum Dashboard hinzugefügt."), isError: false)
+            minerStore.showBanner(String(localized: "Added \(added) miner(s) to the dashboard."), isError: false)
         }
     }
 
@@ -97,6 +97,6 @@ final class NetworkScanStore: ObservableObject {
         for item in results where !minerStore.isIPAlreadyAdded(item.ipAddress) {
             minerStore.addMiner(ipAddress: item.ipAddress, initialInfo: item.info, rawJSON: item.rawJSON)
         }
-        minerStore.showBanner(String(localized: "\(results.count) Miner im lokalen Netzwerk gefunden und hinzugefügt."), isError: false)
+        minerStore.showBanner(String(localized: "Found and added \(results.count) miner(s) on the local network."), isError: false)
     }
 }

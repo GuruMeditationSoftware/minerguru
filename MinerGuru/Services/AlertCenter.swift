@@ -16,13 +16,13 @@ enum AlertKind: String, CaseIterable, Codable, Sendable, Identifiable {
 
     var title: String {
         switch self {
-        case .offline: String(localized: "Miner offline / wieder online")
-        case .maintenance: String(localized: "Wartung fällig")
-        case .overheat: String(localized: "Überhitzung")
-        case .flatline: String(localized: "Keine Shares mehr (Flatline)")
-        case .fallback: String(localized: "Fallback-Pool aktiv")
-        case .restart: String(localized: "Unerwarteter Neustart")
-        case .payout: String(localized: "Auszahlungsadresse")
+        case .offline: String(localized: "Miner offline / back online")
+        case .maintenance: String(localized: "Maintenance due")
+        case .overheat: String(localized: "Overheating")
+        case .flatline: String(localized: "No more shares (flatline)")
+        case .fallback: String(localized: "Fallback pool active")
+        case .restart: String(localized: "Unexpected restart")
+        case .payout: String(localized: "Payout address")
         }
     }
 }
@@ -69,17 +69,17 @@ struct AlertEvent: Equatable, Sendable {
 
     private static func combinedTitle(_ kind: AlertKind, recovery: Bool, count: Int) -> String {
         switch (kind, recovery) {
-        case (.maintenance, _): String(localized: "\(count) Wartungen sind fällig")
-        case (.overheat, false): String(localized: "\(count) Miner sind überhitzt")
-        case (.overheat, true): String(localized: "\(count) Miner sind wieder kühl")
-        case (.flatline, false): String(localized: "\(count) Miner liefern keine Shares mehr")
-        case (.flatline, true): String(localized: "\(count) Miner liefern wieder Shares")
-        case (.fallback, false): String(localized: "\(count) Miner laufen auf dem Fallback-Pool")
-        case (.fallback, true): String(localized: "\(count) Miner sind zurück auf dem Primär-Pool")
-        case (.restart, _): String(localized: "\(count) Miner sind neu gestartet")
-        case (.payout, _): String(localized: "\(count) Warnungen zur Auszahlungsadresse")
-        case (.offline, false): String(localized: "\(count) Miner sind offline")
-        case (.offline, true): String(localized: "\(count) Miner sind wieder online")
+        case (.maintenance, _): String(localized: "\(count) maintenance tasks are due")
+        case (.overheat, false): String(localized: "\(count) miners are overheating")
+        case (.overheat, true): String(localized: "\(count) miners have cooled down")
+        case (.flatline, false): String(localized: "\(count) miners have stopped delivering shares")
+        case (.flatline, true): String(localized: "\(count) miners are delivering shares again")
+        case (.fallback, false): String(localized: "\(count) miners are on the fallback pool")
+        case (.fallback, true): String(localized: "\(count) miners are back on the primary pool")
+        case (.restart, _): String(localized: "\(count) miners restarted")
+        case (.payout, _): String(localized: "\(count) payout address warnings")
+        case (.offline, false): String(localized: "\(count) miners are offline")
+        case (.offline, true): String(localized: "\(count) miners are back online")
         }
     }
 }
@@ -303,8 +303,8 @@ final class AlertCenter: ObservableObject {
                     events.append(AlertEvent(
                         kind: .offline,
                         minerID: miner.id,
-                        title: String(localized: "\(miner.displayName) ist offline"),
-                        body: String(localized: "Keine Antwort seit \(Int(now.timeIntervalSince(track.firstFailureAt ?? now) / 60)) min. Vielleicht ohne Strom, außer WLAN-Reichweite oder im Hotspot-Modus."),
+                        title: String(localized: "\(miner.displayName) is offline"),
+                        body: String(localized: "No response for \(Int(now.timeIntervalSince(track.firstFailureAt ?? now) / 60)) min. It may have lost power, be out of Wi-Fi range or be in hotspot mode."),
                         isRecovery: false
                     ))
                 }
@@ -313,8 +313,8 @@ final class AlertCenter: ObservableObject {
                     events.append(AlertEvent(
                         kind: .offline,
                         minerID: miner.id,
-                        title: String(localized: "\(miner.displayName) ist wieder online"),
-                        body: String(localized: "Der Miner antwortet wieder."),
+                        title: String(localized: "\(miner.displayName) is back online"),
+                        body: String(localized: "The miner is responding again."),
                         isRecovery: true
                     ))
                 }
@@ -374,8 +374,8 @@ final class AlertCenter: ObservableObject {
     private func skippedRestartEvent(_ miner: MinerDevice, _ reason: MinerHealth.AutoRestartReason) -> AlertEvent {
         AlertEvent(
             kind: reason == .flatline ? .flatline : .fallback, minerID: miner.id,
-            title: String(localized: "\(miner.displayName) wurde nicht neu gestartet"),
-            body: String(localized: "Ein automatischer Neustart war fällig, aber „Nur lesen“ ist an."),
+            title: String(localized: "\(miner.displayName) was not restarted"),
+            body: String(localized: "An automatic restart was due, but read-only mode is on."),
             isRecovery: false, standsAlone: true
         )
     }
@@ -385,19 +385,19 @@ final class AlertCenter: ObservableObject {
         let name = miner.displayName
         let kind: AlertKind = reason == .flatline ? .flatline : .fallback
         let why = reason == .flatline
-            ? String(localized: "Keine Shares mehr.")
-            : String(localized: "Der Primär-Pool ist wieder erreichbar, der Miner blieb aber auf dem Fallback-Pool.")
+            ? String(localized: "No more shares.")
+            : String(localized: "The primary pool is reachable again, but the miner stayed on the fallback pool.")
         do {
             try await ChangeLog.$source.withValue(.watchdog) { try await restartMiner(miner) }
             return AlertEvent(
                 kind: kind, minerID: miner.id,
-                title: String(localized: "\(name) wurde automatisch neu gestartet"),
+                title: String(localized: "\(name) was restarted automatically"),
                 body: why, isRecovery: false, standsAlone: true
             )
         } catch {
             return AlertEvent(
                 kind: kind, minerID: miner.id,
-                title: String(localized: "\(name) ließ sich nicht neu starten"),
+                title: String(localized: "\(name) could not be restarted"),
                 body: "\(why) \(error.localizedDescription)", isRecovery: false, standsAlone: true
             )
         }
@@ -432,19 +432,19 @@ final class AlertCenter: ObservableObject {
                 health.overheatAlerted = false
                 events.append(AlertEvent(
                     kind: .overheat, minerID: miner.id,
-                    title: String(localized: "\(name) ist wieder kühl"),
-                    body: String(localized: "Die Temperatur ist wieder im normalen Bereich."),
+                    title: String(localized: "\(name) has cooled down"),
+                    body: String(localized: "The temperature is back to normal."),
                     isRecovery: true
                 ))
             } else if due {
                 health.overheatAlerted = true
                 health.lastOverheatAlertAt = now
                 let body = info.overheatMode
-                    ? String(localized: "Der Miner hat sich gedrosselt und bleibt so bis zum Neustart. Prüfe vorher die Kühlung.")
-                    : String(localized: "ASIC \(Int(info.temp)) °C, Spannungsregler \(Int(info.vrTemp ?? 0)) °C, Grenze \(Int(info.overheatTemp ?? 0)) °C. Prüfe die Kühlung.")
+                    ? String(localized: "The miner has throttled itself and stays that way until it restarts. Check the cooling first.")
+                    : String(localized: "ASIC \(Int(info.temp)) °C, voltage regulator \(Int(info.vrTemp ?? 0)) °C, limit \(Int(info.overheatTemp ?? 0)) °C. Check the cooling.")
                 events.append(AlertEvent(
                     kind: .overheat, minerID: miner.id,
-                    title: String(localized: "\(name) ist überhitzt"),
+                    title: String(localized: "\(name) is overheating"),
                     body: body,
                     isRecovery: false
                 ))
@@ -456,8 +456,8 @@ final class AlertCenter: ObservableObject {
                 health.flatlineAlerted = false
                 events.append(AlertEvent(
                     kind: .flatline, minerID: miner.id,
-                    title: String(localized: "\(name) liefert wieder Shares"),
-                    body: String(localized: "Es kommen wieder neue Shares an."),
+                    title: String(localized: "\(name) is delivering shares again"),
+                    body: String(localized: "New shares are arriving again."),
                     isRecovery: true
                 ))
             } else if due {
@@ -465,8 +465,8 @@ final class AlertCenter: ObservableObject {
                 health.lastFlatlineAlertAt = now
                 events.append(AlertEvent(
                     kind: .flatline, minerID: miner.id,
-                    title: String(localized: "\(name) liefert keine Shares mehr"),
-                    body: String(localized: "Seit \(health.minutesWithoutShares(at: now)) min kein neuer Share, obwohl der Miner antwortet. Ein Neustart hilft meist."),
+                    title: String(localized: "\(name) has stopped delivering shares"),
+                    body: String(localized: "No new share for \(health.minutesWithoutShares(at: now)) min although the miner responds. A restart usually helps."),
                     isRecovery: false
                 ))
             }
@@ -477,8 +477,8 @@ final class AlertCenter: ObservableObject {
                 health.fallbackAlerted = false
                 events.append(AlertEvent(
                     kind: .fallback, minerID: miner.id,
-                    title: String(localized: "\(name) ist zurück auf dem Primär-Pool"),
-                    body: String(localized: "Der Miner nutzt wieder seinen Primär-Pool."),
+                    title: String(localized: "\(name) is back on the primary pool"),
+                    body: String(localized: "The miner is using its primary pool again."),
                     isRecovery: true
                 ))
             } else if due {
@@ -486,8 +486,8 @@ final class AlertCenter: ObservableObject {
                 health.lastFallbackAlertAt = now
                 events.append(AlertEvent(
                     kind: .fallback, minerID: miner.id,
-                    title: String(localized: "\(name) läuft auf dem Fallback-Pool"),
-                    body: String(localized: "Seit mindestens 10 min auf \(info.activePoolHost). Der Primär-Pool ist vielleicht gestört."),
+                    title: String(localized: "\(name) is on the fallback pool"),
+                    body: String(localized: "On \(info.activePoolHost) for at least 10 min. The primary pool may be down."),
                     isRecovery: false
                 ))
             }
@@ -496,19 +496,19 @@ final class AlertCenter: ObservableObject {
             health.stuckAlerted = true
             events.append(AlertEvent(
                 kind: .fallback, minerID: miner.id,
-                title: String(localized: "\(name) wechselt nicht zurück"),
-                body: String(localized: "Der Primär-Pool ist seit 15 min erreichbar, der Miner bleibt aber auf dem Fallback-Pool. Ein Neustart holt ihn zurück."),
+                title: String(localized: "\(name) does not switch back"),
+                body: String(localized: "The primary pool has been reachable for 15 min, but the miner stays on the fallback pool. A restart brings it back."),
                 isRecovery: false
             ))
         } else if !health.isOnFallback {
             health.stuckAlerted = false
         }
         if health.restartedUnexpectedly {
-            let reason = info.resetReason.map { String(localized: "Grund laut Miner: \($0).") } ?? String(localized: "Der Miner nennt keinen Grund.")
+            let reason = info.resetReason.map { String(localized: "Reason given by the miner: \($0).") } ?? String(localized: "The miner gives no reason.")
             events.append(AlertEvent(
                 kind: .restart, minerID: miner.id,
-                title: String(localized: "\(name) ist neu gestartet"),
-                body: String(localized: "MinerGuru hat das nicht ausgelöst. \(reason)"),
+                title: String(localized: "\(name) restarted"),
+                body: String(localized: "MinerGuru did not trigger this. \(reason)"),
                 isRecovery: false
             ))
         }
@@ -532,8 +532,8 @@ final class AlertCenter: ObservableObject {
                 if !ownChange {
                     events.append(AlertEvent(
                         kind: .payout, minerID: miner.id,
-                        title: String(localized: "Adresse von \(name) wurde geändert"),
-                        body: String(localized: "\(slot.title): \(PayoutCheck.shortened(previous)) → \(PayoutCheck.shortened(slot.address)). Das kam nicht von MinerGuru."),
+                        title: String(localized: "Address of \(name) was changed"),
+                        body: String(localized: "\(slot.title): \(PayoutCheck.shortened(previous)) → \(PayoutCheck.shortened(slot.address)). This did not come from MinerGuru."),
                         isRecovery: false
                     ))
                 }
@@ -542,9 +542,9 @@ final class AlertCenter: ObservableObject {
                 events.append(AlertEvent(
                     kind: .payout, minerID: miner.id,
                     title: slot.verdict == .factoryDefault
-                        ? String(localized: "\(name) nutzt eine Standard-Adresse")
-                        : String(localized: "\(name) zahlt an eine fremde Adresse"),
-                    body: String(localized: "\(slot.title): \(PayoutCheck.shortened(slot.address)). Ein Fund ginge nicht an dich."),
+                        ? String(localized: "\(name) uses a default address")
+                        : String(localized: "\(name) pays to a foreign address"),
+                    body: String(localized: "\(slot.title): \(PayoutCheck.shortened(slot.address)). A block found would not go to you."),
                     isRecovery: false
                 ))
             }
@@ -562,8 +562,8 @@ final class AlertCenter: ObservableObject {
             track.payoutMissAlerted = true
             events.append(AlertEvent(
                 kind: .payout, minerID: miner.id,
-                title: String(localized: "Block zahlt nicht an \(name)"),
-                body: String(localized: "Die Block-Vorlage des Pools enthält die Adresse des Miners nicht. Prüfe die Pool-Einstellungen."),
+                title: String(localized: "Block does not pay \(name)"),
+                body: String(localized: "The pool's block template does not contain the miner's address. Check the pool settings."),
                 isRecovery: false
             ))
         }
@@ -585,7 +585,7 @@ final class AlertCenter: ObservableObject {
         if isEnabled, appNapActivity == nil {
             appNapActivity = ProcessInfo.processInfo.beginActivity(
                 options: .userInitiatedAllowingIdleSystemSleep,
-                reason: "Miner-Überwachung für Benachrichtigungen"
+                reason: "Miner monitoring for notifications"
             )
         } else if !isEnabled, let activity = appNapActivity {
             ProcessInfo.processInfo.endActivity(activity)

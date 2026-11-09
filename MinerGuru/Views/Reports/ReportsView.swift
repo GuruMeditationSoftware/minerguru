@@ -12,7 +12,7 @@ struct ReportsView: View {
     var body: some View {
         PageScrollView(spacing: 16) {
             HStack {
-                Picker("Zeitraum", selection: $period) {
+                Picker("Timeframe", selection: $period) {
                     ForEach(ReportPeriod.allCases) { Text($0.title).tag($0) }
                 }
                 .labelsHidden()
@@ -36,15 +36,15 @@ struct ReportsView: View {
                 ReportContent(report: report, formatCost: store.power.tariff.formatPrice)
             } else {
                 ContentUnavailableView(
-                    "Keine Daten in diesem Zeitraum",
+                    "No data for this period",
                     systemImage: "doc.text",
-                    description: Text("Berichte entstehen aus dem Langzeit-Verlauf. MinerGuru zeichnet auf, solange die App läuft.")
+                    description: Text("Reports are built from the long-term history. MinerGuru records while the app is running.")
                 )
                 .frame(maxWidth: .infinity)
                 .padding(.top, 40)
             }
         }
-        .navigationTitle("Berichte")
+        .navigationTitle("Reports")
         .navigationSubtitle(subtitle)
         .task(id: period) { await load() }
     }
@@ -114,10 +114,10 @@ private struct ReportContent: View {
 
         if report.dailyHashRateGHs.count > 1 {
             VStack(alignment: .leading, spacing: 14) {
-                Text("Hashrate pro Tag")
+                Text("Hashrate per day")
                     .font(.system(size: 13, weight: .medium))
                 Chart(report.dailyHashRateGHs) { day in
-                    BarMark(x: .value("Tag", day.date, unit: .day), y: .value("GH/s", day.value))
+                    BarMark(x: .value("Day", day.date, unit: .day), y: .value("GH/s", day.value))
                         .foregroundStyle(Accent.color)
                 }
                 .mutedAxes()
@@ -128,7 +128,7 @@ private struct ReportContent: View {
         }
 
         VStack(alignment: .leading, spacing: 12) {
-            Text("Miner")
+            Text("Miners")
                 .font(.system(size: 13, weight: .medium))
             ReportTable(report: report, formatCost: formatCost)
         }
@@ -137,7 +137,7 @@ private struct ReportContent: View {
 
         if !report.maintenance.isEmpty {
             VStack(alignment: .leading, spacing: 10) {
-                Text("Erledigte Wartung")
+                Text("Maintenance done")
                     .font(.system(size: 13, weight: .medium))
                 ForEach(report.maintenance) { record in
                     HStack {
@@ -166,14 +166,14 @@ enum ReportFigures {
             value.map { DisplayFormat.decimal($0, fractionDigits: digits) + " " + unit } ?? "—"
         }
         return [
-            Figure(title: String(localized: "Ø Hashrate"), value: report.averageHashRateGHs.map(MinerFormatting.formatHashrate) ?? "—"),
-            Figure(title: String(localized: "Betriebszeit"), value: decimal(report.uptimePercent, 1, "%")),
-            Figure(title: String(localized: "Energie"), value: decimal(report.totalEnergyKWh, 2, "kWh")),
-            Figure(title: String(localized: "Stromkosten"), value: formatCost(report.totalCost, 2)),
-            Figure(title: String(localized: "Ø Effizienz"), value: decimal(report.efficiencyJPerTH, 1, "J/TH")),
-            Figure(title: String(localized: "Höchste Temperatur"), value: decimal(report.maxTempC, 1, "°C")),
-            Figure(title: String(localized: "Angenommene Shares"), value: report.sharesAccepted.formatted()),
-            Figure(title: String(localized: "Abgelehnte Shares"), value: report.sharesRejected.formatted()),
+            Figure(title: String(localized: "Avg. hashrate"), value: report.averageHashRateGHs.map(MinerFormatting.formatHashrate) ?? "—"),
+            Figure(title: String(localized: "Uptime"), value: decimal(report.uptimePercent, 1, "%")),
+            Figure(title: String(localized: "Energy"), value: decimal(report.totalEnergyKWh, 2, "kWh")),
+            Figure(title: String(localized: "Electricity cost"), value: formatCost(report.totalCost, 2)),
+            Figure(title: String(localized: "Avg. efficiency"), value: decimal(report.efficiencyJPerTH, 1, "J/TH")),
+            Figure(title: String(localized: "Highest temperature"), value: decimal(report.maxTempC, 1, "°C")),
+            Figure(title: String(localized: "Accepted shares"), value: report.sharesAccepted.formatted()),
+            Figure(title: String(localized: "Rejected shares"), value: report.sharesRejected.formatted()),
         ]
     }
 }
@@ -187,11 +187,11 @@ struct ReportTable: View {
     var body: some View {
         Grid(alignment: .trailing, horizontalSpacing: 12, verticalSpacing: 6) {
             GridRow {
-                Text("Miner").gridColumnAlignment(.leading)
+                Text("Miners").gridColumnAlignment(.leading)
                 Text("Online")
-                Text("Ø Hashrate")
+                Text("Avg. hashrate")
                 Text("kWh")
-                Text("Kosten")
+                Text("Cost")
                 Text("J/TH")
                 Text("Max. °C")
                 Text("Shares")
@@ -263,7 +263,7 @@ private struct ReportPage: View {
         VStack(alignment: .leading, spacing: 16) {
             if isFirst {
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("MinerGuru-Bericht")
+                    Text("MinerGuru report")
                         .font(.system(size: 20, weight: .medium))
                     Text(verbatim: "\(report.interval.start.formatted(date: .long, time: .omitted)) – \(report.interval.end.formatted(date: .long, time: .omitted))")
                         .font(.system(size: 11))
@@ -282,7 +282,7 @@ private struct ReportPage: View {
                 }
                 if report.dailyHashRateGHs.count > 1 {
                     Chart(report.dailyHashRateGHs) { day in
-                        BarMark(x: .value("Tag", day.date, unit: .day), y: .value("GH/s", day.value))
+                        BarMark(x: .value("Day", day.date, unit: .day), y: .value("GH/s", day.value))
                             .foregroundStyle(Color.gray)
                     }
                     .frame(height: 130)
@@ -292,7 +292,7 @@ private struct ReportPage: View {
                 .scaleEffect(0.9, anchor: .topLeading)
             if isLast, !report.maintenance.isEmpty {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Erledigte Wartung")
+                    Text("Maintenance done")
                         .font(.system(size: 12, weight: .medium))
                     ForEach(report.maintenance.prefix(10)) { record in
                         HStack {

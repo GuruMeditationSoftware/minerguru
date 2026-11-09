@@ -1,15 +1,15 @@
 import SwiftUI
 
 enum ControlTab: String, CaseIterable, Identifiable {
-    case performance = "Takt & Lüfter"
-    case pool = "Pool & Stratum"
-    case system = "System & Name"
+    case performance
+    case pool
+    case system
 
     var id: String { rawValue }
 
     var title: String {
         switch self {
-        case .performance: return String(localized: "Takt & Lüfter")
+        case .performance: return String(localized: "Clock & Fan")
         case .pool: return "Pool & Stratum"
         case .system: return String(localized: "System & Name")
         }
@@ -71,20 +71,20 @@ struct MinerControlView: View {
                         .padding(.vertical, 12)
                 }
             } else {
-                ContentUnavailableView("Kein Miner ausgewählt", systemImage: "cpu")
+                ContentUnavailableView("No Miner Selected", systemImage: "cpu")
             }
         }
         .frame(width: 580, height: 590)
-        .alert("Miner wirklich neu starten?", isPresented: $showRestartConfirm) {
-            Button("Abbrechen", role: .cancel) {}
-            Button("Jetzt neu starten", role: .destructive) {
+        .alert("Really restart the miner?", isPresented: $showRestartConfirm) {
+            Button("Cancel", role: .cancel) {}
+            Button("Restart Now", role: .destructive) {
                 Task {
                     await store.restartMiner(minerID: minerID)
                     dismiss()
                 }
             }
         } message: {
-            Text("Der Miner unterbricht kurzzeitig das Mining und startet innerhalb weniger Sekunden neu.")
+            Text("The miner briefly stops mining and restarts within a few seconds.")
         }
     }
 
@@ -99,22 +99,22 @@ struct MinerControlView: View {
             if let miner {
                 VStack(alignment: .leading, spacing: 2) {
                     HStack(spacing: 8) {
-                        Text("Miner-Einstellungen: \(miner.displayName)")
+                        Text("Miner Settings: \(miner.displayName)")
                             .font(.system(size: 15, weight: .medium))
                         HardwareBadgeView(title: miner.hardwareTitle)
                     }
-                    Text("IP-Adresse: \(redactor.ip(miner.ipAddress))")
+                    Text("IP address: \(redactor.ip(miner.ipAddress))")
                         .font(.caption.monospaced())
                         .foregroundStyle(.secondary)
                 }
             } else {
-                Text("Miner-Einstellungen")
+                Text("Miner Settings")
                     .font(.system(size: 15, weight: .medium))
             }
 
             Spacer()
 
-            Button("Schließen") { dismiss() }
+            Button("Close") { dismiss() }
                 .keyboardShortcut(.cancelAction)
         }
         .padding(.horizontal, 20)
@@ -127,12 +127,12 @@ struct MinerControlView: View {
         case .performance:
             PerformanceControlTab(form: $form, miner: miner, isSaving: isSaving) {
                 save(form.performancePayload(existingAutoFanMode: miner.latestInfo?.autoFanModeRaw),
-                     success: String(localized: "Einstellungen übertragen. Takt und Spannung gelten erst nach einem Neustart des Miners."))
+                     success: String(localized: "Settings sent. Clock and voltage only apply after the miner restarts."))
             }
         case .pool:
             PoolControlTab(form: $form, miner: miner, library: store.poolLibrary, isSaving: isSaving) {
                 let pools = form
-                perform(success: String(localized: "Pool-Konfiguration gespeichert, Miner wurde neu gestartet.")) {
+                perform(success: String(localized: "Pool configuration saved, the miner was restarted.")) {
                     try await store.applyPoolSettings(pools, minerID: minerID)
                 }
             }
@@ -144,9 +144,9 @@ struct MinerControlView: View {
                 onSaveAlias: {
                     store.updateMinerCustomName(id: miner.id, customName: form.customAlias)
                     errorMessage = nil
-                    successMessage = String(localized: "Anzeigename gespeichert.")
+                    successMessage = String(localized: "Display name saved.")
                 },
-                onSaveHostname: { save(form.hostnamePayload, success: String(localized: "Hostname übertragen.")) },
+                onSaveHostname: { save(form.hostnamePayload, success: String(localized: "Hostname sent.")) },
                 onRestart: { showRestartConfirm = true }
             )
         }

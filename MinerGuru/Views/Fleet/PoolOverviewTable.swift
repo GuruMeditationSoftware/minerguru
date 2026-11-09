@@ -10,22 +10,22 @@ struct PoolOverviewTable: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
-                Label("Pool-Verbindungen & Latenzen", systemImage: "network")
+                Label("Pool Connections & Latencies", systemImage: "network")
                     .font(.subheadline.weight(.medium))
                     .foregroundStyle(.secondary)
                 Spacer()
-                Text("Live-Vergleich aller Miner")
+                Text("Live comparison of all miners")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
 
             Table(store.miners, selection: poolTableSelection) {
-                TableColumn("Miner") { miner in
+                TableColumn("Miners") { miner in
                     poolMinerCell(miner)
                 }
                 .width(min: 110, ideal: 140)
 
-                TableColumn("Aktiver Pool-Server") { miner in
+                TableColumn("Active Pool Server") { miner in
                     poolServerCell(miner)
                 }
                 .width(min: 170, ideal: 260)
@@ -40,7 +40,7 @@ struct PoolOverviewTable: View {
                 }
                 .width(min: 90, ideal: 120, max: 150)
 
-                TableColumn("Modus") { miner in
+                TableColumn("Mode") { miner in
                     if let info = miner.latestInfo {
                         PoolModeBadgeView(info: info, compact: true)
                     } else {
@@ -51,7 +51,7 @@ struct PoolOverviewTable: View {
                 }
                 .width(min: 90, ideal: 110, max: 130)
 
-                TableColumn("Pool-Latenz") { miner in
+                TableColumn("Pool Latency") { miner in
                     poolLatencyCell(miner)
                 }
                 .width(min: 90, ideal: 110, max: 130)

@@ -50,8 +50,8 @@ final class EmailAlertSettings: ObservableObject {
     }
 
     func sendTest() async throws {
-        try await send(subject: String(localized: "MinerGuru: Test-Mail"),
-                       body: String(localized: "Diese Test-Mail zeigt: Warnungen von MinerGuru kommen bei dir an."))
+        try await send(subject: String(localized: "MinerGuru: test mail"),
+                       body: String(localized: "This test mail shows that alerts from MinerGuru reach you."))
     }
 }
 

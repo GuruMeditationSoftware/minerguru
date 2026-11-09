@@ -41,8 +41,8 @@ struct MinerQuery: EntityQuery {
 }
 
 struct SelectMinerIntent: WidgetConfigurationIntent {
-    static let title: LocalizedStringResource = "Miner wählen"
-    static let description = IntentDescription("Welcher Miner im Widget steht.")
+    static let title: LocalizedStringResource = "Choose miner"
+    static let description = IntentDescription("Which miner the widget shows.")
 
     @Parameter(title: "Miner")
     var miner: MinerEntity?
@@ -91,7 +91,7 @@ struct MinerWidget: Widget {
                 .widgetURL(entry.miner.map { WidgetCommand.openMiner($0.id).url } ?? WidgetCommand.openOverview.url)
         }
         .configurationDisplayName(LocalizedStringResource("Miner"))
-        .description(LocalizedStringResource("Ein Miner mit Hashrate und Temperatur. Welcher, stellst du beim Bearbeiten ein."))
+        .description(LocalizedStringResource("One miner with hashrate and temperature. Pick which one when editing the widget."))
         .supportedFamilies([.systemSmall])
     }
 }
@@ -131,7 +131,7 @@ struct MinerWidgetView: View {
                 }
                 Spacer(minLength: 6)
                 HStack(spacing: 8) {
-                    Text(stale ? text.format("Stand %@", text.time(entry.fleet.snapshot.date))
+                    Text(stale ? text.format("As of %@", text.time(entry.fleet.snapshot.date))
                          : miner.state == .offline ? miner.host : miner.tempC.map(text.temperature) ?? "–")
                         .font(.mono(11))
                         .foregroundStyle(look == .hot ? AnyShapeStyle(look.color(Palette(scheme: scheme))) : AnyShapeStyle(.secondary))

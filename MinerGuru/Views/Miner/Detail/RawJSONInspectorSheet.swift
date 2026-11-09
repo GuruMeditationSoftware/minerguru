@@ -14,7 +14,7 @@ struct RawJSONInspectorSheet: View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("API-Rohdaten (/api/system/info)")
+                    Text("Raw API Data (/api/system/info)")
                         .font(.system(size: 15, weight: .medium))
                     Text("http://\(redactor.ip(miner.ipAddress))/api/system/info")
                         .font(.caption.monospaced())
@@ -26,11 +26,11 @@ struct RawJSONInspectorSheet: View {
                     NSPasteboard.general.setString(json, forType: .string)
                     copied = true
                 } label: {
-                    Label(copied ? "Kopiert" : "JSON kopieren", systemImage: copied ? "checkmark" : "doc.on.doc")
+                    Label(copied ? "Copied" : "Copy JSON", systemImage: copied ? "checkmark" : "doc.on.doc")
                 }
                 .buttonStyle(.bordered)
 
-                Button("Schließen") { dismiss() }
+                Button("Close") { dismiss() }
                     .buttonStyle(.borderedProminent)
                     .keyboardShortcut(.cancelAction)
             }

@@ -62,7 +62,7 @@ MinerGuru/
 │   └── generate-*.swift        # DMG background, app icon, QR codes, social preview image
 ├── MinerGuru/
 │   ├── MinerGuruApp.swift      # App entry, main window, menu bar, shortcuts
-│   ├── Localizable.xcstrings   # Translations (source German, English)
+│   ├── Localizable.xcstrings   # Translations (source English, German)
 │   ├── Models/                 # Data models: miner telemetry (with lenient decoding), coins,
 │   │                           # solo mining odds, pool slots, pool library
 │   ├── Services/
@@ -122,7 +122,7 @@ list. Every request of the app shows up with its body in the terminal. The unit 
 model detection, pool format, dual pool and clock profiles for every variant. New variant: add an entry to
 `make_variants.py`, run the script, add the expectation to `MinerGuruTests/VariantTests.swift`.
 
-Xcode picks up new UI strings into `MinerGuru/Localizable.xcstrings` automatically when building; enter the English translation there in the catalog editor.
+Texts in the code are English and serve as the key, for example `Text("Fleet")`. Xcode picks up new UI strings into `MinerGuru/Localizable.xcstrings` automatically when building; enter the German translation there in the catalog editor.
 
 The full release guide (including the manual steps and notarization) is in [RELEASE.md](RELEASE.md).
 

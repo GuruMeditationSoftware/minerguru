@@ -23,11 +23,11 @@ struct ShareDifficultyChartCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(alignment: .firstTextBaseline) {
-                Label("Difficulty pro Share", systemImage: "chart.xyaxis.line")
+                Label("Difficulty per Share", systemImage: "chart.xyaxis.line")
                     .font(.subheadline.weight(.medium))
                 Spacer()
                 if let best = samples.map(\.difficulty).max() {
-                    Text("Bester: \(MinerSystemInfo.formatDifficultyNumber(best))")
+                    Text("Best: \(MinerSystemInfo.formatDifficultyNumber(best))")
                         .font(.caption.weight(.medium).monospacedDigit())
                         .foregroundStyle(.secondary)
                 }
@@ -36,10 +36,10 @@ struct ShareDifficultyChartCard: View {
             Group {
                 if samples.isEmpty {
                     ContentUnavailableView {
-                        Label(tracker.isSampling ? "Sammle Shares…" : "Noch keine Shares", systemImage: "chart.dots.scatter")
+                        Label(tracker.isSampling ? "Collecting shares…" : "No shares yet", systemImage: "chart.dots.scatter")
                             .font(.callout)
                     } description: {
-                        Text("Die erste Stichprobe dauert etwa \(Int(ShareDifficultyTracker.sampleWindow.components.seconds)) Sekunden.")
+                        Text("The first sample takes about \(Int(ShareDifficultyTracker.sampleWindow.components.seconds)) seconds.")
                             .font(.caption)
                     }
                 } else {
@@ -54,7 +54,7 @@ struct ShareDifficultyChartCard: View {
                     .frame(width: 6, height: 6)
                 Text(sourceText)
                 Spacer()
-                Text("\(samples.count) Ergebnisse • \(samples.filter(\.isSubmitted).count) über Pool-Difficulty")
+                Text("\(samples.count) results • \(samples.filter(\.isSubmitted).count) above pool difficulty")
                     .monospacedDigit()
             }
             .font(.caption2)
@@ -66,19 +66,19 @@ struct ShareDifficultyChartCard: View {
     }
 
     private var sourceText: String {
-        if isLiveLogRunning { return String(localized: "Live aus dem Live-Log") }
-        if tracker.isSampling { return String(localized: "Stichprobe läuft…") }
+        if isLiveLogRunning { return String(localized: "Live from the live log") }
+        if tracker.isSampling { return String(localized: "Sampling…") }
         let interval = Int(ShareDifficultyTracker.sampleInterval.components.seconds)
         if let last = tracker.lastSampleDate {
-            return String(localized: "Stichprobe alle \(interval) s • zuletzt \(last.formatted(date: .omitted, time: .standard))")
+            return String(localized: "Sampling every \(interval) s • last \(last.formatted(date: .omitted, time: .standard))")
         }
-        return String(localized: "Stichprobe alle \(interval) s")
+        return String(localized: "Sampling every \(interval) s")
     }
 
     private var chart: some View {
         Chart {
             ForEach(poolDifficulties, id: \.self) { target in
-                RuleMark(y: .value("Pool-Difficulty", target))
+                RuleMark(y: .value("Pool difficulty", target))
                     .foregroundStyle(.secondary.opacity(0.6))
                     .lineStyle(StrokeStyle(lineWidth: 1, dash: [4, 3]))
                     .annotation(position: .top, alignment: .leading) {
@@ -91,9 +91,9 @@ struct ShareDifficultyChartCard: View {
             let series = ShareSample.lineSeries(for: samples, maxGap: Self.maxLineGap)
             ForEach(Array(zip(samples, series)), id: \.0.id) { sample, seriesKey in
                 LineMark(
-                    x: .value("Zeit", sample.date),
+                    x: .value("Time", sample.date),
                     y: .value("Difficulty", sample.difficulty),
-                    series: .value("Verlauf", seriesKey)
+                    series: .value("History", seriesKey)
                 )
                 .interpolationMethod(.linear) // straight segments: no invented values between results
                 .lineStyle(StrokeStyle(lineWidth: 1.5, lineJoin: .round))
@@ -102,7 +102,7 @@ struct ShareDifficultyChartCard: View {
                 // Shares that reached the pool difficulty (sent to the pool) stay visible as dots.
                 if sample.isSubmitted {
                     PointMark(
-                        x: .value("Zeit", sample.date),
+                        x: .value("Time", sample.date),
                         y: .value("Difficulty", sample.difficulty)
                     )
                     .symbolSize(28)

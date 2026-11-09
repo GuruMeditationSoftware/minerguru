@@ -11,31 +11,31 @@ struct MinerTelemetryCharts: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack(alignment: .firstTextBaseline) {
-                Text("Verlauf")
+                Text("History")
                     .font(.system(size: 20, weight: .medium))
                 Spacer()
-                Text("\(miner.history.count) Messpunkte · alle \(pollingIntervalSeconds) s")
+                Text("\(miner.history.count) samples · every \(pollingIntervalSeconds) s")
                     .font(.mono(11))
                     .foregroundStyle(.tertiary)
             }
 
             AdaptiveGrid(minColumnWidth: 340, spacing: 16) {
-                ChartCard(title: "Hashrate-Verlauf (GH/s)", subtitle: MinerFormatting.formatHashrate(info.hashRate),
+                ChartCard(title: "Hashrate History (GH/s)", subtitle: MinerFormatting.formatHashrate(info.hashRate),
                           icon: "bolt.horizontal.fill", tint: Accent.color) {
                     AreaLineChart(samples: miner.history, label: "GH/s", tint: Accent.color) { $0.hashRateGHs }
                 }
 
-                ChartCard(title: "ASIC & VR Temperatur (°C)", subtitle: "ASIC \(DisplayFormat.decimal(info.temp, fractionDigits: 1)) °C",
+                ChartCard(title: "ASIC & VR Temperature (°C)", subtitle: "ASIC \(DisplayFormat.decimal(info.temp, fractionDigits: 1)) °C",
                           icon: "thermometer.medium", tint: .secondary) {
                     temperatureChart
                 }
 
                 let latencySamples = miner.history.filter { ($0.poolLatencyMs ?? 0) > 0 }
-                ChartCard(title: "Pool-Latenz zum Stratum-Server (ms)", subtitle: MinerFormatting.formatLatency(miner.activePoolLatencyMs),
+                ChartCard(title: "Pool Latency to Stratum Server (ms)", subtitle: MinerFormatting.formatLatency(miner.activePoolLatencyMs),
                           icon: "globe.europe.africa.fill", tint: .secondary) {
                     if latencySamples.isEmpty {
                         ContentUnavailableView {
-                            Label("Noch keine Latenzdaten", systemImage: "waveform.path.ecg")
+                            Label("No latency data yet", systemImage: "waveform.path.ecg")
                                 .font(.caption)
                         }
                     } else {
@@ -43,7 +43,7 @@ struct MinerTelemetryCharts: View {
                     }
                 }
 
-                ChartCard(title: "Leistungsaufnahme (Watt)",
+                ChartCard(title: "Power Draw (Watts)",
                           subtitle: "\(DisplayFormat.decimal(info.power, fractionDigits: 1)) W · \(DisplayFormat.decimal(info.efficiencyJPerTH, fractionDigits: 1)) J/TH",
                           icon: "bolt.fill", tint: .secondary) {
                     AreaLineChart(samples: miner.history, label: "Watt", tint: .secondary) { $0.powerWatts }
@@ -56,7 +56,7 @@ struct MinerTelemetryCharts: View {
         Chart {
             ForEach(miner.history) { sample in
                 LineMark(
-                    x: .value("Zeit", sample.timestamp),
+                    x: .value("Time", sample.timestamp),
                     y: .value("ASIC °C", sample.asicTempC),
                     series: .value("Sensor", "ASIC")
                 )
@@ -65,7 +65,7 @@ struct MinerTelemetryCharts: View {
 
                 if let vr = sample.vrTempC, vr > 0 {
                     LineMark(
-                        x: .value("Zeit", sample.timestamp),
+                        x: .value("Time", sample.timestamp),
                         y: .value("VR °C", vr),
                         series: .value("Sensor", "VR")
                     )
@@ -74,7 +74,7 @@ struct MinerTelemetryCharts: View {
                 }
             }
 
-            RuleMark(y: .value("Warnung", tempWarningThresholdC))
+            RuleMark(y: .value("Warning", tempWarningThresholdC))
                 .foregroundStyle(Signal.warning.opacity(0.7))
                 .lineStyle(StrokeStyle(lineWidth: 1, dash: [3, 3]))
         }
@@ -120,10 +120,10 @@ private struct AreaLineChart: View {
 
     var body: some View {
         Chart(samples) { sample in
-            AreaMark(x: .value("Zeit", sample.timestamp), y: .value(label, value(sample)))
+            AreaMark(x: .value("Time", sample.timestamp), y: .value(label, value(sample)))
                 .interpolationMethod(.monotone)
                 .foregroundStyle(tint.opacity(0.08))
-            LineMark(x: .value("Zeit", sample.timestamp), y: .value(label, value(sample)))
+            LineMark(x: .value("Time", sample.timestamp), y: .value(label, value(sample)))
                 .interpolationMethod(.monotone)
                 .foregroundStyle(tint)
                 .lineStyle(StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round))

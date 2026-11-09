@@ -28,8 +28,8 @@ struct FleetWidget: Widget {
                 .containerBackground(.fill.tertiary, for: .widget)
                 .widgetURL(WidgetCommand.openOverview.url)
         }
-        .configurationDisplayName(LocalizedStringResource("Flotte"))
-        .description(LocalizedStringResource("Gesamte Hashrate, Zustand und Strom aller Miner."))
+        .configurationDisplayName(LocalizedStringResource("Fleet"))
+        .description(LocalizedStringResource("Total hashrate, state and power of all miners."))
         .supportedFamilies([.systemSmall, .systemMedium, .systemLarge])
     }
 }
@@ -90,7 +90,7 @@ struct FleetStatusLine: View {
         let text = entry.text
         Group {
             if entry.source == .stale {
-                Text(text.format("Stand %@", text.time(s.date)))
+                Text(text.format("As of %@", text.time(s.date)))
             } else if let hot = s.hotMiners.first {
                 HStack(spacing: 4) {
                     StatusBlock(look: .hot, size: 7)
@@ -125,7 +125,7 @@ struct FleetSmall: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            WidgetHeader(title: entry.text("Flotte")) { FleetCount(entry: entry) }
+            WidgetHeader(title: entry.text("Fleet")) { FleetCount(entry: entry) }
             fleetFigure(entry, size: 30)
                 .padding(.top, 2)
             Sparkline(values: entry.snapshot.fleetHourlyGHs)
@@ -142,7 +142,7 @@ struct FleetMedium: View {
         let s = entry.snapshot
         let text = entry.text
         VStack(alignment: .leading, spacing: 8) {
-            WidgetHeader(title: text("Flotte")) {
+            WidgetHeader(title: text("Fleet")) {
                 FleetCount(entry: entry, showsWord: true)
                 Text(text.time(s.date))
                     .font(.mono(11))
@@ -152,7 +152,7 @@ struct FleetMedium: View {
             HStack(alignment: .bottom, spacing: 14) {
                 VStack(alignment: .leading, spacing: 2) {
                     fleetFigure(entry, size: 30)
-                    FleetStatusLine(entry: entry, calm: text.format("%d Miner aktiv", s.onlineMiners.count))
+                    FleetStatusLine(entry: entry, calm: text.format("%d miners active", s.onlineMiners.count))
                 }
                 .layoutPriority(1)
                 VStack(alignment: .trailing, spacing: 2) {
@@ -163,8 +163,8 @@ struct FleetMedium: View {
             .frame(maxHeight: .infinity)
             Divider()
             HStack(alignment: .top, spacing: 8) {
-                Stat(title: text("Leistung"), value: s.totalPowerW > 0 ? text.watts(s.totalPowerW) : "–")
-                Stat(title: text("Effizienz"), value: s.efficiencyJPerTH.map(text.efficiency) ?? "–")
+                Stat(title: text("Power"), value: s.totalPowerW > 0 ? text.watts(s.totalPowerW) : "–")
+                Stat(title: text("Efficiency"), value: s.efficiencyJPerTH.map(text.efficiency) ?? "–")
                 Stat(title: text("Best Diff"), value: s.bestDiff ?? "–")
                 Stat(title: text("Ø Ping"), value: s.pingMs.map(text.milliseconds) ?? "–")
             }
@@ -200,7 +200,7 @@ struct FleetLarge: View {
         let s = entry.snapshot
         let text = entry.text
         VStack(alignment: .leading, spacing: 10) {
-            WidgetHeader(title: text("Flotte")) { FleetCount(entry: entry, showsWord: true) }
+            WidgetHeader(title: text("Fleet")) { FleetCount(entry: entry, showsWord: true) }
             HStack(alignment: .bottom, spacing: 14) {
                 fleetFigure(entry, size: 30)
                     .layoutPriority(1)
@@ -216,10 +216,10 @@ struct FleetLarge: View {
             .frame(maxHeight: .infinity, alignment: .top)
             HStack {
                 Text(sortedMiners.count > Self.maxRows
-                     ? text.format("%d weitere", sortedMiners.count - Self.maxRows) + " · " + text.powerLine(s)
+                     ? text.format("%d more", sortedMiners.count - Self.maxRows) + " · " + text.powerLine(s)
                      : text.powerLine(s))
                 Spacer()
-                Text(entry.source == .stale ? text.format("Stand %@", text.time(s.date)) : text.time(s.date))
+                Text(entry.source == .stale ? text.format("As of %@", text.time(s.date)) : text.time(s.date))
             }
             .font(.mono(11))
             .foregroundStyle(.secondary)
@@ -287,9 +287,9 @@ struct EmptyFleetView: View {
     var body: some View {
         VStack(spacing: 8) {
             Mark(size: 28)
-            Text(text("Noch keine Miner"))
+            Text(text("No miners yet"))
                 .font(.system(size: 13, weight: .semibold))
-            Text(text("Klicken, um in MinerGuru das Netz zu durchsuchen"))
+            Text(text("Click to scan the network in MinerGuru"))
                 .font(.system(size: 11))
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)

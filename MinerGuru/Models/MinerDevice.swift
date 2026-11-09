@@ -185,7 +185,7 @@ struct MinerDevice: Identifiable, Sendable, Equatable {
     }
 
     var hardwareTitle: String {
-        latestInfo?.detectedHardwareTitle ?? cachedHardwareModel ?? String(localized: "Unbekannter Miner")
+        latestInfo?.detectedHardwareTitle ?? cachedHardwareModel ?? String(localized: "Unknown Miner")
     }
 
     var isNerdOS: Bool { latestInfo?.firmware == .nerdOS }

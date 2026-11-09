@@ -1,5 +1,5 @@
 {
-  "sourceLanguage" : "de",
+  "sourceLanguage" : "en",
   "strings" : {
     "%@" : {
       "localizations" : {
@@ -49,7 +49,7 @@
         }
       }
     },
-    "%d Miner aktiv" : {
+    "%d miners active" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -65,7 +65,7 @@
         }
       }
     },
-    "%d weitere" : {
+    "%d more" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -97,7 +97,7 @@
         }
       }
     },
-    "Aktiv" : {
+    "Active" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -113,7 +113,7 @@
         }
       }
     },
-    "Alarme" : {
+    "Alerts" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -129,23 +129,7 @@
         }
       }
     },
-    "Alarme stumm" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alarme stumm"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Silence alerts"
-          }
-        }
-      }
-    },
-    "Alle Miner mit Eco-Takt und leisem Lüfter, bis du ihn wieder ausschaltest." : {
+    "All miners at eco clock with a quiet fan, until you switch it off again." : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -161,34 +145,18 @@
         }
       }
     },
-    "An" : {
+    "As of %@" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "An"
+            "value" : "Stand %@"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "On"
-          }
-        }
-      }
-    },
-    "Aus" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aus"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Off"
+            "value" : "As of %@"
           }
         }
       }
@@ -209,135 +177,23 @@
         }
       }
     },
-    "Effizienz" : {
+    "Choose miner" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Effizienz"
+            "value" : "Miner wählen"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Efficiency"
+            "value" : "Choose miner"
           }
         }
       }
     },
-    "Ein Miner mit Hashrate und Temperatur. Welcher, stellst du beim Bearbeiten ein." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ein Miner mit Hashrate und Temperatur. Welcher, stellst du beim Bearbeiten ein."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "One miner with hashrate and temperature. Pick which one when editing the widget."
-          }
-        }
-      }
-    },
-    "Energie / Tag" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Energie / Tag"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Energy / day"
-          }
-        }
-      }
-    },
-    "Flotte" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Flotte"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fleet"
-          }
-        }
-      }
-    },
-    "Gesamte Hashrate, Zustand und Strom aller Miner." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gesamte Hashrate, Zustand und Strom aller Miner."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Total hashrate, state and power of all miners."
-          }
-        }
-      }
-    },
-    "Hashrate der Flotte; öffnet MinerGuru." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hashrate der Flotte; öffnet MinerGuru."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fleet hashrate; opens MinerGuru."
-          }
-        }
-      }
-    },
-    "Keine Miner" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Keine Miner"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No miners"
-          }
-        }
-      }
-    },
-    "Keine Miner online" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Keine Miner online"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No miners online"
-          }
-        }
-      }
-    },
-    "Klicken, um in MinerGuru das Netz zu durchsuchen" : {
+    "Click to scan the network in MinerGuru" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -353,7 +209,7 @@
         }
       }
     },
-    "Kosten heute" : {
+    "Cost today" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -369,34 +225,82 @@
         }
       }
     },
-    "Leistung" : {
+    "Efficiency" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Leistung"
+            "value" : "Effizienz"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Power"
+            "value" : "Efficiency"
           }
         }
       }
     },
-    "Leistung, Energie und Kosten der Flotte heute." : {
+    "Energy / day" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Leistung, Energie und Kosten der Flotte heute."
+            "value" : "Energie / Tag"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Power, energy and cost of the fleet today."
+            "value" : "Energy / day"
+          }
+        }
+      }
+    },
+    "Fleet" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flotte"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fleet"
+          }
+        }
+      }
+    },
+    "Fleet hashrate; opens MinerGuru." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hashrate der Flotte; öffnet MinerGuru."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fleet hashrate; opens MinerGuru."
+          }
+        }
+      }
+    },
+    "How likely the fleet finds a block solo, for every coin." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wie wahrscheinlich die Flotte solo einen Block findet, für jede Münze."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How likely the fleet finds a block solo, for every coin."
           }
         }
       }
@@ -417,7 +321,7 @@
         }
       }
     },
-    "Miner nicht erreichbar" : {
+    "Miners not reachable" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -433,39 +337,7 @@
         }
       }
     },
-    "Miner wählen" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Miner wählen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choose miner"
-          }
-        }
-      }
-    },
-    "MinerGuru öffnen" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "MinerGuru öffnen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open MinerGuru"
-          }
-        }
-      }
-    },
-    "Nachtmodus" : {
+    "Night mode" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -481,7 +353,39 @@
         }
       }
     },
-    "Noch keine Miner" : {
+    "No miners" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Miner"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No miners"
+          }
+        }
+      }
+    },
+    "No miners online" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Miner online"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No miners online"
+          }
+        }
+      }
+    },
+    "No miners yet" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -497,71 +401,87 @@
         }
       }
     },
-    "Nur lesen" : {
+    "Off" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nur lesen"
+            "value" : "Aus"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Read-only"
+            "value" : "Off"
           }
         }
       }
     },
-    "Schaltet die Alarme bis morgen früh stumm." : {
+    "On" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Schaltet die Alarme bis morgen früh stumm."
+            "value" : "An"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Silences alerts until tomorrow morning."
+            "value" : "On"
           }
         }
       }
     },
-    "Solo-Chance" : {
+    "One miner with hashrate and temperature. Pick which one when editing the widget." : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Solo-Chance"
+            "value" : "Ein Miner mit Hashrate und Temperatur. Welcher, stellst du beim Bearbeiten ein."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Solo chance"
+            "value" : "One miner with hashrate and temperature. Pick which one when editing the widget."
           }
         }
       }
     },
-    "Stand %@" : {
+    "Open MinerGuru" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stand %@"
+            "value" : "MinerGuru öffnen"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "As of %@"
+            "value" : "Open MinerGuru"
           }
         }
       }
     },
-    "Strom" : {
+    "Power" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leistung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Power"
+          }
+        }
+      }
+    },
+    "Power (section)" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -577,7 +497,71 @@
         }
       }
     },
-    "Stumm" : {
+    "Power, energy and cost of the fleet today." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leistung, Energie und Kosten der Flotte heute."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Power, energy and cost of the fleet today."
+          }
+        }
+      }
+    },
+    "Read-only" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur lesen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Read-only"
+          }
+        }
+      }
+    },
+    "Silence alerts" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alarme stumm"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Silence alerts"
+          }
+        }
+      }
+    },
+    "Silences alerts until tomorrow morning." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schaltet die Alarme bis morgen früh stumm."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Silences alerts until tomorrow morning."
+          }
+        }
+      }
+    },
+    "Silent" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -593,7 +577,7 @@
         }
       }
     },
-    "Stumm bis %@" : {
+    "Silent until %@" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -609,7 +593,39 @@
         }
       }
     },
-    "Welcher Miner im Widget steht." : {
+    "Solo chance" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo-Chance"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo chance"
+          }
+        }
+      }
+    },
+    "Total hashrate, state and power of all miners." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gesamte Hashrate, Zustand und Strom aller Miner."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total hashrate, state and power of all miners."
+          }
+        }
+      }
+    },
+    "Which miner the widget shows." : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -621,38 +637,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Which miner the widget shows."
-          }
-        }
-      }
-    },
-    "Wie wahrscheinlich die Flotte solo einen Block findet, für jede Münze." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wie wahrscheinlich die Flotte solo einen Block findet, für jede Münze."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "How likely the fleet finds a block solo, for every coin."
-          }
-        }
-      }
-    },
-    "heute" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "heute"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "today"
           }
         }
       }
@@ -673,7 +657,23 @@
         }
       }
     },
-    "Ø 1 Block alle" : {
+    "today" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "heute"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "today"
+          }
+        }
+      }
+    },
+    "Ø 1 block every" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {

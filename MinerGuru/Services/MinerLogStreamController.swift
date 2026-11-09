@@ -20,23 +20,23 @@ enum MinerLogLevel: String, CaseIterable, Sendable {
 
 /// Filter categories for the live miner log viewer.
 enum MinerLogCategoryFilter: String, CaseIterable, Identifiable, Sendable {
-    case all = "Alle"
-    case sharesAndPool = "Shares & Pool"
-    case asicAndHardware = "ASIC & Hardware"
-    case powerAndThermal = "Power & Kühlung"
-    case warningsAndErrors = "Warnungen & Fehler"
-    case systemAndNetwork = "System & Netzwerk"
+    case all
+    case sharesAndPool
+    case asicAndHardware
+    case powerAndThermal
+    case warningsAndErrors
+    case systemAndNetwork
 
     var id: String { rawValue }
 
     var title: String {
         switch self {
-        case .all: return String(localized: "Alle")
+        case .all: return String(localized: "All")
         case .sharesAndPool: return "Shares & Pool"
         case .asicAndHardware: return "ASIC & Hardware"
-        case .powerAndThermal: return String(localized: "Power & Kühlung")
-        case .warningsAndErrors: return String(localized: "Warnungen & Fehler")
-        case .systemAndNetwork: return String(localized: "System & Netzwerk")
+        case .powerAndThermal: return String(localized: "Power & Cooling")
+        case .warningsAndErrors: return String(localized: "Warnings & Errors")
+        case .systemAndNetwork: return String(localized: "System & Network")
         }
     }
 
@@ -310,7 +310,7 @@ final class MinerLogStreamController: ObservableObject {
     func startStreaming(host: String) {
         let normalized = MinerAPIClient.normalizeHost(host)
         guard !normalized.isEmpty else {
-            state = .error(String(localized: "Ungültige IP-Adresse"))
+            state = .error(String(localized: "Invalid IP address"))
             return
         }
 
@@ -324,7 +324,7 @@ final class MinerLogStreamController: ObservableObject {
         disconnectSocketOnly()
 
         guard let wsURL = URL(string: "ws://\(normalized)/api/ws") else {
-            state = .error(String(localized: "Ungültige WebSocket-URL"))
+            state = .error(String(localized: "Invalid WebSocket URL"))
             return
         }
 
@@ -370,9 +370,9 @@ final class MinerLogStreamController: ObservableObject {
         var lines: [String] = []
         lines.append("# MinerGuru Live-Log Export")
         lines.append("# Miner: \(minerName) (\(ipAddress)) — \(hardware)")
-        lines.append(String(localized: "# Exportiert am: \(Self.exportDateFormatter.string(from: Date()))"))
-        lines.append("# Filter: \(categoryFilter.title)" + (searchText.isEmpty ? "" : String(localized: " | Suche: '\(searchText)'")))
-        lines.append(String(localized: "# Zeilen: \(filteredEntries.count) (von \(entries.count) im Puffer)"))
+        lines.append(String(localized: "# Exported: \(Self.exportDateFormatter.string(from: Date()))"))
+        lines.append("# Filter: \(categoryFilter.title)" + (searchText.isEmpty ? "" : String(localized: " | Search: '\(searchText)'")))
+        lines.append(String(localized: "# Lines: \(filteredEntries.count) (of \(entries.count) in buffer)"))
         lines.append(String(repeating: "-", count: 78))
 
         for entry in filteredEntries {
@@ -422,7 +422,7 @@ final class MinerLogStreamController: ObservableObject {
                 if state == .paused || state == .stopped {
                     break
                 }
-                state = .error("Verbindung zu ws://\(host)/api/ws getrennt (\(error.localizedDescription))")
+                state = .error(String(localized: "Connection to ws://\(host)/api/ws lost (\(error.localizedDescription))"))
                 break
             }
         }

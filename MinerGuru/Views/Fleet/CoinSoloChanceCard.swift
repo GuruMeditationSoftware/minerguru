@@ -54,7 +54,7 @@ struct CoinSoloChanceCard: View {
     @ViewBuilder
     private var soloProbabilityColumn: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text("Solo-Chance")
+            Text("Solo chance")
                 .font(.system(size: 12))
                 .foregroundStyle(.secondary)
 
@@ -67,7 +67,7 @@ struct CoinSoloChanceCard: View {
                 .font(.mono(11))
                 .foregroundStyle(.tertiary)
                 .lineLimit(1)
-            Text("Ø 1 Block alle \(summary.expectedTimePerBlockFormatted)")
+            Text("Ø 1 block every \(summary.expectedTimePerBlockFormatted)")
                 .font(.mono(11))
                 .foregroundStyle(.tertiary)
                 .lineLimit(1)
@@ -78,7 +78,7 @@ struct CoinSoloChanceCard: View {
     @ViewBuilder
     private var blockRewardColumn: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text("Block-Belohnung")
+            Text("Block reward")
                 .font(.system(size: 12))
                 .foregroundStyle(.secondary)
 
@@ -92,7 +92,7 @@ struct CoinSoloChanceCard: View {
             .lineLimit(1)
             .padding(.top, 8)
 
-            Text("ohne Transaktionsgebühren")
+            Text("excluding transaction fees")
                 .font(.system(size: 11))
                 .foregroundStyle(.tertiary)
                 .lineLimit(1)
@@ -108,7 +108,7 @@ struct CoinSoloChanceCard: View {
 
             Spacer(minLength: 8)
 
-            Text("Netz-Diff \(MinerSystemInfo.formatDifficultyNumber(summary.networkDifficulty))")
+            Text("Network diff \(MinerSystemInfo.formatDifficultyNumber(summary.networkDifficulty))")
                 .fixedSize()
         }
         .font(.mono(11))

@@ -23,9 +23,9 @@ struct MinerDetailView: View {
             content(for: miner)
         } else {
             ContentUnavailableView(
-                "Miner nicht gefunden",
+                "Miner Not Found",
                 systemImage: "cpu",
-                description: Text("Bitte wähle einen Miner in der Seitenleiste aus.")
+                description: Text("Please select a miner in the sidebar.")
             )
         }
     }
@@ -86,21 +86,21 @@ struct MinerDetailView: View {
                 MinerAlertMuteButton(alerts: store.alerts, minerID: miner.id)
 
                 Button { refresh(miner) } label: {
-                    Label("Aktualisieren", systemImage: "arrow.clockwise")
+                    Label("Refresh", systemImage: "arrow.clockwise")
                 }
-                .help("Telemetrie & Pool-Latenz jetzt aktualisieren")
+                .help("Refresh telemetry & pool latency now")
 
                 Button {
                     if let url = miner.webInterfaceURL { NSWorkspace.shared.open(url) }
                 } label: {
-                    Label("Weboberfläche", systemImage: "safari")
+                    Label("Web Interface", systemImage: "safari")
                 }
-                .help("Miner-Weboberfläche im Browser öffnen")
+                .help("Open the miner's web interface in the browser")
 
                 Button { openControl(.performance) } label: {
-                    Label("Einstellungen & Steuerung", systemImage: "slider.horizontal.3")
+                    Label("Settings & Controls", systemImage: "slider.horizontal.3")
                 }
-                .help("Takt, Lüfter, Pool und System konfigurieren")
+                .help("Configure clock, fan, pool and system")
             }
         }
         .sheet(item: $controlDialogTab) { tab in
@@ -109,13 +109,13 @@ struct MinerDetailView: View {
         .sheet(isPresented: $showRawJSONSheet) {
             RawJSONInspectorSheet(miner: miner)
         }
-        .alert("Miner neu starten?", isPresented: $showRestartConfirm) {
-            Button("Abbrechen", role: .cancel) {}
-            Button("Neu starten", role: .destructive) {
+        .alert("Restart Miner?", isPresented: $showRestartConfirm) {
+            Button("Cancel", role: .cancel) {}
+            Button("Restart", role: .destructive) {
                 Task { await store.restartMiner(minerID: miner.id) }
             }
         } message: {
-            Text("Soll \(redactor.freeText(miner.displayName)) (\(redactor.ip(miner.ipAddress))) jetzt neu gestartet werden?")
+            Text("Restart \(redactor.freeText(miner.displayName)) (\(redactor.ip(miner.ipAddress))) now?")
         }
     }
 
@@ -146,7 +146,7 @@ private struct MinerOfflinePlaceholder: View {
         VStack(spacing: 12) {
             DeviceCardView(spec: DeviceCardSpec(miner: miner), width: 168, led: .init(state: miner.connectionState))
                 .padding(.bottom, 8)
-            Text("\(redactor.freeText(miner.displayName)) (\(redactor.ip(miner.ipAddress))) antwortet derzeit nicht")
+            Text("\(redactor.freeText(miner.displayName)) (\(redactor.ip(miner.ipAddress))) is not responding")
                 .font(.system(size: 15, weight: .medium))
             if case .offline(let reason) = miner.connectionState {
                 Text(reason)
@@ -154,7 +154,7 @@ private struct MinerOfflinePlaceholder: View {
                     .foregroundStyle(.tertiary)
             }
             Button(action: onReconnect) {
-                Label("Erneut verbinden", systemImage: "arrow.clockwise")
+                Label("Reconnect", systemImage: "arrow.clockwise")
             }
             .buttonStyle(.borderedProminent)
         }
@@ -175,9 +175,9 @@ private struct MinerAlertMuteButton: View {
             Button {
                 alerts.setMuted(!muted, minerID: minerID)
             } label: {
-                Label(muted ? "Benachrichtigungen an" : "Stummschalten", systemImage: muted ? "bell.slash" : "bell")
+                Label(muted ? "Unmute notifications" : "Mute", systemImage: muted ? "bell.slash" : "bell")
             }
-            .help(muted ? "Benachrichtigungen für diesen Miner wieder einschalten" : "Benachrichtigungen für diesen Miner stummschalten")
+            .help(muted ? "Turn notifications for this miner back on" : "Mute notifications for this miner")
         }
     }
 }

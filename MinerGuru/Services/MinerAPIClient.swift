@@ -10,21 +10,21 @@ enum MinerAPIError: LocalizedError, Sendable {
     var errorDescription: String? {
         switch self {
         case .invalidAddress(let addr):
-            return String(localized: "Ungültige Adresse: \(addr)")
+            return String(localized: "Invalid address: \(addr)")
         case .httpStatusError(let code, let detail):
             if isOtpBlocked {
-                return String(localized: "Zu viele falsche Einmalcodes: Der Miner sperrt Änderungen für 5 Minuten.")
+                return String(localized: "Too many wrong one-time codes: the miner blocks changes for 5 minutes.")
             }
             if isOtpRefused {
-                return String(localized: "Der Miner verlangt einen gültigen Einmalcode.")
+                return String(localized: "The miner demands a valid one-time code.")
             }
-            return String(localized: "HTTP-Fehler \(code)") + (detail.isEmpty ? "" : ": \(detail)")
+            return String(localized: "HTTP error \(code)") + (detail.isEmpty ? "" : ": \(detail)")
         case .decodingError(let msg):
-            return String(localized: "Ungültige Antwort vom Miner: \(msg)")
+            return String(localized: "Invalid response from miner: \(msg)")
         case .networkError(let msg):
             return msg
         case .readOnly:
-            return String(localized: "„Nur lesen“ ist an: MinerGuru ändert nichts am Miner.")
+            return String(localized: "Read-only mode is on: MinerGuru changes nothing on the miner.")
         }
     }
 }

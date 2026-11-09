@@ -22,7 +22,7 @@ enum WeekdayOrder {
 
     /// „Mo–Fr“, „Sa, So“ or „täglich“ for a set of days.
     static func summary(_ days: Set<Weekday>, calendar: Calendar = .current) -> String {
-        if days == all { return String(localized: "täglich") }
+        if days == all { return String(localized: "daily") }
         if days == workdays { return "\(shortName(2, calendar: calendar))–\(shortName(6, calendar: calendar))" }
         return mondayFirst.filter(days.contains).map { shortName($0, calendar: calendar) }.joined(separator: ", ")
     }
@@ -58,7 +58,7 @@ struct WeeklyWindow: Codable, Sendable, Equatable, Hashable {
 
     /// „22:00–06:00“.
     var timeRangeText: String {
-        isWholeDay ? String(localized: "ganztags") : "\(Self.clock(startMinute))–\(Self.clock(endMinute))"
+        isWholeDay ? String(localized: "all day") : "\(Self.clock(startMinute))–\(Self.clock(endMinute))"
     }
 
     static func clock(_ minute: Int) -> String {
@@ -174,7 +174,7 @@ enum PowerAction: String, Codable, Sendable, CaseIterable, Identifiable {
     var title: String {
         switch self {
         case .normal: return String(localized: "Normal")
-        case .nightMode: return String(localized: "Nachtmodus")
+        case .nightMode: return String(localized: "Night mode")
         case .pause: return String(localized: "Pause")
         }
     }
